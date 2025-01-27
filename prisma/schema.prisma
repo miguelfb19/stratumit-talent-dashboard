@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LanguajeLevel {
+  Basic
+  Intermedium
+  Higth
+  Native
+}
+
+enum Role {
+  user
+  talent
+  admin
+}
+
+model User {
+  id          String   @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String
+  password    String
+  birthDate   DateTime
+  createdDate DateTime @default(now())
+  role        Role[]   @default([user])
+  imageUrl    String?
+
+  // Relations
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
+
+  profile Profile?
+}
+
+model Profile {
+  id             String  @id @default(uuid())
+  motivationText String?
+
+  // Relations
+
+  // one-to-one relation with User
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  timezone   Timezone @relation(fields: [timezoneId], references: [id])
+  timezoneId String
+
+  careerTimeline      JobExperiences[]
+  languaje            Languaje[]
+  technology          Technology[]
+  educationalProjects EducationalProject[]
+}
+
+model Country {
+  id         String @id @default(uuid())
+  name       String
+  isoCode    String
+  indicative String
+
+  // Relations
+
+  users User[]
+}
+
+model Timezone {
+  id   String @id @default(uuid())
+  utc  String
+  zone String @unique
+
+  // Relations 
+
+  profiles Profile[]
+}
+
+model Languaje {
+  id    String        @id @default(uuid())
+  name  String
+  level LanguajeLevel
+
+  // Relations 
+
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+}
+
+model Technology {
+  id   String @id @default(uuid())
+  name String
+
+  // Relations
+
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+
+  educationalProjects EducationalProject? @relation(fields: [projectId], references: [id])
+  projectId           String?
+}
+
+model JobExperiences {
+  id                       String    @id @default(uuid())
+  jobExperienceDescription String
+  role                     String
+  company                  String
+  startDate                DateTime
+  finishDate               DateTime?
+
+  // Relations 
+
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?  @unique
+}
+
+model EducationalProject {
+  id           String       @id @default(uuid())
+  projectName  String
+  technologies Technology[]
+
+  // Relations 
+
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+}

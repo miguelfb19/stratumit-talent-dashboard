@@ -1,10 +1,10 @@
-import "@/src/styles/globals.css";
-import { Metadata, Viewport } from "next";
+import "@/styles/globals.css";
+import { Metadata } from "next";
 import clsx from "clsx";
 
 import { Providers } from "../providers/providers";
 
-import { fontSans } from "@/src/config/fonts";
+import { fontSans } from "@/config/fonts";
 
 export const metadata: Metadata = {
   title: "Bootcamp Stratum IT",
@@ -14,12 +14,12 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-};
+// export const viewport: Viewport = {
+//   themeColor: [
+//     { media: "(prefers-color-scheme: light)", color: "white" },
+//     { media: "(prefers-color-scheme: dark)", color: "black" },
+//   ],
+// };
 
 export default function RootLayout({
   children,
@@ -35,7 +35,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: "class" }}>
+        <Providers themeProps={{defaultTheme: "light" }}>
           <main>{children}</main>
         </Providers>
       </body>
