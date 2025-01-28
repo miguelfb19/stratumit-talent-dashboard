@@ -33,13 +33,12 @@ model User {
   email       String
   password    String
   birthDate   DateTime
+  country String
   createdDate DateTime @default(now())
   role        Role[]   @default([user])
   imageUrl    String?
 
   // Relations
-  country   Country @relation(fields: [countryId], references: [id])
-  countryId String
 
   profile Profile?
 }
@@ -47,6 +46,7 @@ model User {
 model Profile {
   id             String  @id @default(uuid())
   motivationText String?
+  timezone String
 
   // Relations
 
@@ -54,34 +54,10 @@ model Profile {
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
 
-  timezone   Timezone @relation(fields: [timezoneId], references: [id])
-  timezoneId String
-
   careerTimeline      JobExperiences[]
   languaje            Languaje[]
   technology          Technology[]
   educationalProjects EducationalProject[]
-}
-
-model Country {
-  id         String @id @default(uuid())
-  name       String
-  isoCode    String
-  indicative String
-
-  // Relations
-
-  users User[]
-}
-
-model Timezone {
-  id   String @id @default(uuid())
-  utc  String
-  zone String @unique
-
-  // Relations 
-
-  profiles Profile[]
 }
 
 model Languaje {

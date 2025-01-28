@@ -1,0 +1,121 @@
+"use client";
+
+import { LoginFormInputs } from "@/interfaces/login-form-inputs";
+import { Button, Form, Input, Spinner, Link } from "@heroui/react";
+import clsx from "clsx";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+
+export const LoginForm = () => {
+  const {
+    formState: { isSubmitting, errors },
+    register,
+    handleSubmit,
+  } = useForm<LoginFormInputs>();
+
+  // Password reveal button (Eye)
+  const toggleVisibility = () => setIsVisible(!isVisible);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const onLogin = () => {
+    alert("Login");
+  };
+
+  return (
+    <div
+      id="form-container"
+      className="flex h-screen w-screen justify-center items-center bg-slate-700 overflow-scroll"
+    >
+      {isSubmitting && (
+        <Spinner
+          size="lg"
+          className="absolute top-1/2 right-1/2 translate-x-1/2"
+        />
+      )}
+      <Form
+        onSubmit={handleSubmit(onLogin)}
+        className={clsx("w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white", {
+          "opacity-50 pointer-events-none": isSubmitting,
+        })}
+      >
+        <h2 className="text-4xl w-full text-center font-bold">Welcome</h2>
+        <p className="text-sm mb-6 w-full text-center text-slate-600">
+          Enter your credentials to login
+        </p>
+        <div id="formInuts" className="w-full flex flex-col gap-5">
+          <Input
+            type="email"
+            placeholder="Email"
+            radius="full"
+            {...register("email", {
+              required: "This field is required",
+              pattern: { value: emailRegex, message: "Enter a correct email" },
+            })}
+            isInvalid={!!errors.email}
+            errorMessage={errors.email?.message}
+          />
+          <Input
+            endContent={
+              // Boton para revelar contraseña
+              <button
+                aria-label="toggle password visibility"
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {isVisible ? (
+                  <IoEyeOffOutline className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <IoEyeOutline className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
+            type={isVisible ? "text" : "password"}
+            placeholder="Password"
+            radius="full"
+            {...register("password", {
+              required: "This field is required",
+            })}
+            isInvalid={!!errors.password}
+            errorMessage={errors.password?.message}
+          />
+        </div>
+
+        <div
+          id="register-buttons"
+          className="flex w-full gap-10 justify-center mt-7"
+        >
+          <Button
+            type="submit"
+            color="primary"
+            fullWidth
+            radius="full"
+            variant="flat"
+            isDisabled={isSubmitting}
+          >
+            Login
+          </Button>
+          <Button
+            type="reset"
+            color="primary"
+            fullWidth
+            radius="full"
+            variant="flat"
+            isDisabled={isSubmitting}
+          >
+            Reset
+          </Button>
+        </div>
+        <span className="w-full text-center mt-5 text-sm">
+          ¿Don't have an account?{" "}
+          <Link href="/auth/register" size="sm">
+            Register
+          </Link>
+        </span>
+      </Form>
+    </div>
+  );
+};
