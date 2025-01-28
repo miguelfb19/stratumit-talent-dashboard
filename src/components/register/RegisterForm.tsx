@@ -2,10 +2,9 @@
 
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
-import { Input } from "@heroui/input";
-import { Form } from "@heroui/form";
-import { Button } from "@heroui/button";
+import { Input, Button, Form, Select, SelectItem } from "@heroui/react";
 import { useState } from "react";
+import { countries } from "@/seed/countries";
 
 export const RegisterForm = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -29,9 +28,12 @@ export const RegisterForm = () => {
     >
       <Form
         onSubmit={OnSubmitForm}
-        className="w-1/2 border-2 p-10 rounded-lg bg-white"
+        className="w-1/2 border-2 p-10 rounded-lg bg-white shadow-2xl shadow-black"
       >
-        <h2 className="text-4xl w-full text-center font-bold mb-6">Register</h2>
+        <h2 className="text-4xl w-full text-center font-bold">Register</h2>
+        <p className="text-sm mb-6 w-full text-center text-slate-600">
+          All fields in this form are required
+        </p>
         <div id="formInuts" className="w-full flex flex-col gap-5">
           <Input
             type="text"
@@ -86,13 +88,20 @@ export const RegisterForm = () => {
             radius="full"
             className="border-2 rounded-full border-slate-300"
           />
-          <Input
-            type="text"
-            placeholder="Country"
+          <Select
+            aria-label="Select a country"
+            placeholder="Select a country"
             radius="full"
             className="border-2 rounded-full border-slate-300"
-          />
+          >
+            {countries.map((country) => (
+              <SelectItem key={country.name} className="border-none">
+                {country.name}
+              </SelectItem>
+            ))}
+          </Select>
         </div>
+
         <div
           id="register-buttons"
           className="flex w-full gap-10 justify-center mt-7"

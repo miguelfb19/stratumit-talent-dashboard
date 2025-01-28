@@ -1,5 +1,6 @@
-import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
+'use client'
+
+import { Button, Link } from "@heroui/react";
 
 export default function Home() {
   // throw new Error("Error de prueba");
