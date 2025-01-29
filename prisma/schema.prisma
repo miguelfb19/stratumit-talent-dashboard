@@ -33,9 +33,10 @@ model User {
   email       String
   password    String
   birthDate   DateTime
-  country String
+  country     String
   createdDate DateTime @default(now())
   role        Role[]   @default([user])
+  isVerified  Boolean  @default(false)
   imageUrl    String?
 
   // Relations
@@ -46,7 +47,7 @@ model User {
 model Profile {
   id             String  @id @default(uuid())
   motivationText String?
-  timezone String
+  timezone       String
 
   // Relations
 
@@ -55,9 +56,20 @@ model Profile {
   userId String @unique
 
   careerTimeline      JobExperiences[]
-  languaje            Languaje[]
-  technology          Technology[]
+  languajes            ProfileLanguajes[]
+  technologies          ProfileTechnologies[]
   educationalProjects EducationalProject[]
+}
+
+model ProfileLanguajes {
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+
+  languaje   Languaje @relation(fields: [languajeId], references: [id])
+  languajeId String
+
+  // Composite primary key to avoid duplicates
+  @@id([profileId, languajeId])
 }
 
 model Languaje {
@@ -67,8 +79,18 @@ model Languaje {
 
   // Relations 
 
-  profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?
+  profileLanguajes ProfileLanguajes[]
+}
+
+model ProfileTechnologies {
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+
+  technology   Technology @relation(fields: [technologyId], references: [id])
+  technologyId String
+
+  // Composite primary key to avoid duplicates
+  @@id([profileId, technologyId])
 }
 
 model Technology {
@@ -77,8 +99,7 @@ model Technology {
 
   // Relations
 
-  profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?
+  profileTechnologies ProfileTechnologies[]
 
   educationalProjects EducationalProject? @relation(fields: [projectId], references: [id])
   projectId           String?

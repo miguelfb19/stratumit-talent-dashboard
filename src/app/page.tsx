@@ -10,7 +10,7 @@ export default function Home() {
         id="container"
         className="h-1/2 w-1/2 p-20 flex flex-col justify-center items-center bg-slate-50 rounded-lg shadow-2xl shadow-black"
       >
-        <h1 className="text-7xl mb-10 text-blue-500 font-semibold">Hello World!</h1>
+        <h1 className="text-7xl mb-10 text-blue-500 font-semibold text-center">Hello World!</h1>
         <div id="buttons-container" className=" flex gap-10 w-full">
           <Button
             as={Link}

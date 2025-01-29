@@ -1,13 +1,22 @@
 "use client";
 
 import { LoginFormInputs } from "@/interfaces/login-form-inputs";
+import { submitAlert } from "@/utils/alerts";
 import { Button, Form, Input, Spinner, Link } from "@heroui/react";
 import clsx from "clsx";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
+
 export const LoginForm = () => {
+
+  // If user recently verified his email, we'll show success verified message
+  const params = useSearchParams()
+  const verified = params.get('verified')
+  if(verified) submitAlert('Email verified successly', 'success')
+
   const {
     formState: { isSubmitting, errors },
     register,
@@ -19,6 +28,7 @@ export const LoginForm = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
 
   const onLogin = () => {
     alert("Login");

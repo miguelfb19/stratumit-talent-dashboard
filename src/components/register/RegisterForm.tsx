@@ -62,7 +62,7 @@ export const RegisterForm = () => {
     }
 
     // Redirect to Login
-    router.push("/auth/login");
+    router.push("/auth/send-mail-screen");
   };
 
   return (
