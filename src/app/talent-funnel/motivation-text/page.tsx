@@ -1,10 +1,7 @@
-import { auth } from "@/auth.config";
-import { redirect } from "next/navigation";
 import { MotivationTextForm } from "../../../components/funnel/MotivationTextForm";
 
 export default async function NamePage() {
-  const session = await auth();
-  if (!session) redirect("/");
+ 
 
   return (
     <>

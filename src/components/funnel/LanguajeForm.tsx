@@ -121,7 +121,7 @@ export const LanguajeForm = () => {
         </div>
 
         {/* Navigation buttons */}
-        <NavigateButtons />
+        <NavigateButtons prevLink="/talent-funnel/motivation-text"/>
       </Form>
     </>
   );

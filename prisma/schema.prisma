@@ -48,6 +48,7 @@ model Profile {
   id             String  @id @default(uuid())
   motivationText String?
   timezone       String
+  phoneNumber    String?
 
   // Relations
 
@@ -66,7 +67,7 @@ model ProfileLanguajes {
   profileId String
 
   languaje   Languaje @relation(fields: [languajeId], references: [id])
-  languajeId String  
+  languajeId String
 
   // Composite primary key to avoid duplicates
   @@id([profileId, languajeId])
@@ -98,18 +99,25 @@ model Technology {
   name String
 
   // Relations
+  category   TechCategory @relation(fields: [categoryId], references: [id])
+  categoryId String
 
   profileTechnologies ProfileTechnologies[]
+}
 
+model TechCategory {
+  id         String       @id @default(uuid())
+  name       String
+  Technology Technology[]
 }
 
 model JobExperiences {
-  id                       String    @id @default(uuid())
-  jobExperienceDescription String
-  role                     String
-  company                  String
-  startDate                DateTime
-  finishDate               DateTime?
+  id          String    @id @default(uuid())
+  description String
+  role        String
+  company     String
+  startDate   DateTime
+  finishDate  DateTime?
 
   // Relations 
 
@@ -118,7 +126,7 @@ model JobExperiences {
 }
 
 model EducationalProject {
-  id           String       @id @default(uuid())
+  id           String   @id @default(uuid())
   projectName  String
   technologies String[]
 

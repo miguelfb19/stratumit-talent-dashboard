@@ -44,7 +44,7 @@ export const MotivationTextForm = () => {
         isInvalid={!!errors.text}
         errorMessage={errors.text?.message}
       />
-      <NavigateButtons prevButon={false}/>
+      <NavigateButtons prevButon={false} prevLink=""/>
     </Form>
   );
 };

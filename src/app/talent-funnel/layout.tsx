@@ -1,12 +1,19 @@
+import { auth } from "@/auth.config";
+import { redirect } from "next/navigation";
+
 export const metadata = {
   title: "Talent information",
   description: "Funnel to get specific information of talent people",
 };
-export default function FunnelLayout({
+export default async function FunnelLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const session = await auth();
+  if (!session) redirect("/auth/login");
+
   return (
     <div
       id="main"
@@ -14,7 +21,7 @@ export default function FunnelLayout({
     >
       <div
         id="container"
-        className="flex flex-col items-start justify-center text-center w-2/3 h-2/3 bg-white rounded-xl p-10 gap-5"
+        className="flex flex-col items-start justify-center text-center w-2/3 h-2/3 bg-white rounded-xl p-10 gap-5 shadow-2xl shadow-black"
       >
         {children}
       </div>
