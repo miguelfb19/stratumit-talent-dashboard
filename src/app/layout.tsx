@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import clsx from "clsx";
 
 import { Providers } from "../providers/providers";
+import { SessionProvider } from "next-auth/react";
 
 import { fontSans } from "@/config/fonts";
 
@@ -35,8 +36,10 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{defaultTheme: "light" }}>
-          <main>{children}</main>
+        <Providers themeProps={{ defaultTheme: "light" }}>
+          <main>
+            <SessionProvider>{children}</SessionProvider>
+          </main>
         </Providers>
       </body>
     </html>

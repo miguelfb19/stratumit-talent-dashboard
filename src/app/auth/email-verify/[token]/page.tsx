@@ -1,65 +1,60 @@
-import { redirect } from "next/navigation";
-import jwt from "jsonwebtoken";
-import prisma from "@/lib/prisma";
-import { submitAlert } from "@/utils/alerts";
+"use client";
 
-interface Props {
-  params: Promise<{ token: string }>;
-}
+import { authenticate } from "@/actions/authenticate";
+import { verifyRegisterToken } from "@/actions/verify-register-token";
+import clsx from "clsx";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default async function VerifyPage({ params }: Props) {
-  const { token } = await params;
-  try {
-    // Verificar el token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      email: string;
-    };
+export default function VerifyPage() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const router = useRouter();
+  const { token } = useParams() as { token: string };
 
-    if (decoded.email) {
-      // First i have to find the user with the decoded email
-      const user = await prisma.user.findFirst({
-        where: {
-          email: decoded.email,
-        },
+
+  const handleVerification = async () => {
+    // Loading the verification
+    setIsLoading(true);
+
+    // Call server action to verify token
+    const verification = await verifyRegisterToken(token);
+
+    // if something is wrong, show failed message and redirect to login
+    if (!verification?.ok) {
+      setMessage(
+        verification?.message || "Something went wrong with the verification"
+      );
+      router.push("/auth/login");
+    } else {
+      // If everything is ok, show success message, authenticate user and redirect to funnel
+      console.log(verification.user);
+      setMessage("Email verified successfully, login...");
+      await authenticate({
+        email: verification.user!.email,
+        password: verification.user!.password,
       });
-      // Verify user exist
-      if (!user) throw new Error("User not found");
-
-      // Change field isVerified to true in user
-      await prisma.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          isVerified: true,
-        },
-      });
+      router.push("/talent-funnel/motivation-text");
     }
-    console.log(decoded.email);
+    setIsLoading(false);
+  };
 
-  } catch (error) {
-    console.error(error);
-    return (
-      <div className="flex h-screen w-screen justify-center items-center bg-slate-500">
-        <div className="flex flex-col items-start justify-center text-center w-1/2 h-1/2 bg-slate-50 rounded-xl p-20 gap-5">
-          <h1 className="w-full text-3xl text-red-600 text-center">
-            Failed verification
-          </h1>
-          <p className="w-full text-center text-sm">
-            Toked is invalid or has expired
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Redirect to Login
-  redirect("/auth/login?verified=true")
+  useEffect(() => {
+    handleVerification();
+  }, []);
 
   return (
     <div className="flex h-screen w-screen justify-center items-center bg-slate-500">
-      <div className="flex justify-center items-center w-1/2 h-1/2 bg-slate-50 rounded-xl p-10">
-        <h1 className="text-2xl w-full text-center">Wait... We're verifing your account...</h1>
+      <div className="flex flex-col items-start justify-center text-center w-1/2 h-1/2 bg-slate-50 rounded-xl p-20 gap-5">
+        <h1 className={clsx("w-full text-3xl text-center", {
+          "text-green-500": message?.includes('successfully'),
+          "text-red-600": message?.includes('wrong'),
+        })}>
+          {isLoading ? "Wait" : message}
+        </h1>
+        <p className="w-full text-center text-sm">
+          {isLoading ? "We're verify your email address" : message}
+        </p>
       </div>
     </div>
   );

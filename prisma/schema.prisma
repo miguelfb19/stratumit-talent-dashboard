@@ -56,8 +56,8 @@ model Profile {
   userId String @unique
 
   careerTimeline      JobExperiences[]
-  languajes            ProfileLanguajes[]
-  technologies          ProfileTechnologies[]
+  languajes           ProfileLanguajes[]
+  technologies        ProfileTechnologies[]
   educationalProjects EducationalProject[]
 }
 

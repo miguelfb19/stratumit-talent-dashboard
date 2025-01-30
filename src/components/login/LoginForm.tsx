@@ -1,37 +1,55 @@
 "use client";
 
+import { authenticate } from "@/actions/authenticate";
 import { LoginFormInputs } from "@/interfaces/login-form-inputs";
 import { submitAlert } from "@/utils/alerts";
 import { Button, Form, Input, Spinner, Link } from "@heroui/react";
 import clsx from "clsx";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
-
 export const LoginForm = () => {
+  const router = useRouter();
+  const params = useSearchParams();
 
-  // If user recently verified his email, we'll show success verified message
-  const params = useSearchParams()
-  const verified = params.get('verified')
-  if(verified) submitAlert('Email verified successly', 'success')
-
+  // Fields verification
   const {
     formState: { isSubmitting, errors },
     register,
     handleSubmit,
   } = useForm<LoginFormInputs>();
+  
+  useEffect(() => {
+    // If user recently verified his email, we'll show success verified message
+    const loginError = params.get("loginerror");
+    if (loginError) submitAlert("Has been an error login, try again", "error");
+    router.replace("/auth/login");
 
+    // If user recently verified his email, we'll show success verified message
+    const verified = params.get("verified");
+    if (verified) submitAlert("Email verified successly", "success");
+  }, []);
+  
   // Password reveal button (Eye)
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [isVisible, setIsVisible] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
 
-  const onLogin = () => {
-    alert("Login");
+  const onLogin = async (data: LoginFormInputs) => {
+
+    try {
+      
+      const login = await authenticate(data);
+      if (!login?.ok) submitAlert(login?.message!, "error");
+      else router.push("/dashboard/profile");
+    } catch (error) {
+      console.error(error)
+    }
+
   };
 
   return (
