@@ -20,6 +20,7 @@ export const NavigateButtons = ({
     <div className="grid grid-cols-2 justify-items-center mt-5 w-full">
       <Button
         as={Link}
+        radius="full"
         href={prevLink}
         color="primary"
         variant="flat"
@@ -32,6 +33,7 @@ export const NavigateButtons = ({
 
       <Button
         type="submit"
+        radius="full"
         color="primary"
         variant="flat"
         className={clsx("justify-self-end", {

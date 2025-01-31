@@ -30,6 +30,7 @@ export default function ProfilePage() {
           Edit profile page
         </h1>
         <Button
+        radius="full"
           onPress={logoutSession}
           color="secondary"
           variant="flat"

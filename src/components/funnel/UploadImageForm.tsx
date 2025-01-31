@@ -49,6 +49,7 @@ export const UploadImageForm = () => {
         onSubmit={handleSubmit(onPressNext)}
       >
         <Input
+        radius="full"
           type="file"
           accept="img"
           label="Select an image"

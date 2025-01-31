@@ -146,6 +146,7 @@ export const JobExperiencesForm = () => {
             </Table>
           )}
           <Button
+          radius="full"
             onPress={onOpen}
             startContent={<IoAdd size={15} />}
             className="self-center text-gray-700"
@@ -168,6 +169,7 @@ export const JobExperiencesForm = () => {
                       className="flex flex-col gap-5 w-full mt-5"
                     >
                       <Input
+                      radius="full"
                         type="text"
                         placeholder="Company"
                         {...register("company", {
@@ -177,6 +179,7 @@ export const JobExperiencesForm = () => {
                         errorMessage={errors.company?.message}
                       />
                       <Input
+                      radius="full"
                         type="text"
                         placeholder="Role"
                         {...register("role", {
@@ -186,6 +189,7 @@ export const JobExperiencesForm = () => {
                         errorMessage={errors.role?.message}
                       />
                       <Textarea
+                      radius="full"
                         type="text"
                         minRows={6}
                         placeholder="Description"
@@ -197,6 +201,7 @@ export const JobExperiencesForm = () => {
                       />
                       <span className="flex gap-5">
                         <Input
+                        radius="full"
                           label="Start Date"
                           type="date"
                           {...register("startDate", {
@@ -206,6 +211,7 @@ export const JobExperiencesForm = () => {
                           errorMessage={errors.startDate?.message}
                         />
                         <Input
+                        radius="full"
                           label="Finish Date"
                           type="date"
                           {...register("finishDate", {
@@ -217,10 +223,10 @@ export const JobExperiencesForm = () => {
                       </span>
                     </div>
                     <div className="flex w-full gap-2 justify-end my-3">
-                      <Button color="primary" variant="flat" type="submit">
+                      <Button color="primary" variant="flat" type="submit" radius="full">
                         Save
                       </Button>
-                      <Button color="danger" variant="flat" onPress={onClose}>
+                      <Button color="danger" variant="flat" radius="full" onPress={onClose}>
                         Cancel
                       </Button>
                     </div>

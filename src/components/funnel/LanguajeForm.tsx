@@ -5,7 +5,7 @@ import { Button, Form, Select, SelectItem } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoAdd, IoTrash } from "react-icons/io5";
-import { NavigateButtons } from './NavigateButtons';
+import { NavigateButtons } from "./NavigateButtons";
 
 type LanguajeFormValues = {
   languajes: { languaje: string; level: string }[];
@@ -25,7 +25,7 @@ export const LanguajeForm = () => {
     },
   });
 
-  const router = useRouter()
+  const router = useRouter();
 
   const getDisabledLanguages = () => {
     // Get all current languages selected
@@ -41,11 +41,9 @@ export const LanguajeForm = () => {
   });
 
   const onPressNext = (data: LanguajeFormValues) => {
-    
     console.log("Submitted: ", data);
 
-    router.push('/talent-funnel/technologies')
-
+    router.push("/talent-funnel/technologies");
   };
 
   return (
@@ -62,6 +60,7 @@ export const LanguajeForm = () => {
           {fields.map((field, index) => (
             <div id="fields" className="flex w-full gap-5" key={field.id}>
               <Select
+                radius="full"
                 placeholder="Select languaje"
                 aria-label="Select languaje"
                 // Here i register the field to save information
@@ -75,12 +74,13 @@ export const LanguajeForm = () => {
                 disabledKeys={getDisabledLanguages()}
               >
                 {languajesData.map((languaje) => (
-                  <SelectItem key={languaje} value={languaje} >
+                  <SelectItem key={languaje} value={languaje}>
                     {languaje}
                   </SelectItem>
                 ))}
               </Select>
               <Select
+                radius="full"
                 placeholder="Select Level"
                 aria-label="Select Level"
                 {...register(`languajes.${index}.level`, {
@@ -98,6 +98,7 @@ export const LanguajeForm = () => {
 
               {/* This button remove the respective field */}
               <Button
+                radius="full"
                 isIconOnly
                 aria-label="remove"
                 variant="flat"
@@ -110,6 +111,7 @@ export const LanguajeForm = () => {
           ))}
           {/* This button add new fields */}
           <Button
+            radius="full"
             isIconOnly
             aria-label="add"
             variant="flat"
@@ -121,7 +123,7 @@ export const LanguajeForm = () => {
         </div>
 
         {/* Navigation buttons */}
-        <NavigateButtons prevLink="/talent-funnel/motivation-text"/>
+        <NavigateButtons prevLink="/talent-funnel/motivation-text" />
       </Form>
     </>
   );
