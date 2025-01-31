@@ -110,7 +110,6 @@ export const PersonalDataForm = () => {
           errorMessage={errors.birthDate?.message}
         />
         <Select
-        {...register('timezone', {required: 'required'})}
           radius="full"
           aria-label="Select a timezone"
           placeholder="Select timezone"

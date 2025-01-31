@@ -10,7 +10,32 @@ export const authConfig = {
     signIn: "/auth/login",
     newUser: "/auth/register",
   },
-  callbacks: {},
+  callbacks: {
+    jwt({ token, user }) {
+
+      // Add user information in token
+      if (user) {
+        token.data = user;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Search user in db
+      const user = await prisma.user.findFirst({
+        where: { email: token.email! },
+      });
+
+      // Add user information in session
+      session.user = token.data as any;
+      
+
+      // Change the role in case of changes on client
+      console.log('session en callbacks: ', session.user)
+      if (user) session.user.role = user.role;
+
+      return session;
+    },
+  },
   providers: [
     Credentials({
       async authorize(credentials) {

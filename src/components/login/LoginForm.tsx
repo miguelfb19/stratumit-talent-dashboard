@@ -45,7 +45,7 @@ export const LoginForm = () => {
       
       const login = await authenticate(data);
       if (!login?.ok) submitAlert(login?.message!, "error");
-      else router.push("/dashboard/profile");
+      // else router.push("/dashboard/profile");
     } catch (error) {
       console.error(error)
     }

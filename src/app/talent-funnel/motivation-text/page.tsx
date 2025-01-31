@@ -1,8 +1,14 @@
+import { auth } from "@/auth.config";
 import { MotivationTextForm } from "../../../components/funnel/MotivationTextForm";
+import { createProfile } from "@/actions/funnel/save-data-to-db/create-profile";
 
 export default async function NamePage() {
- 
 
+  const session = await auth()
+  console.log(session?.user)
+
+  // const userDb = await createProfile(session?.user.id) 
+ 
   return (
     <>
       <h1 className="w-full text-5xl text-blue-600 text-center font-bold">

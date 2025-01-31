@@ -35,7 +35,7 @@ model User {
   birthDate   DateTime
   country     String
   createdDate DateTime @default(now())
-  role        Role[]   @default([user])
+  roles       Role[]   @default([user])
   isVerified  Boolean  @default(false)
   imageUrl    String?
 
