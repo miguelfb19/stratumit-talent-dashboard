@@ -42,6 +42,14 @@ export const columnsEducationalProjectsFunnel = [
       label: "Description",
     },
     {
+      key: "startDate",
+      label: "Start Date",
+    },
+    {
+      key: "finishDate",
+      label: "Finish Date",
+    },
+    {
       key: "delete",
       label: "",
     },

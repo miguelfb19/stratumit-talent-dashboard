@@ -22,16 +22,17 @@ import { NavigateButtons } from "./NavigateButtons";
 import { IoAdd, IoTrash } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { columnsEducationalProjectsFunnel } from "@/data/data";
+import { columnsEducationalProjectsFunnel } from "@/data/funnel-data";
 import { useRouter } from "next/navigation";
+import { submitAlert } from "@/utils/alerts";
 
 interface JobsFormInputs {
   projectTitle: string;
   link: string;
   description: string;
+  startDate: string;
+  finishDate: string;
 }
-
-// TODO: añadir tecnologias
 
 export const EducationalProjectsForm = () => {
   const router = useRouter();
@@ -45,6 +46,8 @@ export const EducationalProjectsForm = () => {
       projectTitle: "",
       link: "",
       description: "",
+      startDate: "",
+      finishDate: "",
     },
   ]);
 
@@ -52,36 +55,48 @@ export const EducationalProjectsForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
+    setError,
   } = useForm<JobsFormInputs>();
 
   // This function save form data state to show it in table
-  const onSaveJob = (data: JobsFormInputs) => {
+  const onSaveJob = async (data: JobsFormInputs) => {
+    if (data.startDate >= data.finishDate) {
+      setError("finishDate", {
+        message: "Finish date must be greater than start date",
+      });
+      return;
+    }
+
     if (savedProjects[0].projectTitle === "") setSavedProjects([data]);
     else setSavedProjects([...savedProjects, { ...data }]);
 
     reset();
+    onOpenChange();
   };
 
   // This function handle delete specific job from state
-  const deleteJob = (job: JobsFormInputs) => {
-    setSavedProjects((prevJobs) => {
+  const deleteJob = (project: JobsFormInputs) => {
+    setSavedProjects((prevProject) => {
       // If there is one job only, reset the state to avoid errors at moment to show table
-      if (prevJobs.length === 1) {
-        console.log("Reseteando valores...");
+      if (prevProject.length === 1) {
         return [
           {
             projectTitle: "",
             link: "",
             description: "",
+            startDate: "",
+            finishDate: "",
           },
         ];
       }
 
       // If there is more than one job, filter state to delete selected job information
-      const newJobs = prevJobs.filter(
-        (savedJob) => savedJob.projectTitle !== job.projectTitle
+      const newJobs = prevProject.filter(
+        (savedJob) =>
+          savedJob.projectTitle !== project.projectTitle ||
+          savedJob.startDate !== project.startDate
       );
       return newJobs;
     });
@@ -89,7 +104,8 @@ export const EducationalProjectsForm = () => {
 
   // This function ends all proccess, sendding the information where i a tell it
   const onPressNext = () => {
-    console.log("funciono la prop function");
+    if (savedProjects[0].projectTitle === "")
+      return submitAlert("You must fill in at least one field", "error");
 
     console.log(savedProjects);
 
@@ -99,28 +115,30 @@ export const EducationalProjectsForm = () => {
   return (
     <>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
-        <div id="table-button-container" className="flex flex-col gap-5">
+        <div id="table-button-container" className="flex flex-col gap-5 p-3">
           {savedProjects[0].projectTitle !== "" && (
-            <Table aria-label="Educational Projects">
+            <Table aria-label="Example table with dynamic content">
               <TableHeader columns={columnsEducationalProjectsFunnel}>
                 {(column) => (
                   <TableColumn key={column.key}>{column.label}</TableColumn>
                 )}
               </TableHeader>
               <TableBody items={savedProjects}>
-                {(project) => (
-                  <TableRow key={project.projectTitle}>
+                {(job) => (
+                  <TableRow
+                    key={job.projectTitle + job.startDate + job.finishDate}
+                  >
                     {(columnKey) => (
                       <TableCell>
                         {columnKey === "delete" ? (
-                          <button onClick={() => deleteJob(project)}>
+                          <button onClick={() => deleteJob(job)}>
                             <IoTrash
                               size={15}
                               className="cursor-pointer fill-red-500"
                             />
                           </button>
                         ) : (
-                          getKeyValue(project, columnKey)
+                          getKeyValue(job, columnKey)
                         )}
                       </TableCell>
                     )}
@@ -134,15 +152,14 @@ export const EducationalProjectsForm = () => {
             startContent={<IoAdd size={15} />}
             className="self-center text-gray-700"
           >
-            Add Project
+            Add project
           </Button>
         </div>
-
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader>Enter Project</ModalHeader>
+                <ModalHeader>Enter project</ModalHeader>
                 <ModalBody>
                   <Form
                     className="flex w-full h-full justify-between"
@@ -163,8 +180,10 @@ export const EducationalProjectsForm = () => {
                       />
                       <Input
                         type="text"
-                        placeholder="Link to project (optional)"
+                        placeholder="Link (optional)"
                         {...register("link")}
+                        isInvalid={!!errors.link}
+                        errorMessage={errors.link?.message}
                       />
                       <Textarea
                         type="text"
@@ -176,14 +195,29 @@ export const EducationalProjectsForm = () => {
                         isInvalid={!!errors.description}
                         errorMessage={errors.description?.message}
                       />
+                      <span className="flex gap-5">
+                        <Input
+                          label="Start Date"
+                          type="date"
+                          {...register("startDate", {
+                            required: "This field is required",
+                          })}
+                          isInvalid={!!errors.startDate}
+                          errorMessage={errors.startDate?.message}
+                        />
+                        <Input
+                          label="Finish Date"
+                          type="date"
+                          {...register("finishDate", {
+                            required: "This field is required",
+                          })}
+                          isInvalid={!!errors.finishDate}
+                          errorMessage={errors.finishDate?.message}
+                        />
+                      </span>
                     </div>
                     <div className="flex w-full gap-2 justify-end my-3">
-                      <Button
-                        color="primary"
-                        variant="flat"
-                        type="submit"
-                        onPress={isValid ? onClose : () => {}}
-                      >
+                      <Button color="primary" variant="flat" type="submit">
                         Save
                       </Button>
                       <Button color="danger" variant="flat" onPress={onClose}>
@@ -198,7 +232,7 @@ export const EducationalProjectsForm = () => {
         </Modal>
       </div>
       <NavigateButtons
-        prevLink="/talent-funnel/upload-profile-image"
+        prevLink="/talent-funnel/job-experiences"
         sendFormData={onPressNext}
       />
     </>

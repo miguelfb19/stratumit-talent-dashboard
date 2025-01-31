@@ -6,14 +6,14 @@ import { technologies, techCategories } from "@/data/seed/seed-data";
 import { NavigateButtons } from "./NavigateButtons";
 import { useController, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { submitAlert } from "@/utils/alerts";
 
 interface FormValues {
   technologies: string[];
 }
 
 export const TechnologiesForm = () => {
-
-    const router = useRouter()
+  const router = useRouter();
 
   const { handleSubmit, control } = useForm<FormValues>({
     defaultValues: { technologies: [] },
@@ -25,8 +25,11 @@ export const TechnologiesForm = () => {
   });
 
   const onPressNext = (data: FormValues) => {
+    if (data.technologies.length === 0)
+      return submitAlert("You must fill in at least one field", "error");
+
     console.log(data);
-    router.push('/talent-funnel/job-experiences')
+    router.push("/talent-funnel/job-experiences");
   };
 
   return (

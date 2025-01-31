@@ -1,4 +1,4 @@
-import { EducationalProjectsForm } from "../../../components/funnel/EducationalProjectsForm";
+import { EducationalProjectsForm } from "@/components/funnel/EducationalProjectsForm";
 
 export default function EducationalProjectsFunnelPage() {
   return (

@@ -22,8 +22,9 @@ import { NavigateButtons } from "./NavigateButtons";
 import { IoAdd, IoTrash } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { columnsToJobsInformationOnFunnel } from "@/data/data";
+import { columnsToJobsInformationOnFunnel } from "@/data/funnel-data";
 import { useRouter } from "next/navigation";
+import { submitAlert } from "@/utils/alerts";
 
 interface JobsFormInputs {
   company: string;
@@ -54,16 +55,25 @@ export const JobExperiencesForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
+    setError,
   } = useForm<JobsFormInputs>();
 
   // This function save form data state to show it in table
-  const onSaveJob = (data: JobsFormInputs) => {
+  const onSaveJob = async (data: JobsFormInputs) => {
+    if (data.startDate >= data.finishDate) {
+      setError("finishDate", {
+        message: "Finish date must be greater than start date",
+      });
+      return;
+    }
+
     if (savedJobs[0].company === "") setSavedJobs([data]);
     else setSavedJobs([...savedJobs, { ...data }]);
 
     reset();
+    onOpenChange();
   };
 
   // This function handle delete specific job from state
@@ -71,7 +81,6 @@ export const JobExperiencesForm = () => {
     setSavedJobs((prevJobs) => {
       // If there is one job only, reset the state to avoid errors at moment to show table
       if (prevJobs.length === 1) {
-        console.log("Reseteando valores...");
         return [
           {
             company: "",
@@ -95,7 +104,8 @@ export const JobExperiencesForm = () => {
 
   // This function ends all proccess, sendding the information where i a tell it
   const onPressNext = () => {
-    console.log("funciono la prop function");
+    if (savedJobs[0].company === "")
+      return submitAlert("You must fill in at least one field", "error");
 
     console.log(savedJobs);
 
@@ -105,7 +115,7 @@ export const JobExperiencesForm = () => {
   return (
     <>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
-        <div id="table-button-container" className="flex flex-col gap-5">
+        <div id="table-button-container" className="flex flex-col gap-5 p-3">
           {savedJobs[0].company !== "" && (
             <Table aria-label="Example table with dynamic content">
               <TableHeader columns={columnsToJobsInformationOnFunnel}>
@@ -115,7 +125,7 @@ export const JobExperiencesForm = () => {
               </TableHeader>
               <TableBody items={savedJobs}>
                 {(job) => (
-                  <TableRow key={job.company + job.startDate}>
+                  <TableRow key={job.company + job.startDate + job.finishDate}>
                     {(columnKey) => (
                       <TableCell>
                         {columnKey === "delete" ? (
@@ -187,7 +197,7 @@ export const JobExperiencesForm = () => {
                       />
                       <span className="flex gap-5">
                         <Input
-                          placeholder="Start Date"
+                          label="Start Date"
                           type="date"
                           {...register("startDate", {
                             required: "This field is required",
@@ -196,7 +206,7 @@ export const JobExperiencesForm = () => {
                           errorMessage={errors.startDate?.message}
                         />
                         <Input
-                          placeholder="Finish Date"
+                          label="Finish Date"
                           type="date"
                           {...register("finishDate", {
                             required: "This field is required",
@@ -207,12 +217,7 @@ export const JobExperiencesForm = () => {
                       </span>
                     </div>
                     <div className="flex w-full gap-2 justify-end my-3">
-                      <Button
-                        color="primary"
-                        variant="flat"
-                        type="submit"
-                        onPress={isValid ? onClose : () => {}}
-                      >
+                      <Button color="primary" variant="flat" type="submit">
                         Save
                       </Button>
                       <Button color="danger" variant="flat" onPress={onClose}>
@@ -225,11 +230,11 @@ export const JobExperiencesForm = () => {
             )}
           </ModalContent>
         </Modal>
-        <NavigateButtons
-          prevLink="/talent-funnel/educational-projects"
-          sendFormData={onPressNext}
-        />
       </div>
+      <NavigateButtons
+        prevLink="/talent-funnel/technologies"
+        sendFormData={onPressNext}
+      />
     </>
   );
 };

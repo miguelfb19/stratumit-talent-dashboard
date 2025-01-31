@@ -16,7 +16,7 @@ import {
 } from "@heroui/react";
 
 // Components and other files
-import { countries } from "@/utils/countries";
+import { countries } from "@/data/countries";
 import { useForm } from "react-hook-form";
 import { RegisterFormInputs } from "@/interfaces/register-form-inputs";
 import { registerNewUser } from "@/actions/register-new-user";

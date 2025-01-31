@@ -1,6 +1,6 @@
 "use client";
 
-import { languajesData, languajesLevels } from "@/data/data";
+import { languajesData, languajesLevels } from "@/data/funnel-data";
 import { Button, Form, Select, SelectItem } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
