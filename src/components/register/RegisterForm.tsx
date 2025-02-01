@@ -60,7 +60,6 @@ export const RegisterForm = () => {
       submitAlert(newUser.message, "error");
       return;
     }
-
     // Redirect to Login
     router.push("/auth/send-mail-screen");
   };

@@ -4,7 +4,6 @@ import prisma from "@/lib/prisma";
 
 export const createProfile = async (userId: string) => {
   try {
-
     // Get user and profile if exist
     const user = await prisma.user.findUnique({
       where: {
@@ -13,8 +12,34 @@ export const createProfile = async (userId: string) => {
       include: { profile: true },
     });
 
-    console.log(user)
+    if (user?.profile) {
+      return {
+        ok: true,
+        message: "Profile already exists",
+        profile: user.profile
+      }
+    }
+
+    const newProfile = await prisma.profile.create({
+      data: {
+        userId: userId,
+        motivationText: null,
+        timezone: 'null'
+      },
+    })
+
+    return {
+      ok: true,
+      message: "Profile created",
+      profile: newProfile
+    }
+    
   } catch (error) {
     console.log(error)
+    return {
+      ok: false,
+      message: "Error creating profile",
+      errorDetail: error
+    }
   }
 };

@@ -11,6 +11,7 @@ export const authConfig = {
     newUser: "/auth/register",
   },
   callbacks: {
+    // This callbacks allow me insert information user in client 
     jwt({ token, user }) {
 
       // Add user information in token
@@ -30,8 +31,7 @@ export const authConfig = {
       
 
       // Change the role in case of changes on client
-      console.log('session en callbacks: ', session.user)
-      if (user) session.user.role = user.role;
+      if (user) session.user.roles = user.roles;
 
       return session;
     },
