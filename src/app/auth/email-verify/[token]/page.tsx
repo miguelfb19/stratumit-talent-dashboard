@@ -1,7 +1,7 @@
 "use client";
 
-import { authenticate } from "@/actions/authenticate";
-import { verifyRegisterToken } from "@/actions/verify-register-token";
+import { authenticate } from "@/actions/auth/authenticate";
+import { verifyRegisterToken } from "@/actions/auth/verify-register-token";
 import clsx from "clsx";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

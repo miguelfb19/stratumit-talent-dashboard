@@ -6,12 +6,19 @@ import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoAdd, IoTrash } from "react-icons/io5";
 import { NavigateButtons } from "./NavigateButtons";
+import { saveLanguajes } from "@/actions/funnel/save-data-to-db/save-languajes";
+import { submitAlert } from "@/utils/alerts";
 
 type LanguajeFormValues = {
-  languajes: { languaje: string; level: string }[];
+  languajes: { name: string; level: string }[];
 };
 
-export const LanguajeForm = () => {
+interface Props {
+  languajesFromDb: { name: string; level: string }[] | null;
+  profileId: string
+}
+
+export const LanguajeForm = ({languajesFromDb, profileId}:Props) => {
   // we use control to handle pair of values languaje-level
   const {
     control,
@@ -21,7 +28,7 @@ export const LanguajeForm = () => {
     formState: { errors },
   } = useForm<LanguajeFormValues>({
     defaultValues: {
-      languajes: [{ languaje: "", level: "" }],
+      languajes: languajesFromDb ? languajesFromDb : [{ name: "", level: "" }],
     },
   });
 
@@ -31,7 +38,7 @@ export const LanguajeForm = () => {
     // Get all current languages selected
     const languajes = getValues("languajes");
     // Filter selected languages
-    return languajes.map((item) => item.languaje).filter((lang) => lang);
+    return languajes.map((item) => item.name).filter((lang) => lang);
   };
 
   //   useFieldArray allows me handle dinamic fields to add or remove languajes
@@ -40,9 +47,18 @@ export const LanguajeForm = () => {
     name: "languajes", // name of my fields Array
   });
 
-  const onPressNext = (data: LanguajeFormValues) => {
-    console.log("Submitted: ", data);
+  const onPressNext = async (data: LanguajeFormValues) => {
 
+    const {languajes} = data
+
+    const savedLanguajes = await saveLanguajes(profileId, languajes)
+
+    if(!savedLanguajes?.ok) {
+      submitAlert(savedLanguajes?.message!, 'error')
+      return
+    }
+
+    submitAlert(savedLanguajes.message, 'success')
     router.push("/talent-funnel/technologies");
   };
 
@@ -64,12 +80,12 @@ export const LanguajeForm = () => {
                 placeholder="Select languaje"
                 aria-label="Select languaje"
                 // Here i register the field to save information
-                {...register(`languajes.${index}.languaje`, {
+                {...register(`languajes.${index}.name`, {
                   required: "This field is required",
                 })}
                 // show error when
-                isInvalid={!!errors.languajes?.[index]?.languaje}
-                errorMessage={errors.languajes?.[index]?.languaje?.message}
+                isInvalid={!!errors.languajes?.[index]?.name}
+                errorMessage={errors.languajes?.[index]?.name?.message}
                 // Disable previous selected languajes
                 disabledKeys={getDisabledLanguages()}
               >
@@ -116,7 +132,7 @@ export const LanguajeForm = () => {
             aria-label="add"
             variant="flat"
             className="hover:bg-blue-200 transition-all"
-            onPress={() => append({ languaje: "", level: "" })}
+            onPress={() => append({ name: "", level: "" })}
           >
             <IoAdd size={20} color="gray" />
           </Button>

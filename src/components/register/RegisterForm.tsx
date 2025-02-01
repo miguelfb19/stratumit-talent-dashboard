@@ -19,7 +19,7 @@ import {
 import { countries } from "@/data/countries";
 import { useForm } from "react-hook-form";
 import { RegisterFormInputs } from "@/interfaces/register-form-inputs";
-import { registerNewUser } from "@/actions/register-new-user";
+import { registerNewUser } from "@/actions/auth/register-new-user";
 import { submitAlert } from "@/utils/alerts";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";

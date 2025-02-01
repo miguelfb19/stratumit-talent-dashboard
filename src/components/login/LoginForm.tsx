@@ -1,6 +1,6 @@
 "use client";
 
-import { authenticate } from "@/actions/authenticate";
+import { authenticate } from "@/actions/auth/authenticate";
 import { LoginFormInputs } from "@/interfaces/login-form-inputs";
 import { submitAlert } from "@/utils/alerts";
 import { Button, Form, Input, Spinner, Link } from "@heroui/react";

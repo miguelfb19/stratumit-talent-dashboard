@@ -1,12 +1,29 @@
-import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
+// Here i define the types to user Session acordding to data from DB
 
-// Extiende el tipo User para incluir el campo 'role'
+import { DefaultSession } from "next-auth";
+
+
 declare module "next-auth" {
-  interface User {
-    roles: string[]; // O el tipo correspondiente a tu campo role, como enum o string
-  }
-
   interface Session {
-    user: User & DefaultSession["user"];
+    user: {
+      id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      birthDate: Date;
+      country: string;
+      isVerified: boolean;
+      imageUrl?: string;
+      createdDate: Date;
+      roles: string[];
+      profile: {
+        id: string;
+        phoneNumber: string;
+        motivationText: string;
+        timezone: string;
+        userId: string
+      } | null
+    } & DefaultSession["user"];
   }
 }
+

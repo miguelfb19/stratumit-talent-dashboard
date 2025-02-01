@@ -11,9 +11,8 @@ export const authConfig = {
     newUser: "/auth/register",
   },
   callbacks: {
-    // This callbacks allow me insert information user in client 
+    // This callbacks allow me insert information user in client
     jwt({ token, user }) {
-
       // Add user information in token
       if (user) {
         token.data = user;
@@ -21,16 +20,33 @@ export const authConfig = {
       return token;
     },
     async session({ session, token }) {
-      // Search user in db
+      // Search user in DB
       const user = await prisma.user.findFirst({
         where: { email: token.email! },
       });
 
-      // Add user information in session
-      session.user = token.data as any;
-      
+      // Search profile in DB
+      const profile = await prisma.profile.findFirst({
+        where: { userId: user?.id },
+      });
 
-      // Change the role in case of changes on client
+      // Add user and profile information in session
+
+      if (!profile) {
+        session.user = token.data as any;
+        session.user.profile = null;
+      } else {
+        session.user = token.data as any;
+
+        session.user.profile = {
+          ...profile,
+          phoneNumber: profile.phoneNumber ?? "",
+          motivationText: profile.motivationText ?? "",
+          timezone: profile.timezone ?? "",
+        };
+      }
+
+      // Extre verification the roles in case of changes on DB
       if (user) session.user.roles = user.roles;
 
       return session;
