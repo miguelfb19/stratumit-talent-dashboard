@@ -57,8 +57,6 @@ export const LanguajeForm = ({languajesFromDb, profileId}:Props) => {
       submitAlert(savedLanguajes?.message!, 'error')
       return
     }
-
-    submitAlert(savedLanguajes.message, 'success')
     router.push("/talent-funnel/technologies");
   };
 

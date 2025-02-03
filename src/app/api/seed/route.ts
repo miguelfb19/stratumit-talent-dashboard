@@ -12,8 +12,7 @@ export async function GET(request: NextRequest) {
   for (const languaje of languajes) {
     await prisma.languaje.create({
       data: {
-        name: languaje.name,
-        level: languaje.level as LanguajeLevel,
+        name: languaje,
       },
     });
   }

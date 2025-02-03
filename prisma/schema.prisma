@@ -63,20 +63,22 @@ model Profile {
 }
 
 model ProfileLanguajes {
-  profile   Profile @relation(fields: [profileId], references: [id])
+  level LanguajeLevel
+
+  // Relations
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId String
 
-  languaje   Languaje @relation(fields: [languajeId], references: [id])
+  languaje   Languaje @relation(fields: [languajeId], references: [id], onDelete: Cascade)
   languajeId String
 
   // Composite primary key to avoid duplicates
-  @@id([profileId, languajeId])
+  @@id([profileId, languajeId, level])
 }
 
 model Languaje {
-  id    String        @id @default(uuid())
-  name  String
-  level LanguajeLevel
+  id   String @id @default(uuid())
+  name String @unique
 
   // Relations 
 

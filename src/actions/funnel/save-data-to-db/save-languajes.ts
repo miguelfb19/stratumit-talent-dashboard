@@ -8,31 +8,42 @@ export const saveLanguajes = async (
   data: { name: string; level: string }[]
 ) => {
   try {
-    console.log("Data: ", data);
-
     const savedData = await prisma.profile.update({
       where: {
         id: profileId,
       },
       data: {
         languajes: {
+          // Delete previous information to save new data
+          deleteMany: {},
+          // Create a new languaje
           create: data.map((lang) => ({
+            level: lang.level as LanguajeLevel,
+            // Create or updated the existing languaje
             languaje: {
-              connectOrCreate: { //TODO: Es necesario pasarle el id...
+              connectOrCreate: {
                 where: { name: lang.name }, // if languaje already exist, conect the new with the existing
-                create: { name: lang.name, level: lang.level as LanguajeLevel }, //If lang don't exist, creates it
+                create: { name: lang.name }, //If lang don't exist, creates it
               },
             },
           })),
         },
       },
-      include: {
+      // Return only languajes
+      select: {
         languajes: true,
       },
     });
 
     if (!savedData) {
       throw new Error("Error saving languajes");
+    }
+
+    return {
+      ok: true,
+      message: "Languajes saved",
+      languajes: savedData.languajes,
+    
     }
 
     throw new Error("Error saving languajes");

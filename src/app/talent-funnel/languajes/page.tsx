@@ -19,7 +19,7 @@ export default async function LanguajesFunnelPage() {
   const {languajes}= resp
   const dataToForm = languajes?.map((languaje: any) => {
     return {
-      name: languaje.languaje,
+      name: languaje.languaje.name,
       level: languaje.level,
     }
   })

@@ -29,7 +29,7 @@ export const TechnologiesForm = () => {
       return submitAlert("You must fill in at least one field", "error");
 
     console.log(data);
-    router.push("/talent-funnel/job-experiences");
+    // router.push("/talent-funnel/job-experiences");
   };
 
   return (
@@ -42,7 +42,6 @@ export const TechnologiesForm = () => {
             );
             return (
               <CheckboxGroup
-                defaultValue={["buenos-aires", "london"]}
                 label={category}
                 className="gap-5"
                 color="primary"
