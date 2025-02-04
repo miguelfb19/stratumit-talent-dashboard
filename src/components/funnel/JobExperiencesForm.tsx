@@ -99,8 +99,6 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
     if (!savedJobs)
       return submitAlert("You must fill in at least one field", "error");
 
-    console.log('save in db: ',savedJobs);
-
     const savedData = await saveJobExperiences(profileId, savedJobs)
 
     console.log(savedData)
@@ -114,7 +112,7 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
     <>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
         <div id="table-button-container" className="flex flex-col gap-5 p-3">
-          {savedJobs && (
+          {(savedJobs && savedJobs[0]?.company ) && (
             <Table aria-label="Example table with dynamic content">
               <TableHeader columns={columnsToJobsInformationOnFunnel}>
                 {(column) => (

@@ -15,8 +15,8 @@ export const getJobExperiences = async (profileId: string) => {
 
     if (!data?.careerTimeline)
       return {
-        ok: true,
-        message: "Profile don't have data yet",
+        ok: false,
+        message: "Profile don't have job experiences yet",
         data,
       };
 

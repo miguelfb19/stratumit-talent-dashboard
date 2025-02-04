@@ -113,7 +113,7 @@ model Technology {
   name String @unique
 
   // Relations
-  category   CategoryTech
+  category CategoryTech
 
   profileTechnologies ProfileTechnologies[]
 }
@@ -129,13 +129,16 @@ model JobExperiences {
   // Relations 
 
   profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?  
+  profileId String?
 }
 
 model EducationalProject {
-  id           String   @id @default(uuid())
-  projectName  String
-  technologies String[]
+  id               String    @id @default(uuid())
+  projectName      String
+  description      String
+  startDate        DateTime
+  finishDate       DateTime?
+  link             String?
 
   // Relations 
 

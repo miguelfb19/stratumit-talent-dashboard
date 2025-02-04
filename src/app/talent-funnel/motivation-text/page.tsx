@@ -15,8 +15,8 @@ export default async function NamePage() {
   if (!session) return <NotUserError />;
   if (!ok || !profile) return <NotProfileError />;
 
-  const motivationTextData = await getMotivationtext(profile.id);
-  const { data } = motivationTextData;
+  const resp = await getMotivationtext(profile.id);
+  const { data } = resp;
 
   return (
     <>

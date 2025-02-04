@@ -13,3 +13,11 @@ export interface JobExperiences {
   role: string;
   description: string;
 }
+
+export interface EducationalProject {
+  projectName: string;
+  link: string | null;
+  description: string;
+  startDate: string;
+  finishDate: string;
+}

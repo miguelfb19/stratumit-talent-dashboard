@@ -30,8 +30,8 @@ export const columnsToJobsInformationOnFunnel = [
 
 export const columnsEducationalProjectsFunnel = [
     {
-      key: "projectTitle",
-      label: "Project Title",
+      key: "projectName",
+      label: "Project Name",
     },
     {
       key: "link",

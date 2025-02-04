@@ -25,31 +25,21 @@ import { useState } from "react";
 import { columnsEducationalProjectsFunnel } from "@/data/funnel-data";
 import { useRouter } from "next/navigation";
 import { submitAlert } from "@/utils/alerts";
+import { EducationalProject } from "@/interfaces/funnel";
+import { saveEducationalProjects } from "@/actions/funnel/save-data-to-db/save-educational-project";
 
-interface JobsFormInputs {
-  projectTitle: string;
-  link: string;
-  description: string;
-  startDate: string;
-  finishDate: string;
+interface Props {
+  profileId: string;
+  projects: EducationalProject[] | null;
 }
 
-export const EducationalProjectsForm = () => {
+export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
   const router = useRouter();
-
   // Handle Modal
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // This state save jobs data
-  const [savedProjects, setSavedProjects] = useState([
-    {
-      projectTitle: "",
-      link: "",
-      description: "",
-      startDate: "",
-      finishDate: "",
-    },
-  ]);
+  const [savedProjects, setSavedProjects] = useState(projects);
 
   // Use form to handle form inputs
   const {
@@ -58,10 +48,10 @@ export const EducationalProjectsForm = () => {
     formState: { errors },
     reset,
     setError,
-  } = useForm<JobsFormInputs>();
+  } = useForm<EducationalProject>();
 
   // This function save form data state to show it in table
-  const onSaveJob = async (data: JobsFormInputs) => {
+  const onSaveProject = async (data: EducationalProject) => {
     if (data.startDate >= data.finishDate) {
       setError("finishDate", {
         message: "Finish date must be greater than start date",
@@ -69,7 +59,7 @@ export const EducationalProjectsForm = () => {
       return;
     }
 
-    if (savedProjects[0].projectTitle === "") setSavedProjects([data]);
+    if (!savedProjects) setSavedProjects([data]);
     else setSavedProjects([...savedProjects, { ...data }]);
 
     reset();
@@ -77,25 +67,17 @@ export const EducationalProjectsForm = () => {
   };
 
   // This function handle delete specific job from state
-  const deleteJob = (project: JobsFormInputs) => {
-    setSavedProjects((prevProject) => {
+  const deleteJob = (project: EducationalProject) => {
+    setSavedProjects((actualState) => {
       // If there is one job only, reset the state to avoid errors at moment to show table
-      if (prevProject.length === 1) {
-        return [
-          {
-            projectTitle: "",
-            link: "",
-            description: "",
-            startDate: "",
-            finishDate: "",
-          },
-        ];
+      if (!actualState) {
+        return null;
       }
 
       // If there is more than one job, filter state to delete selected job information
-      const newJobs = prevProject.filter(
+      const newJobs = actualState.filter(
         (savedJob) =>
-          savedJob.projectTitle !== project.projectTitle ||
+          savedJob.projectName !== project.projectName ||
           savedJob.startDate !== project.startDate
       );
       return newJobs;
@@ -103,11 +85,16 @@ export const EducationalProjectsForm = () => {
   };
 
   // This function ends all proccess, sendding the information where i a tell it
-  const onPressNext = () => {
-    if (savedProjects[0].projectTitle === "")
+  const onPressNext = async () => {
+    if (!savedProjects || savedProjects.length === 0)
       return submitAlert("You must fill in at least one field", "error");
 
     console.log(savedProjects);
+
+    const savedData = await saveEducationalProjects(profileId, savedProjects);
+
+    console.log(savedData);
+    if (!savedData.ok) submitAlert(savedData.message, "error");
 
     router.push("/talent-funnel/upload-profile-image");
   };
@@ -116,7 +103,7 @@ export const EducationalProjectsForm = () => {
     <>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
         <div id="table-button-container" className="flex flex-col gap-5 p-3">
-          {savedProjects[0].projectTitle !== "" && (
+          {savedProjects && savedProjects.length !== 0 && (
             <Table aria-label="Example table with dynamic content">
               <TableHeader columns={columnsEducationalProjectsFunnel}>
                 {(column) => (
@@ -126,7 +113,7 @@ export const EducationalProjectsForm = () => {
               <TableBody items={savedProjects}>
                 {(job) => (
                   <TableRow
-                    key={job.projectTitle + job.startDate + job.finishDate}
+                    key={job.projectName + job.startDate + job.finishDate}
                   >
                     {(columnKey) => (
                       <TableCell>
@@ -164,24 +151,24 @@ export const EducationalProjectsForm = () => {
                 <ModalBody>
                   <Form
                     className="flex w-full h-full justify-between"
-                    onSubmit={handleSubmit(onSaveJob)}
+                    onSubmit={handleSubmit(onSaveProject)}
                   >
                     <div
                       id="fields-container"
                       className="flex flex-col gap-5 w-full mt-5"
                     >
                       <Input
-                      radius="full"
+                        radius="full"
                         type="text"
-                        placeholder="Project title"
-                        {...register("projectTitle", {
+                        placeholder="Project name"
+                        {...register("projectName", {
                           required: "This field is required",
                         })}
-                        isInvalid={!!errors.projectTitle}
-                        errorMessage={errors.projectTitle?.message}
+                        isInvalid={!!errors.projectName}
+                        errorMessage={errors.projectName?.message}
                       />
                       <Input
-                      radius="full"
+                        radius="full"
                         type="text"
                         placeholder="Link (optional)"
                         {...register("link")}
@@ -189,7 +176,7 @@ export const EducationalProjectsForm = () => {
                         errorMessage={errors.link?.message}
                       />
                       <Textarea
-                      radius="full"
+                        radius="full"
                         type="text"
                         minRows={6}
                         placeholder="Description"
@@ -201,7 +188,7 @@ export const EducationalProjectsForm = () => {
                       />
                       <span className="flex gap-5">
                         <Input
-                        radius="full"
+                          radius="full"
                           label="Start Date"
                           type="date"
                           {...register("startDate", {
@@ -211,7 +198,7 @@ export const EducationalProjectsForm = () => {
                           errorMessage={errors.startDate?.message}
                         />
                         <Input
-                        radius="full"
+                          radius="full"
                           label="Finish Date"
                           type="date"
                           {...register("finishDate", {
@@ -223,10 +210,20 @@ export const EducationalProjectsForm = () => {
                       </span>
                     </div>
                     <div className="flex w-full gap-2 justify-end my-3">
-                      <Button color="primary" variant="flat" type="submit" radius="full">
+                      <Button
+                        color="primary"
+                        variant="flat"
+                        type="submit"
+                        radius="full"
+                      >
                         Save
                       </Button>
-                      <Button color="danger" variant="flat" onPress={onClose} radius="full">
+                      <Button
+                        color="danger"
+                        variant="flat"
+                        onPress={onClose}
+                        radius="full"
+                      >
                         Cancel
                       </Button>
                     </div>
