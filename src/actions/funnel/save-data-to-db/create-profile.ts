@@ -24,7 +24,7 @@ export const createProfile = async (userId: string) => {
       data: {
         userId: userId,
         motivationText: null,
-        timezone: 'null'
+        timezone: null
       },
     })
 

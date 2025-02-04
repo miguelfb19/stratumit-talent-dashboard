@@ -59,7 +59,7 @@ model User {
 model Profile {
   id             String  @id @default(uuid())
   motivationText String?
-  timezone       String
+  timezone       String?
   phoneNumber    String?
 
   // Relations
@@ -129,7 +129,7 @@ model JobExperiences {
   // Relations 
 
   profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?  @unique
+  profileId String?  
 }
 
 model EducationalProject {

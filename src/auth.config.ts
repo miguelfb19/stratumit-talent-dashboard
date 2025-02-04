@@ -40,9 +40,8 @@ export const authConfig = {
 
         session.user.profile = {
           ...profile,
-          phoneNumber: profile.phoneNumber ?? "",
-          motivationText: profile.motivationText ?? "",
-          timezone: profile.timezone ?? "",
+          phoneNumber: profile.phoneNumber ?? null,
+          timezone: profile.timezone ?? null,
         };
       }
 

@@ -17,7 +17,7 @@ export const getMotivationtext = async (profileId: string) => {
     if (!data || data.motivationText === "") {
       return {
         ok: false,
-        message: "Motivation text is empty",
+        message: "Profile has not motivation text registered",
       };
     }
 

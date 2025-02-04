@@ -70,7 +70,7 @@ export const RegisterForm = () => {
       className="flex h-screen w-screen justify-center items-center bg-slate-700 overflow-scroll"
     >
       {isSubmitting && (
-        <CircularsProgress
+        <CircularProgress
           size="lg"
           className="absolute top-1/2 right-1/2 translate-x-1/2"
         />

@@ -21,7 +21,7 @@ export const getLanguajesFromDb = async (profileId: string) => {
     if (!languajesData?.languajes || languajesData.languajes.length === 0) {
       return {
         ok: false,
-        message: "User has not languajes registered",
+        message: "Profile has not languajes registered",
       };
     }
 

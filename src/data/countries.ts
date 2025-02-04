@@ -1,4 +1,6 @@
-export const countries = [
+import { Country } from "@/interfaces/Country";
+
+export const countries:Country[] = [
     { name: "Afghanistan", isoCode: "AFG", indicative: "+93" },
     { name: "Aland Islands", isoCode: "ALA", indicative: "+358" },
     { name: "Albania", isoCode: "ALB", indicative: "+355" },

@@ -43,29 +43,29 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
     control,
   });
 
-  // // Function to add more technologies
-  // const getDataFromModal = (data: TechnologiesData) => {
-  //   // Add to state
-  //   if (!addedTechs) setAddedTechs([data]);
-  //   else setAddedTechs([...addedTechs, data]);
+  // Function to add more technologies
+  const getDataFromModal = (data: TechnologiesData) => {
+    // Add to state
+    if (!addedTechs) setAddedTechs([data]);
+    else setAddedTechs([...addedTechs, data]);
 
-  //   // Add values to form state
-  //   field.value = [...field.value, data.name];
-  //   field.onChange(field.value);
+    // Add values to form state
+    field.value = [...field.value, data.name];
+    field.onChange(field.value);
 
-  //   console.log(field.value)
+    console.log(field.value)
 
-  // };
+  };
 
-  // // To remove added technologies
-  // const handleCloseChip = (techName: string) => {
-  //   setAddedTechs(addedTechs?.filter((tech) => tech.name !== techName));
+  // To remove added technologies
+  const handleCloseChip = (techName: string) => {
+    setAddedTechs(addedTechs?.filter((tech) => tech.name !== techName));
 
-  //   field.value = field.value.filter((tech) => tech !== techName);
-  //   field.onChange(field.value);
+    field.value = field.value.filter((tech) => tech !== techName);
+    field.onChange(field.value);
 
-  //   console.log(field.value)
-  // };
+    console.log(field.value)
+  };
 
   // Function to submit form and add data to DB
   const onPressNext = async (data: ChipboxValues) => {
@@ -102,7 +102,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
         className="relative flex w-full h-full"
         onSubmit={handleSubmit(onPressNext)}
       >
-        {/* <AddOtherTechnologyForm addNewTechnologies={getDataFromModal} /> */}
+        <AddOtherTechnologyForm addNewTechnologies={getDataFromModal} />
         <div className="flex flex-col h-72 w-full overflow-scroll gap-5">
           {techCategories.map((category) => {
             const filteredTechs = technologies.filter(
@@ -136,7 +136,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
                     </Checkbox>
                   </Chip>
                 ))}
-                {/* Added more technologies
+                {/* Added more technologies */}
                 {category === "Others" &&
                   addedTechs?.map((tech, index) => (
                     <Chip
@@ -151,7 +151,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
                         <span>{tech.name}</span>
                       </Checkbox>
                     </Chip>
-                  ))} */}
+                  ))}
               </CheckboxGroup>
             );
           })}

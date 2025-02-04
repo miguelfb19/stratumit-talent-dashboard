@@ -1,5 +1,7 @@
 "use client";
 
+// Components
+
 import {
   Button,
   Form,
@@ -20,36 +22,34 @@ import {
 } from "@heroui/react";
 import { NavigateButtons } from "./NavigateButtons";
 import { IoAdd, IoTrash } from "react-icons/io5";
+
+// Hooks
+
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { columnsToJobsInformationOnFunnel } from "@/data/funnel-data";
 import { useRouter } from "next/navigation";
-import { submitAlert } from "@/utils/alerts";
 
-interface JobsFormInputs {
-  company: string;
-  role: string;
-  description: string;
-  startDate: string;
-  finishDate: string;
+// Data and utils
+
+import { columnsToJobsInformationOnFunnel } from "@/data/funnel-data";
+import {JobExperiences} from "@/interfaces/funnel"
+import { submitAlert } from "@/utils/alerts";
+import { saveJobExperiences } from "@/actions/funnel/save-data-to-db/save-job-experiences";
+
+
+interface Props {
+  profileId: string;
+  jobExpFromDb: JobExperiences[] | null;
 }
 
-export const JobExperiencesForm = () => {
+export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
   const router = useRouter();
 
   // Handle Modal
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // This state save jobs data
-  const [savedJobs, setSavedJobs] = useState([
-    {
-      company: "",
-      role: "",
-      description: "",
-      startDate: "",
-      finishDate: "",
-    },
-  ]);
+  const [savedJobs, setSavedJobs] = useState(jobExpFromDb);
 
   // Use form to handle form inputs
   const {
@@ -58,18 +58,18 @@ export const JobExperiencesForm = () => {
     formState: { errors },
     reset,
     setError,
-  } = useForm<JobsFormInputs>();
+  } = useForm<JobExperiences>();
 
   // This function save form data state to show it in table
-  const onSaveJob = async (data: JobsFormInputs) => {
-    if (data.startDate >= data.finishDate) {
+  const onSaveJob = async (data: JobExperiences) => {
+    if (data.startDate >= data.finishDate!) {
       setError("finishDate", {
         message: "Finish date must be greater than start date",
       });
       return;
     }
 
-    if (savedJobs[0].company === "") setSavedJobs([data]);
+    if (!savedJobs) setSavedJobs([data]);
     else setSavedJobs([...savedJobs, { ...data }]);
 
     reset();
@@ -77,23 +77,15 @@ export const JobExperiencesForm = () => {
   };
 
   // This function handle delete specific job from state
-  const deleteJob = (job: JobsFormInputs) => {
-    setSavedJobs((prevJobs) => {
+  const deleteJob = (job: JobExperiences) => {
+    setSavedJobs((actualState) => {
       // If there is one job only, reset the state to avoid errors at moment to show table
-      if (prevJobs.length === 1) {
-        return [
-          {
-            company: "",
-            role: "",
-            description: "",
-            startDate: "",
-            finishDate: "",
-          },
-        ];
+      if (actualState && actualState.length === 1) {
+        return null;
       }
 
       // If there is more than one job, filter state to delete selected job information
-      const newJobs = prevJobs.filter(
+      const newJobs = actualState!.filter(
         (savedJob) =>
           savedJob.company !== job.company ||
           savedJob.startDate !== job.startDate
@@ -103,11 +95,17 @@ export const JobExperiencesForm = () => {
   };
 
   // This function ends all proccess, sendding the information where i a tell it
-  const onPressNext = () => {
-    if (savedJobs[0].company === "")
+  const onPressNext = async () => {
+    if (!savedJobs)
       return submitAlert("You must fill in at least one field", "error");
 
-    console.log(savedJobs);
+    console.log('save in db: ',savedJobs);
+
+    const savedData = await saveJobExperiences(profileId, savedJobs)
+
+    console.log(savedData)
+    if(!savedData.ok) submitAlert(savedData.message, 'error')
+
 
     router.push("/talent-funnel/educational-projects");
   };
@@ -116,7 +114,7 @@ export const JobExperiencesForm = () => {
     <>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
         <div id="table-button-container" className="flex flex-col gap-5 p-3">
-          {savedJobs[0].company !== "" && (
+          {savedJobs && (
             <Table aria-label="Example table with dynamic content">
               <TableHeader columns={columnsToJobsInformationOnFunnel}>
                 {(column) => (
@@ -146,7 +144,7 @@ export const JobExperiencesForm = () => {
             </Table>
           )}
           <Button
-          radius="full"
+            radius="full"
             onPress={onOpen}
             startContent={<IoAdd size={15} />}
             className="self-center text-gray-700"
@@ -169,7 +167,7 @@ export const JobExperiencesForm = () => {
                       className="flex flex-col gap-5 w-full mt-5"
                     >
                       <Input
-                      radius="full"
+                        radius="full"
                         type="text"
                         placeholder="Company"
                         {...register("company", {
@@ -179,7 +177,7 @@ export const JobExperiencesForm = () => {
                         errorMessage={errors.company?.message}
                       />
                       <Input
-                      radius="full"
+                        radius="full"
                         type="text"
                         placeholder="Role"
                         {...register("role", {
@@ -189,7 +187,7 @@ export const JobExperiencesForm = () => {
                         errorMessage={errors.role?.message}
                       />
                       <Textarea
-                      radius="full"
+                        radius="full"
                         type="text"
                         minRows={6}
                         placeholder="Description"
@@ -201,7 +199,7 @@ export const JobExperiencesForm = () => {
                       />
                       <span className="flex gap-5">
                         <Input
-                        radius="full"
+                          radius="full"
                           label="Start Date"
                           type="date"
                           {...register("startDate", {
@@ -211,7 +209,7 @@ export const JobExperiencesForm = () => {
                           errorMessage={errors.startDate?.message}
                         />
                         <Input
-                        radius="full"
+                          radius="full"
                           label="Finish Date"
                           type="date"
                           {...register("finishDate", {
@@ -223,10 +221,20 @@ export const JobExperiencesForm = () => {
                       </span>
                     </div>
                     <div className="flex w-full gap-2 justify-end my-3">
-                      <Button color="primary" variant="flat" type="submit" radius="full">
+                      <Button
+                        color="primary"
+                        variant="flat"
+                        type="submit"
+                        radius="full"
+                      >
                         Save
                       </Button>
-                      <Button color="danger" variant="flat" radius="full" onPress={onClose}>
+                      <Button
+                        color="danger"
+                        variant="flat"
+                        radius="full"
+                        onPress={onClose}
+                      >
                         Cancel
                       </Button>
                     </div>

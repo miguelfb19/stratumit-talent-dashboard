@@ -18,9 +18,8 @@ declare module "next-auth" {
       roles: string[];
       profile: {
         id: string;
-        phoneNumber: string;
-        motivationText: string;
-        timezone: string;
+        phoneNumber: string | null;
+        timezone: string | null;
         userId: string
       } | null
     } & DefaultSession["user"];

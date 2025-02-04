@@ -28,7 +28,7 @@ export const getTechnologiesFromDb = async (profileId: string) => {
     ) {
       return {
         ok: false,
-        message: "User has not technologies registered",
+        message: "Profile has not technologies registered",
       };
     }
 
@@ -40,7 +40,7 @@ export const getTechnologiesFromDb = async (profileId: string) => {
   } catch (error) {
     return {
       ok: false,
-      message: "Error getting profile technologies",
+      message: "500 Error getting profile technologies",
       errorDetail: error,
     };
   }

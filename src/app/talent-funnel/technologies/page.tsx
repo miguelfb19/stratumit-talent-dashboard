@@ -1,23 +1,15 @@
 import { auth } from "@/auth.config";
 import { TechnologiesForm } from "../../../components/funnel/TechnologiesForm";
 import { getTechnologiesFromDb } from "@/actions/funnel/get-data-from-db/get-technologies";
-import { TechCategory } from "@/data/seed/seed-data";
+import { NotUserError } from "@/components/funnel/error/NotUserError";
+import { NotProfileError } from "@/components/funnel/error/NotProfileError";
 export default async function TechnologiesFunnelPage() {
   // Get session
   const session = await auth();
 
   // Return error page is session dont exist
-  if (!session || !session?.user.profile)
-    return (
-      <div className="flex flex-col w-full h-full">
-        <h1 className="text-3xl font-bold mb-5 w-full">
-          Error, not profile exist
-        </h1>
-        <a href="/auth/login" className="text-blue-600 hover:underline">
-          Login
-        </a>
-      </div>
-    );
+  if(!session) return <NotUserError/>
+  if (!session?.user.profile) return <NotProfileError/>
 
     // Get profile Technologies
   const profileTechnologies = await getTechnologiesFromDb(
