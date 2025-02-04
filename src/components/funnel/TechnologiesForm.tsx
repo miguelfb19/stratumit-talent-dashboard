@@ -43,19 +43,19 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
     control,
   });
 
-  // Function to add more technologies
-  const getDataFromModal = (data: TechnologiesData) => {
-    // Add to state
-    if (!addedTechs) setAddedTechs([data]);
-    else setAddedTechs([...addedTechs, data]);
+  // // Function to add more technologies
+  // const getDataFromModal = (data: TechnologiesData) => {
+  //   // Add to state
+  //   if (!addedTechs) setAddedTechs([data]);
+  //   else setAddedTechs([...addedTechs, data]);
 
-    // Add values to form state
-    field.value = [...field.value, data.name];
-    field.onChange(field.value);
-    
-    console.log(field.value)
+  //   // Add values to form state
+  //   field.value = [...field.value, data.name];
+  //   field.onChange(field.value);
 
-  };
+  //   console.log(field.value)
+
+  // };
 
   // // To remove added technologies
   // const handleCloseChip = (techName: string) => {
@@ -79,7 +79,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
         const foundTech = technologies.find((tech) => tech.name === technology);
         return {
           name: technology,
-          category: foundTech ? foundTech.category : "Others"
+          category: foundTech ? foundTech.category : "Others",
         };
       }
     );
@@ -119,10 +119,21 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
                 onValueChange={field.onChange}
               >
                 {filteredTechs.map((tech) => (
-                  <Chip key={tech.name + tech.category} className={`${field.value.includes(tech.name) ? "bg-[#0B6FEE] to-white" : ""}`}>
-                    <Checkbox value={tech.name} className={`border-none border-0 ${field.value.includes(tech.name) ? "" : ""}`} radius="none">
+                  <Chip
+                    key={tech.name + tech.category}
+                    className={`${field.value.includes(tech.name) ? "bg-[#0B6FEE] to-white" : ""}`}
+                  >
+                    <Checkbox
+                      value={tech.name}
+                      className={`pr-6 ${field.value.includes(tech.name) ? "" : "pl-0 gap-0"}`}
+                      radius="none"
+                    >
+                      <span
+                        className={`${field.value.includes(tech.name) ? "text-white" : ""}`}
+                      >
+                        {tech.name}
+                      </span>
                     </Checkbox>
-                      <span className={`${field.value.includes(tech.name) ? "text-white" : ""}`}>{tech.name}</span>
                   </Chip>
                 ))}
                 {/* Added more technologies
