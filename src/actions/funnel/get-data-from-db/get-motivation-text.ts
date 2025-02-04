@@ -24,7 +24,7 @@ export const getMotivationtext = async (profileId: string) => {
     return {
         ok: true, 
         message: "Motivation text retrieved",
-        motivationText: data.motivationText
+        data: data.motivationText
     }
   } catch (error) {
     return {

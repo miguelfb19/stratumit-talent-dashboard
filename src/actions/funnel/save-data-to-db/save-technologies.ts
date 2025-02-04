@@ -1,13 +1,44 @@
 "use server";
 
+import { TechCategory } from "@/data/seed/seed-data";
 import prisma from "@/lib/prisma";
 
 export const saveTechnologies = async (
   profileId: string,
-  data: string[]
+  data: { name: string; category: TechCategory }[]
 ) => {
   try {
-    const savedData = 
+    const savedData = await prisma.profile.update({
+      where: {
+        id: profileId,
+      },
+      data: {
+        technologies: {
+          // Delete previous data
+          deleteMany: {},
+          // Create new data
+          create: data.map((tech) => ({
+            technology: {
+              connectOrCreate: {
+                where: { name: tech.name },
+                create: {
+                  category: tech.category,
+                  name: tech.name,
+                },
+              },
+            },
+          })),
+        },
+      },
+      // Return only necesary data
+      select: {
+        technologies: {
+          select: {
+            technology: true,
+          },
+        },
+      },
+    });
 
     if (!savedData) {
       throw new Error("Error saving languajes");
@@ -16,11 +47,9 @@ export const saveTechnologies = async (
     return {
       ok: true,
       message: "Languajes saved",
-      languajes: savedData.languajes,
-    
-    }
+      languajes: savedData.technologies,
+    };
 
-    throw new Error("Error saving languajes");
   } catch (error) {
     return {
       ok: false,

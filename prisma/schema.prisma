@@ -20,6 +20,18 @@ enum LanguajeLevel {
   Native
 }
 
+enum CategoryTech {
+  Frontend
+  Backend
+  DevOps
+  Testing
+  Database
+  Design
+  Mobile
+  CMS
+  Others
+}
+
 enum Role {
   user
   talent
@@ -98,19 +110,12 @@ model ProfileTechnologies {
 
 model Technology {
   id   String @id @default(uuid())
-  name String
+  name String @unique
 
   // Relations
-  category   TechCategory @relation(fields: [categoryId], references: [id])
-  categoryId String
+  category   CategoryTech
 
   profileTechnologies ProfileTechnologies[]
-}
-
-model TechCategory {
-  id         String       @id @default(uuid())
-  name       String
-  Technology Technology[]
 }
 
 model JobExperiences {

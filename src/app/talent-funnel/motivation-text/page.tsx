@@ -25,7 +25,7 @@ export default async function NamePage() {
   }
 
   const motivationTextData = await getMotivationtext(profile.id);
-  const { motivationText } = motivationTextData;
+  const { data } = motivationTextData;
 
   return (
     <>
@@ -36,7 +36,7 @@ export default async function NamePage() {
         To complete your registration as a talent, please complete next
         information:
       </p>
-      <MotivationTextForm motivationTextFromDb={motivationText ? motivationText : ""} profileId={profile.id}/>
+      <MotivationTextForm motivationTextFromDb={data ? data : ""} profileId={profile.id}/>
     </>
   );
 }

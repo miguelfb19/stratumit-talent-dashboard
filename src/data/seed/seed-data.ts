@@ -1,4 +1,6 @@
-type TechCategory =
+
+
+export type TechCategory =
   | "Frontend"
   | "Backend"
   | "DevOps"
@@ -6,9 +8,10 @@ type TechCategory =
   | "Database"
   | "Design"
   | "Mobile"
-  | "CMS";
+  | "CMS"
+  | "Others";
 
-export const languajes = ["Spanish", "English", "French", "German"]
+export const languajes = ["Spanish", "English", "French", "German"];
 
 export const techCategories: TechCategory[] = [
   "Frontend",
@@ -18,10 +21,11 @@ export const techCategories: TechCategory[] = [
   "Database",
   "Design",
   "Mobile",
-  "CMS"
+  "CMS",
+  "Others"
 ];
 
-export const technologies = [
+export const technologies: { name: string; category: TechCategory }[] = [
   // Frontend
   { name: "React", category: "Frontend" },
   { name: "Vue.js", category: "Frontend" },
@@ -155,5 +159,11 @@ export const technologies = [
   { name: "Strapi", category: "CMS" },
   { name: "Webflow", category: "CMS" },
   { name: "Wix", category: "CMS" },
-  { name: "Squarespace", category: "CMS" }
+  { name: "Squarespace", category: "CMS" },
+
+  // Others
+
+  { name: "Zustand", category: "Others" },
+  { name: "Linux", category: "Others" },
+
 ];

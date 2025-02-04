@@ -9,9 +9,9 @@ export default function ProfilePage() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  useEffect(() => {
-    if (!session) router.push("/auth/login");
-  }, []);
+  // useEffect(() => {
+  //   if (!session) router.push("/auth/login");
+  // }, []);
 
   const logoutSession = async () => {
     await signOut({ redirectTo: "/auth/login" });

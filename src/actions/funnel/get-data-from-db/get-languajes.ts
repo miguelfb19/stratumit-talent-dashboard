@@ -27,13 +27,13 @@ export const getLanguajesFromDb = async (profileId: string) => {
 
     return {
       ok: true,
-      message: "Motivation text retrieved",
-      languajes: languajesData.languajes,
+      message: "Profile languajes retrieved",
+      data: languajesData.languajes,
     };
   } catch (error) {
     return {
       ok: false,
-      message: "Error getting motivation text",
+      message: "Error getting profile lenguajes",
       errorDetail: error,
     };
   }

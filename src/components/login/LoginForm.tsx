@@ -3,7 +3,7 @@
 import { authenticate } from "@/actions/auth/authenticate";
 import { LoginFormInputs } from "@/interfaces/login-form-inputs";
 import { submitAlert } from "@/utils/alerts";
-import { Button, Form, Input, Spinner, Link } from "@heroui/react";
+import { Button, Form, Input, Link, CircularProgress } from "@heroui/react";
 import clsx from "clsx";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -45,7 +45,7 @@ export const LoginForm = () => {
       
       const login = await authenticate(data);
       if (!login?.ok) submitAlert(login?.message!, "error");
-      // else router.push("/dashboard/profile");
+      else router.push("/dashboard/profile");
     } catch (error) {
       console.error(error)
     }
@@ -58,7 +58,7 @@ export const LoginForm = () => {
       className="flex h-screen w-screen justify-center items-center bg-slate-700 overflow-scroll"
     >
       {isSubmitting && (
-        <Spinner
+        <CircularProgress
           size="lg"
           className="absolute top-1/2 right-1/2 translate-x-1/2"
         />
