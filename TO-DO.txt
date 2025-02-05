@@ -1,4 +1,2 @@
 
 Revisar los errores lanzados en login
-en el upload image form arreglar el tema de que cuando el usuario tengo imagen en la base de datos previamente me salte el error del input
-arreglar los chip de la seccion technologias en el funnel

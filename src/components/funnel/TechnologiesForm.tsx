@@ -118,24 +118,25 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
                 value={field.value}
                 onValueChange={field.onChange}
               >
-                {filteredTechs.map((tech) => (
-                  <Chip
-                    key={tech.name + tech.category}
-                    className={`${field.value.includes(tech.name) ? "bg-[#0B6FEE] to-white" : ""}`}
-                  >
-                    <Checkbox
-                      value={tech.name}
-                      className={`pr-6 ${field.value.includes(tech.name) ? "" : "pl-0 gap-0"}`}
-                      radius="none"
+                <div className="flex gap-4 flex-wrap">
+                  {filteredTechs.map((tech) => (
+                    <Chip
+                      key={tech.name + tech.category}
+                      className={`relative px-2 ${field.value.includes(tech.name) ? "bg-[#0B6FEE] pl-6" : ""} transition-all`}
                     >
+                      <Checkbox
+                        value={tech.name}
+                        className={`absolute min-w-[80%] z-50 ${field.value.includes(tech.name) ? "left-2 top-1 opacity-100" : "opacity-0 pl-0 gap-0"}`}
+                        radius="none"
+                      ></Checkbox>
                       <span
-                        className={`${field.value.includes(tech.name) ? "text-white" : ""}`}
+                        className={`text-base ${field.value.includes(tech.name) ? "text-white" : ""}`}
                       >
                         {tech.name}
                       </span>
-                    </Checkbox>
-                  </Chip>
-                ))}
+                    </Chip>
+                  ))}
+                </div>
                 {/* Added more technologies */}
                 {/* {category === "Others" &&
                   addedTechs?.map((tech, index) => (

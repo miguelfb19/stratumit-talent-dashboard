@@ -180,9 +180,14 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
                         radius="full"
                         type="text"
                         minRows={6}
+                        maxLength={301}
                         placeholder="Description"
                         {...register("description", {
                           required: "This field is required",
+                          maxLength: {
+                            value: 300,
+                            message: "Description must be less than 300 characters",
+                          },
                         })}
                         isInvalid={!!errors.description}
                         errorMessage={errors.description?.message}

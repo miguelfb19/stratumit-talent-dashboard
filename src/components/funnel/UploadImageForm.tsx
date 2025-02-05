@@ -3,14 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { Input, Form, Image } from "@heroui/react";
 import { IoImageOutline } from "react-icons/io5";
-import { ImCheckmark } from "react-icons/im";
 import { NavigateButtons } from "./NavigateButtons";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { uploadImage } from "@/actions/funnel/save-data-to-db/upload-image";
 import { saveImageUrl } from "@/actions/funnel/save-data-to-db/save-image-url";
 import { submitAlert } from "@/utils/alerts";
-import clsx from "clsx";
 
 interface ImageForm {
   image: FileList;
@@ -23,12 +21,10 @@ interface Props {
 
 export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
   const router = useRouter();
-
   const {
     handleSubmit,
     register,
     watch,
-    clearErrors,
     formState: { errors },
   } = useForm<ImageForm>();
 
@@ -71,6 +67,10 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
 
   // Validate file and set preview
   useEffect(() => {
+
+
+
+    // set preview
     if (!image?.[0]) return setFilePreview("");
     const reader = new FileReader();
     reader.onloadend = () => setFilePreview(reader.result as string);
@@ -86,22 +86,20 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
         <Input
           radius="full"
           type="file"
-          accept="img"
+          accept="image/*"
           label="Select an image"
           endContent={<IoImageOutline size={20} />}
           {...register("image", {
-            required: "This field is required to continue",
+            required: imageUrl ? false : "This field is required to continue",
             // Validate form to file format
             validate: (value: FileList) => {
-              console.log(value)
               // If exist a db image, return true in case that user want to continue with the same image
-              if (imageUrl){
-                clearErrors('image')
-                return true
+              if (imageUrl !== null) {
+                return true;
               }
               const file = value?.[0];
               if (!file) return "This field is required to continue";
-              if (!file.type.includes("image"))
+              if (!file.type.startsWith("image/"))
                 return "The file must be an image";
               const validFormats = [
                 "image/png",
@@ -130,17 +128,6 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
             }
             className="bg-slate-200 aspect-square object-cover"
           />
-          <p
-            className={clsx("text-sm text-blue-600 mt-2", {
-              "text-red-500": !watch("image") && imageUrl,
-            })}
-          >
-            {!watch("image") && imageUrl ? (
-              "You have to select an image again"
-            ) : (
-              <ImCheckmark size={20} />
-            )}
-          </p>
         </span>
 
         <NavigateButtons prevLink="/talent-funnel/educational-projects" />
