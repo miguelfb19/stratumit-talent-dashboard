@@ -13,44 +13,45 @@ export const createProfile = async (userId: string) => {
       include: { profile: true },
     });
 
-    // Add new 'talent' role
-    const newRoles: Role[] = ['talent']
-    await prisma.user.update({
-      where: {
-        id: userId
-      },
-      data: {
-        roles: newRoles
-      }
-    })
+    // Add new 'talent' role if user is not admin
+    if (!user?.roles.includes("admin")) {
+      const newRoles: Role[] = ["talent"];
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          roles: newRoles,
+        },
+      });
+    }
 
     if (user?.profile) {
       return {
         ok: true,
         message: "Profile already exists",
-        profile: user.profile
-      }
+        profile: user.profile,
+      };
     }
 
     const newProfile = await prisma.profile.create({
       data: {
         userId: userId,
         motivationText: null,
-        timezone: null
+        timezone: null,
       },
-    })
+    });
 
     return {
       ok: true,
       message: "Profile created",
-      profile: newProfile
-    }
-    
+      profile: newProfile,
+    };
   } catch (error) {
     return {
       ok: false,
       message: "Error creating profile",
-      errorDetail: error
-    }
+      errorDetail: error,
+    };
   }
 };

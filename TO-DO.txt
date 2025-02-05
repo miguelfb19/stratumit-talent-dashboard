@@ -1,2 +1,0 @@
-
-Revisar los errores lanzados en login

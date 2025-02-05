@@ -10,6 +10,9 @@ export const authConfig = {
     signIn: "/auth/login",
     newUser: "/auth/register",
   },
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     // This callbacks allow me insert information user in client
     jwt({ token, user }) {

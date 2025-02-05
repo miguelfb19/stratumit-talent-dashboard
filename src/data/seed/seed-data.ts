@@ -1,4 +1,5 @@
-
+import { Role } from "@prisma/client";
+import bcryptjs from "bcryptjs";
 
 export type TechCategory =
   | "Frontend"
@@ -22,7 +23,7 @@ export const techCategories: TechCategory[] = [
   "Design",
   "Mobile",
   "CMS",
-  "Others"
+  "Others",
 ];
 
 export const technologies: { name: string; category: TechCategory }[] = [
@@ -165,5 +166,30 @@ export const technologies: { name: string; category: TechCategory }[] = [
 
   { name: "Zustand", category: "Others" },
   { name: "Linux", category: "Others" },
+];
 
+const roles1: Role[] = ["admin"];
+const roles2: Role[] = ["talent"];
+
+export const users = [
+  {
+    firstName: "Miguel Angel",
+    lastName: "Fernandez",
+    email: "miguelangelfb19@utp.edu.co",
+    roles: roles1,
+    birthDate: new Date("1995-01-19"),
+    password: bcryptjs.hashSync("miguel123"),
+    country: "Colombia",
+    isVerified: true,
+  },
+  {
+    firstName: "Johan David",
+    lastName: "Bedoya",
+    email: "johan.bedoya12@gmail.com",
+    roles: roles2,
+    birthDate: new Date("1998-02-11"),
+    password: bcryptjs.hashSync("johan123"),
+    country: "Colombia",
+    isVerified: true,
+  },
 ];
