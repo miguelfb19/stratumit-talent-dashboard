@@ -21,3 +21,12 @@ export interface EducationalProject {
   startDate: string;
   finishDate: string;
 }
+
+export interface PersonalData {
+  firstName: string;
+  lastName: string;
+  country: string;
+  birthDate: string;
+  phoneNumber: string;
+  timezone: string;
+}

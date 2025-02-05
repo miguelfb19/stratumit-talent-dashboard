@@ -12,7 +12,6 @@ import { saveImageUrl } from "@/actions/funnel/save-data-to-db/save-image-url";
 import { submitAlert } from "@/utils/alerts";
 import clsx from "clsx";
 
-
 interface ImageForm {
   image: FileList;
 }
@@ -29,12 +28,21 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
     handleSubmit,
     register,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm<ImageForm>();
 
   const [filePreview, setFilePreview] = useState("");
 
   const onPressNext = async (data: ImageForm) => {
+    // If previous image exist on db and user don't want to save any other image, continue to next step
+    if (imageUrl) {
+      if (!filePreview || filePreview === "") {
+        router.push("/talent-funnel/personal-data");
+        return;
+      }
+    }
+
     // Transform data to save on server
     const formData = new FormData();
     formData.append("image", data.image[0]);
@@ -85,6 +93,12 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
             required: "This field is required to continue",
             // Validate form to file format
             validate: (value: FileList) => {
+              console.log(value)
+              // If exist a db image, return true in case that user want to continue with the same image
+              if (imageUrl){
+                clearErrors('image')
+                return true
+              }
               const file = value?.[0];
               if (!file) return "This field is required to continue";
               if (!file.type.includes("image"))
@@ -121,9 +135,11 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
               "text-red-500": !watch("image") && imageUrl,
             })}
           >
-            {!watch("image") && imageUrl
-              ? "You have to select an image again"
-              : <ImCheckmark size={20}/>}
+            {!watch("image") && imageUrl ? (
+              "You have to select an image again"
+            ) : (
+              <ImCheckmark size={20} />
+            )}
           </p>
         </span>
 

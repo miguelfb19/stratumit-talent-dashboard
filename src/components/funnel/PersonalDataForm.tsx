@@ -6,19 +6,20 @@ import { Input, Form, Select, SelectItem, Button } from "@heroui/react";
 import { countries } from "@/data/countries";
 import { timezones } from "@/data/timezones";
 import { useRouter } from "next/navigation";
+import { PersonalData } from "@/interfaces/funnel";
+import { savePersonalData } from "@/actions/funnel/save-data-to-db/save-personal-data";
+import { submitAlert } from "@/utils/alerts";
+import { useEffect, useState } from "react";
 
-interface PersonalDataForm {
-  firstName: string;
-  lastName: string;
-  country: string;
-  birthDate: string;
-  phoneNumber: string;
-  timezone: string;
+interface Props {
+  userData: PersonalData | null;
+  userId: string;
 }
 
-export const PersonalDataForm = () => {
+export const PersonalDataForm = ({ userData, userId }: Props) => {
+  const [indicative, setIndicative] = useState("+1");
 
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -28,28 +29,51 @@ export const PersonalDataForm = () => {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<PersonalDataForm>({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      country: "",
-      birthDate: "",
-      phoneNumber: "",
-      timezone: "",
-    },
+  } = useForm<PersonalData>({
+    defaultValues: userData
+      ? userData
+      : {
+          firstName: "",
+          lastName: "",
+          country: "",
+          birthDate: "",
+          phoneNumber: "",
+          timezone: "",
+        },
   });
 
-  const onPressNext = (data: PersonalDataForm) => {
+  const handleIndicative = (country: string) => {
+    const selectedCountry = countries.find((item) => item.name === country);
 
+    return selectedCountry ? selectedCountry.indicative : "+1"
+  };
+
+  useEffect(() => {
+    setIndicative(handleIndicative(watch('country')))
+  }, [watch('country')])
+  
+
+  const onPressNext = async (data: PersonalData) => {
+    // manual validation should have been done here, I still don't know why.
     if (data.timezone === "") {
-      setError("timezone", { type: "manual", message: "This field is required" });
+      setError("timezone", {
+        type: "manual",
+        message: "This field is required",
+      });
       return;
     }
 
-    console.group(data);
+    // Add indicative to number
+    data.phoneNumber = indicative+data.phoneNumber
 
-    router.push("/dashboard/profile")
+    const savedData = await savePersonalData(userId, data);
 
+    if (!savedData.ok) {
+      submitAlert(savedData.message, "error");
+      console.error(savedData.error);
+    }
+
+    router.push("/dashboard/profile");
   };
 
   return (
@@ -95,7 +119,9 @@ export const PersonalDataForm = () => {
             radius="full"
             type="text"
             placeholder="Phone number"
-            startContent={<span className="text-gray-500 text-sm">+57</span>}
+            startContent={
+              <span className="text-gray-500 text-sm">{indicative}</span>
+            }
             {...register("phoneNumber", { required: "This field is required" })}
             isInvalid={!!errors.phoneNumber}
             errorMessage={errors.phoneNumber?.message}
@@ -115,13 +141,11 @@ export const PersonalDataForm = () => {
           placeholder="Select timezone"
           // This step is strangely necessary here, because for some reason this field is not being read by the "register"
           selectedKeys={new Set([watch("timezone")])}
-          onSelectionChange={
-            (selected) => {
-              const timezoneValue = Array.from(selected)[0] as string;
-              setValue("timezone", timezoneValue);
-              clearErrors("timezone")
-            }
-          }
+          onSelectionChange={(selected) => {
+            const timezoneValue = Array.from(selected)[0] as string;
+            setValue("timezone", timezoneValue);
+            clearErrors("timezone");
+          }}
           isInvalid={!!errors.timezone}
           errorMessage={errors.timezone?.message}
         >

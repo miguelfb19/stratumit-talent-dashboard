@@ -1,15 +1,18 @@
 import prisma from "@/lib/prisma";
-import { LanguajeLevel } from "@prisma/client";
 import { NextResponse, NextRequest } from "next/server";
-import { languajes, techCategories, technologies } from "@/data/seed/seed-data";
+import { languajes, technologies } from "@/data/seed/seed-data";
 import bcryptjs from "bcryptjs";
 
 export async function GET(request: NextRequest) {
   // First delete all the data
   await prisma.languaje.deleteMany();
   await prisma.technology.deleteMany();
+  await prisma.profileLanguajes.deleteMany()
+  await prisma.profileTechnologies.deleteMany()
+  await prisma.profile.deleteMany();
   await prisma.user.deleteMany();
 
+  // Create seed data
   await prisma.user.create({
     data: {
       firstName: "Miguel Angel",

@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { Role } from "@prisma/client";
 
 export const createProfile = async (userId: string) => {
   try {
@@ -11,6 +12,17 @@ export const createProfile = async (userId: string) => {
       },
       include: { profile: true },
     });
+
+    // Add new 'talent' role
+    const newRoles: Role[] = ['talent']
+    await prisma.user.update({
+      where: {
+        id: userId
+      },
+      data: {
+        roles: newRoles
+      }
+    })
 
     if (user?.profile) {
       return {

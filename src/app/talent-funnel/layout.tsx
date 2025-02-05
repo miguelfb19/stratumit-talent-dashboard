@@ -1,3 +1,4 @@
+import { getPersonalData } from "@/actions/funnel/get-data-from-db/get-personal-data";
 import { auth } from "@/auth.config";
 import { redirect } from "next/navigation";
 
@@ -13,6 +14,11 @@ export default async function FunnelLayout({
 
   const session = await auth();
   if (!session) redirect("/auth/login");
+
+  const personalData = await getPersonalData(session.user.id)
+  const {user} = personalData
+
+  if(user?.profile?.timezone) redirect('/dashboard/profile?dataComplete=true')
 
   return (
     <div
