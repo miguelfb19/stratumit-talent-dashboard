@@ -42,6 +42,7 @@ export const authConfig = {
           ...profile,
           phoneNumber: profile.phoneNumber ?? null,
           timezone: profile.timezone ?? null,
+          imageUrl: profile.imageUrl ?? null
         };
       }
 

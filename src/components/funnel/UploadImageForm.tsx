@@ -3,15 +3,26 @@
 import React, { useEffect, useState } from "react";
 import { Input, Form, Image } from "@heroui/react";
 import { IoImageOutline } from "react-icons/io5";
+import { ImCheckmark } from "react-icons/im";
 import { NavigateButtons } from "./NavigateButtons";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { uploadImage } from "@/actions/funnel/save-data-to-db/upload-image";
+import { saveImageUrl } from "@/actions/funnel/save-data-to-db/save-image-url";
+import { submitAlert } from "@/utils/alerts";
+import clsx from "clsx";
+
 
 interface ImageForm {
   image: FileList;
 }
 
-export const UploadImageForm = () => {
+interface Props {
+  profileId: string;
+  imageUrl: string | null;
+}
+
+export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
   const router = useRouter();
 
   const {
@@ -23,12 +34,28 @@ export const UploadImageForm = () => {
 
   const [filePreview, setFilePreview] = useState("");
 
-  const onPressNext = (data: ImageForm) => {
+  const onPressNext = async (data: ImageForm) => {
+    // Transform data to save on server
+    const formData = new FormData();
+    formData.append("image", data.image[0]);
 
-    console.log(data.image[0]);
+    // save image on server
+    const savedImage = await uploadImage(formData, imageUrl);
+    const { fileUrl, message } = savedImage;
+    if (!fileUrl) {
+      submitAlert(message, "error");
+      console.error(savedImage.error);
+      return;
+    }
 
-    router.push("/talent-funnel/personal-data")
+    const savedUrlImage = await saveImageUrl(fileUrl, profileId);
+    if (!savedUrlImage.ok) {
+      console.error(savedUrlImage.error);
+      submitAlert(savedUrlImage.message, "error");
+      return;
+    }
 
+    router.push("/talent-funnel/personal-data");
   };
 
   // Watch actual file input state
@@ -49,11 +76,11 @@ export const UploadImageForm = () => {
         onSubmit={handleSubmit(onPressNext)}
       >
         <Input
-        radius="full"
+          radius="full"
           type="file"
           accept="img"
           label="Select an image"
-          endContent={<IoImageOutline />}
+          endContent={<IoImageOutline size={20} />}
           {...register("image", {
             required: "This field is required to continue",
             // Validate form to file format
@@ -64,7 +91,7 @@ export const UploadImageForm = () => {
                 return "The file must be an image";
               const validFormats = [
                 "image/png",
-                "iage/jpg",
+                "image/jpg",
                 "image/jpeg",
                 "image/gif",
               ];
@@ -76,13 +103,28 @@ export const UploadImageForm = () => {
           isInvalid={!!errors.image}
           errorMessage={errors.image?.message}
         />
-        <span className="flex w-full justify-center">
+        <span className="flex flex-col w-full justify-center items-center">
           <Image
             width={200}
             alt="img"
-            src={filePreview ? filePreview : "/not-profile-image.png"}
+            src={
+              filePreview !== ""
+                ? filePreview
+                : imageUrl
+                  ? imageUrl
+                  : "/not-profile-image.png"
+            }
             className="bg-slate-200 aspect-square object-cover"
           />
+          <p
+            className={clsx("text-sm text-blue-600 mt-2", {
+              "text-red-500": !watch("image") && imageUrl,
+            })}
+          >
+            {!watch("image") && imageUrl
+              ? "You have to select an image again"
+              : <ImCheckmark size={20}/>}
+          </p>
         </span>
 
         <NavigateButtons prevLink="/talent-funnel/educational-projects" />

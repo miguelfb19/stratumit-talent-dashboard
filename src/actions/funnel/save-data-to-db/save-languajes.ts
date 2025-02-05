@@ -46,7 +46,6 @@ export const saveLanguajes = async (
     
     }
 
-    throw new Error("Error saving languajes");
   } catch (error) {
     return {
       ok: false,

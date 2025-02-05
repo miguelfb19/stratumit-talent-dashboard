@@ -35,7 +35,6 @@ export const createProfile = async (userId: string) => {
     }
     
   } catch (error) {
-    console.log(error)
     return {
       ok: false,
       message: "Error creating profile",

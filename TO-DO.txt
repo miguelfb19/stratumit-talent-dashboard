@@ -1,0 +1,3 @@
+
+Revisar los errores lanzados en login
+agregar el rol talent en create profiles

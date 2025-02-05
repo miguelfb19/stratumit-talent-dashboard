@@ -32,10 +32,9 @@ import { useRouter } from "next/navigation";
 // Data and utils
 
 import { columnsToJobsInformationOnFunnel } from "@/data/funnel-data";
-import {JobExperiences} from "@/interfaces/funnel"
+import { JobExperiences } from "@/interfaces/funnel";
 import { submitAlert } from "@/utils/alerts";
 import { saveJobExperiences } from "@/actions/funnel/save-data-to-db/save-job-experiences";
-
 
 interface Props {
   profileId: string;
@@ -99,11 +98,9 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
     if (!savedJobs)
       return submitAlert("You must fill in at least one field", "error");
 
-    const savedData = await saveJobExperiences(profileId, savedJobs)
+    const savedData = await saveJobExperiences(profileId, savedJobs);
 
-    console.log(savedData)
-    if(!savedData.ok) submitAlert(savedData.message, 'error')
-
+    if (!savedData.ok) submitAlert(savedData.message, "error");
 
     router.push("/talent-funnel/educational-projects");
   };
@@ -112,7 +109,7 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
     <>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
         <div id="table-button-container" className="flex flex-col gap-5 p-3">
-          {(savedJobs && savedJobs[0]?.company ) && (
+          {savedJobs && savedJobs[0]?.company && (
             <Table aria-label="Example table with dynamic content">
               <TableHeader columns={columnsToJobsInformationOnFunnel}>
                 {(column) => (

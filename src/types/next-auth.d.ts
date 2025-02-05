@@ -21,6 +21,7 @@ declare module "next-auth" {
         phoneNumber: string | null;
         timezone: string | null;
         userId: string
+        imageUrl: string | null;
       } | null
     } & DefaultSession["user"];
   }

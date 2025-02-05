@@ -86,16 +86,17 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
 
   // This function ends all proccess, sendding the information where i a tell it
   const onPressNext = async () => {
+    // Handle error
     if (!savedProjects || savedProjects.length === 0)
       return submitAlert("You must fill in at least one field", "error");
 
-    console.log(savedProjects);
-
+    // save data on db
     const savedData = await saveEducationalProjects(profileId, savedProjects);
 
-    console.log(savedData);
+    // Handle errors on db saved
     if (!savedData.ok) submitAlert(savedData.message, "error");
 
+    // Next step
     router.push("/talent-funnel/upload-profile-image");
   };
 

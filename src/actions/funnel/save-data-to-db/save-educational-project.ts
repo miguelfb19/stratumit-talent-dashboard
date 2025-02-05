@@ -41,7 +41,6 @@ export const saveEducationalProjects = async (
       data: savedData,
     };
   } catch (error) {
-    console.log(error);
     return {
       ok: false,
       message: "500 Error saving data",

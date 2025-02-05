@@ -49,7 +49,6 @@ model User {
   createdDate DateTime @default(now())
   roles       Role[]   @default([user])
   isVerified  Boolean  @default(false)
-  imageUrl    String?
 
   // Relations
 
@@ -61,6 +60,7 @@ model Profile {
   motivationText String?
   timezone       String?
   phoneNumber    String?
+  imageUrl       String?
 
   // Relations
 
@@ -133,12 +133,12 @@ model JobExperiences {
 }
 
 model EducationalProject {
-  id               String    @id @default(uuid())
-  projectName      String
-  description      String
-  startDate        DateTime
-  finishDate       DateTime?
-  link             String?
+  id          String    @id @default(uuid())
+  projectName String
+  description String
+  startDate   DateTime
+  finishDate  DateTime?
+  link        String?
 
   // Relations 
 
