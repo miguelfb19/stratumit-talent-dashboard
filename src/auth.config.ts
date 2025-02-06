@@ -4,6 +4,7 @@ import { z } from "zod";
 import prisma from "./lib/prisma";
 import bcryptjs from "bcryptjs";
 import { isPasswordHashed } from "./utils/isPasswordHashed";
+import { permissions } from "./data/seed/seed-data";
 
 export const authConfig = {
   pages: {
@@ -12,48 +13,6 @@ export const authConfig = {
   },
   session: {
     strategy: "jwt",
-  },
-  callbacks: {
-    // This callbacks allow me insert information user in client
-    jwt({ token, user }) {
-      // Add user information in token
-      if (user) {
-        token.data = user;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      // Search user in DB
-      const user = await prisma.user.findFirst({
-        where: { email: token.email! },
-      });
-
-      // Search profile in DB
-      const profile = await prisma.profile.findFirst({
-        where: { userId: user?.id },
-      });
-
-      // Add user and profile information in session
-
-      if (!profile) {
-        session.user = token.data as any;
-        session.user.profile = null;
-      } else {
-        session.user = token.data as any;
-
-        session.user.profile = {
-          ...profile,
-          phoneNumber: profile.phoneNumber ?? null,
-          timezone: profile.timezone ?? null,
-          imageUrl: profile.imageUrl ?? null
-        };
-      }
-
-      // Extre verification the roles in case of changes on DB
-      if (user) session.user.roles = user.roles;
-
-      return session;
-    },
   },
   providers: [
     Credentials({
@@ -97,6 +56,60 @@ export const authConfig = {
       },
     }),
   ],
+  callbacks: {
+    // This callbacks allow me insert information user in client
+    jwt({ token, user }) {
+      // Add user information in token
+      if (user) {
+        token.data = user;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Search user in DB
+      const user = await prisma.user.findFirst({
+        where: { email: token.email! },
+        include: {
+          roles: {
+            select: {
+              role: {
+                include: { permissions: { include: { permission: true } } },
+              },
+            },
+          },
+        },
+      });
+
+      // Search profile in DB
+      const profile = await prisma.profile.findFirst({
+        where: { userId: user?.id },
+      });
+
+      // TRANSFORM AND GET ROLES AND PERMISSIONS
+      const modifiedRoles = user!.roles.map((userRole) => userRole.role.name);
+
+      // Add user and profile information in session
+      if (!profile) {
+        session.user = token.data as any;
+        session.user.profile = null;
+      } else {
+        session.user = token.data as any;
+
+        session.user.profile = {
+          ...profile,
+          phoneNumber: profile.phoneNumber ?? null,
+          timezone: profile.timezone ?? null,
+          imageUrl: profile.imageUrl ?? null,
+          profileCompleted: profile.profileCompleted,
+        };
+      }
+
+      // Extra verification the roles in case of changes on DB
+      if (user) session.user.roles = modifiedRoles;
+
+      return session;
+    },
+  },
 } satisfies NextAuthConfig;
 
 export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);

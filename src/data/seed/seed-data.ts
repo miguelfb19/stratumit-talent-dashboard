@@ -168,15 +168,38 @@ export const technologies: { name: string; category: TechCategory }[] = [
   { name: "Linux", category: "Others" },
 ];
 
-const roles1: Role[] = ["admin"];
-const roles2: Role[] = ["talent"];
+export const roles = ["Admin", "Talent", "User"];
+
+export const permissions = [
+  "read_users",
+  "edit_users",
+  "delete_users",
+  "manage_roles",
+  "view_dashboard",
+  "view_adminPage",
+];
+
+export const rolePermissions = [
+  {
+    role: "Admin",
+    permissions: permissions,
+  },
+  {
+    role: "Talent",
+    permissions: ["view_dashboard"],
+  },
+  {
+    role: "User",
+    permissions: ["view_dashboard"],
+  },
+];
 
 export const users = [
   {
     firstName: "Miguel Angel",
     lastName: "Fernandez",
     email: "miguelangelfb19@utp.edu.co",
-    roles: roles1,
+    role: "Admin",
     birthDate: new Date("1995-01-19"),
     password: bcryptjs.hashSync("miguel123"),
     country: "Colombia",
@@ -186,7 +209,7 @@ export const users = [
     firstName: "Johan David",
     lastName: "Bedoya",
     email: "johan.bedoya12@gmail.com",
-    roles: roles2,
+    role: "Talent",
     birthDate: new Date("1998-02-11"),
     password: bcryptjs.hashSync("johan123"),
     country: "Colombia",

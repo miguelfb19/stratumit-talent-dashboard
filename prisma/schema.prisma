@@ -50,11 +50,12 @@ model User {
 }
 
 model Profile {
-  id             String  @id @default(uuid())
-  motivationText String?
-  timezone       String?
-  phoneNumber    String?
-  imageUrl       String?
+  id              String  @id @default(uuid())
+  motivationText  String?
+  timezone        String?
+  phoneNumber     String?
+  imageUrl        String?
+  profileCompleted Boolean @default(false)
 
   // Relations
 

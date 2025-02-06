@@ -1,17 +1,9 @@
 "use client";
 
 import { Button } from "@heroui/react";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { signOut } from "next-auth/react";
 
 export default function ProfilePage() {
-  const router = useRouter();
-  const { data: session } = useSession();
-
-  // useEffect(() => {
-  //   if (!session) router.push("/auth/login");
-  // }, []);
 
   const logoutSession = async () => {
     await signOut({ redirectTo: "/auth/login" });

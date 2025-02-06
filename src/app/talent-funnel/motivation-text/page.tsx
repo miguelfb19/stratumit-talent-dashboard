@@ -10,11 +10,13 @@ export default async function NamePage() {
 
   const profileDB = await createProfile(session?.user.id as string);
 
-  const { profile, ok } = profileDB;
+  const { profile, ok, errorDetail } = profileDB;
 
   if (!session) return <NotUserError />;
-  if (!ok || !profile) return <NotProfileError />;
-
+  if (!ok || !profile){
+    console.error(errorDetail);
+    return <NotProfileError redirectUrl="/auth/login"/>;
+  } 
   const resp = await getMotivationtext(profile.id);
   const { data } = resp;
 

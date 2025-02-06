@@ -10,6 +10,7 @@ export const getPersonalData = async (userId: string) => {
       },
       include: {
         profile: true,
+        roles: true,
       },
     });
 
@@ -39,7 +40,7 @@ export const getPersonalData = async (userId: string) => {
         },
       };
     } else {
-      const { motivationText, timezone, phoneNumber, imageUrl, id } = profile;
+      const { motivationText, timezone, phoneNumber, imageUrl, id, profileCompleted } = profile;
       // return user with profile
       return {
         ok: true,
@@ -57,6 +58,7 @@ export const getPersonalData = async (userId: string) => {
             timezone,
             phoneNumber,
             imageUrl,
+            profileCompleted
           },
         },
       };

@@ -1,7 +1,6 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { Role } from "@prisma/client";
 
 export const createProfile = async (userId: string) => {
   try {
@@ -10,18 +9,38 @@ export const createProfile = async (userId: string) => {
       where: {
         id: userId,
       },
-      include: { profile: true },
+      include: { profile: true, roles: true },
     });
 
+    if (!user) throw new Error("User not found");
+
+    // Get Talent rol id from DB
+    const talentRole = await prisma.role.findUnique({
+      where: {
+        name: "Talent",
+      },
+    });
+    if (!talentRole) throw new Error("Talent role not found");
+
+    // Get user roles
+    const userRoles = user.roles.map((role) => role.roleId);
+
     // Add new 'talent' role if user is not admin
-    if (!user?.roles.includes("admin")) {
-      const newRoles: Role[] = ["talent"];
+    if (!userRoles.includes(talentRole.id)) {
       await prisma.user.update({
         where: {
           id: userId,
         },
         data: {
-          roles: newRoles,
+          roles: {
+            create: {
+              role: {
+                connect: {
+                  id: talentRole.id,
+                },
+              },
+            },
+          },
         },
       });
     }

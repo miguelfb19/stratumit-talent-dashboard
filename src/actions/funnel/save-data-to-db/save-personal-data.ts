@@ -18,6 +18,7 @@ export const savePersonalData = async (userId: string, data: PersonalData) => {
           update: {
             phoneNumber: data.phoneNumber,
             timezone: data.timezone,
+            profileCompleted: true,
           },
         },
       },
@@ -30,6 +31,7 @@ export const savePersonalData = async (userId: string, data: PersonalData) => {
           select: {
             phoneNumber: true,
             timezone: true,
+            profileCompleted: true,
           },
         },
       },

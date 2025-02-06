@@ -15,13 +15,14 @@ declare module "next-auth" {
       isVerified: boolean;
       imageUrl?: string;
       createdDate: Date;
-      roles: string[];
+      roles: string[]
       profile: {
         id: string;
         phoneNumber: string | null;
         timezone: string | null;
         userId: string
         imageUrl: string | null;
+        profileCompleted: boolean;
       } | null
     } & DefaultSession["user"];
   }

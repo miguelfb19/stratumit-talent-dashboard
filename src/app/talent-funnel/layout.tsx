@@ -12,13 +12,16 @@ export default async function FunnelLayout({
   children: React.ReactNode;
 }) {
 
+  // get session
   const session = await auth();
   if (!session) redirect("/auth/login");
 
+  // Get personal data from DB
   const personalData = await getPersonalData(session.user.id)
   const {user} = personalData
 
-  if(user?.profile?.timezone) redirect('/dashboard/profile?dataComplete=true')
+  // If profile is complete. redirect to user dashboard
+  if(user?.profile?.profileCompleted) redirect('/dashboard/profile?profileComplete=true')
 
   return (
     <div

@@ -17,10 +17,12 @@ interface Props {
 }
 
 export const PersonalDataForm = ({ userData, userId }: Props) => {
+  // Handle indicative changes
   const [indicative, setIndicative] = useState("+1");
 
   const router = useRouter();
 
+  // Use form to handle form
   const {
     handleSubmit,
     register,
@@ -42,12 +44,14 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
         },
   });
 
+  // Handle indicative changes
   const handleIndicative = (country: string) => {
     const selectedCountry = countries.find((item) => item.name === country);
 
     return selectedCountry ? selectedCountry.indicative : "+1"
   };
 
+  // To set indicative in the phoneNumber input
   useEffect(() => {
     setIndicative(handleIndicative(watch('country')))
   }, [watch('country')])
@@ -66,13 +70,16 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
     // Add indicative to number
     data.phoneNumber = indicative+data.phoneNumber
 
+    // Save in DB
     const savedData = await savePersonalData(userId, data);
 
+    // In case of errors
     if (!savedData.ok) {
       submitAlert(savedData.message, "error");
       console.error(savedData.error);
     }
 
+    // Redirect to user dashboard
     router.push("/dashboard/profile");
   };
 
