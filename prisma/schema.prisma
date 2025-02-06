@@ -32,23 +32,17 @@ enum CategoryTech {
   Others
 }
 
-enum Role {
-  user
-  talent
-  admin
-}
-
 model User {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   firstName   String
   lastName    String
   email       String
   password    String
   birthDate   DateTime
   country     String
-  createdDate DateTime @default(now())
-  roles       Role[]   @default([user])
-  isVerified  Boolean  @default(false)
+  createdDate DateTime   @default(now())
+  roles       UserRole[]
+  isVerified  Boolean    @default(false)
 
   // Relations
 
@@ -65,7 +59,7 @@ model Profile {
   // Relations
 
   // one-to-one relation with User
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
   careerTimeline      JobExperiences[]
@@ -98,10 +92,10 @@ model Languaje {
 }
 
 model ProfileTechnologies {
-  profile   Profile @relation(fields: [profileId], references: [id])
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId String
 
-  technology   Technology @relation(fields: [technologyId], references: [id])
+  technology   Technology @relation(fields: [technologyId], references: [id], onDelete: Cascade)
   technologyId String
 
   // Composite primary key to avoid duplicates
@@ -128,7 +122,7 @@ model JobExperiences {
 
   // Relations 
 
-  profile   Profile? @relation(fields: [profileId], references: [id])
+  profile   Profile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId String?
 }
 
@@ -142,6 +136,39 @@ model EducationalProject {
 
   // Relations 
 
-  profile   Profile? @relation(fields: [profileId], references: [id])
+  profile   Profile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId String?
+}
+
+model Role {
+  id          String           @id @default(uuid())
+  name        String           @unique
+  permissions RolePermission[]
+  users       UserRole[]
+}
+
+model Permission {
+  id    String           @id @default(uuid())
+  name  String           @unique
+  roles RolePermission[]
+}
+
+model UserRole {
+  userId String
+  roleId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
 }

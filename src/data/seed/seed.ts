@@ -12,31 +12,31 @@ async function main() {
     await prisma.profile.deleteMany();
     await prisma.user.deleteMany();
 
-    // Create seed data
-    await prisma.user.createMany({
-      data: users,
-    });
+    // // Create seed data
+    // await prisma.user.createMany({
+    //   data: users,
+    // });
 
-    // Create languajes
-    for (const languaje of languajes) {
-      await prisma.languaje.create({
-        data: {
-          name: languaje,
-        },
-      });
-    }
+    // // Create languajes
+    // for (const languaje of languajes) {
+    //   await prisma.languaje.create({
+    //     data: {
+    //       name: languaje,
+    //     },
+    //   });
+    // }
 
-    // Create technologies with his respective category
-    technologies.map(async (technology) => {
-      const { category, name } = technology;
+    // // Create technologies with his respective category
+    // technologies.map(async (technology) => {
+    //   const { category, name } = technology;
 
-      await prisma.technology.createMany({
-        data: {
-          name,
-          category,
-        },
-      });
-    });
+    //   await prisma.technology.createMany({
+    //     data: {
+    //       name,
+    //       category,
+    //     },
+    //   });
+    // });
 
   console.log("seed executed");
 }
