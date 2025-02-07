@@ -28,7 +28,7 @@ export const authenticate = async (data: LoginFormInputs) => {
             ok: false,
           };
         default:
-          return { status: 500, message: "Something went wrong", ok: false };
+          return { status: 500, message: "Something went wrong", ok: false, error };
       }
     }
   }

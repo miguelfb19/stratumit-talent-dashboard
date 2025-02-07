@@ -1,10 +1,9 @@
-import NextAuth, { type NextAuthConfig } from "next-auth";
+import NextAuth, { User, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import prisma from "./lib/prisma";
 import bcryptjs from "bcryptjs";
 import { isPasswordHashed } from "./utils/isPasswordHashed";
-import { permissions } from "./data/seed/seed-data";
 
 export const authConfig = {
   pages: {
@@ -28,9 +27,19 @@ export const authConfig = {
 
         const { email, password } = parsedCredentials.data;
         try {
-          // Search email in DB
+          // Search user in DB and get roles, permissions
           const user = await prisma.user.findFirst({
             where: { email },
+            include: {
+              roles: {
+                select: {
+                  role: {
+                    include: { permissions: { include: { permission: true } } },
+                  },
+                },
+              },
+              profile: true,
+            },
           });
           if (!user) return null;
 
@@ -46,11 +55,49 @@ export const authConfig = {
             if (!bcryptjs.compareSync(password, user.password)) return null;
           }
 
-          // Return user with necesary information
+          // TRANSFORM AND GET ROLES AND PERMISSIONS
+          const roles = user!.roles.map((userRole) => userRole.role.name);
+
+          const permissions = roles.includes("Admin")
+            ? user!.roles
+                .find((role) => role.role.name === "Admin")!
+                .role.permissions.map((permission) => ({
+                  action: permission.permission.name.split("_")[0],
+                  subject: permission.permission.name.split("_")[1],
+                }))
+            : user!.roles.flatMap((role) =>
+                role.role.permissions.map((permission) => ({
+                  action: permission.permission.name.split("_")[0],
+                  subject: permission.permission.name.split("_")[1],
+                }))
+              );
+
+          // Create information complete to return
           const { password: _, ...rest } = user;
-          return rest;
-        } catch {
-          // console.error(error);
+          const userToReturn = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            birthDate: user.birthDate,
+            country: user.country,
+            isVerified: user.isVerified,
+            createdDate: user.createdDate,
+            roles: roles,
+            permissions: permissions,
+            profile: user.profile
+              ? {
+                  id: user.profile.id,
+                  phoneNumber: user.profile.phoneNumber,
+                  timezone: user.profile.timezone,
+                  imageUrl: user.profile.imageUrl,
+                  profileCompleted: user.profile.profileCompleted,
+                }
+              : null,
+          };
+          return userToReturn;
+        } catch (error) {
+          console.error(error);
           return null;
         }
       },
@@ -58,37 +105,22 @@ export const authConfig = {
   ],
   callbacks: {
     // This callbacks allow me insert information user in client
-    jwt({ token, user }) {
-      // Add user information in token
+    async jwt({ token, user }) {
+      // Add information user info to token
       if (user) {
         token.data = user;
       }
+
+      // Return token to session
       return token;
     },
     async session({ session, token }) {
-      // Search user in DB
-      const user = await prisma.user.findFirst({
-        where: { email: token.email! },
-        include: {
-          roles: {
-            select: {
-              role: {
-                include: { permissions: { include: { permission: true } } },
-              },
-            },
-          },
-        },
-      });
-
       // Search profile in DB
       const profile = await prisma.profile.findFirst({
-        where: { userId: user?.id },
+        where: { userId: token.sub },
       });
 
-      // TRANSFORM AND GET ROLES AND PERMISSIONS
-      const modifiedRoles = user!.roles.map((userRole) => userRole.role.name);
-
-      // Add user and profile information in session
+      // Re-validation profile information in session
       if (!profile) {
         session.user = token.data as any;
         session.user.profile = null;
@@ -104,9 +136,47 @@ export const authConfig = {
         };
       }
 
-      // Extra verification the roles in case of changes on DB
-      if (user) session.user.roles = modifiedRoles;
+      // Extra verification the roles in case of changes on DB, change role in real time
 
+      const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        include: {
+          roles: {
+            include: {
+              role: {
+                include: {
+                  permissions: {
+                    include: {
+                      permission: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      // TRANSFORM AND GET ROLES AND PERMISSIONS
+      const roles = user!.roles.map((userRole) => userRole.role.name);
+
+      const permissions = roles.includes("Admin")
+        ? user!.roles
+            .find((role) => role.role.name === "Admin")!
+            .role.permissions.map((permission) => ({
+              action: permission.permission.name.split("_")[0],
+              subject: permission.permission.name.split("_")[1],
+            }))
+        : user!.roles.flatMap((role) =>
+            role.role.permissions.map((permission) => ({
+              action: permission.permission.name.split("_")[0],
+              subject: permission.permission.name.split("_")[1],
+            }))
+          );
+
+      if (user) {
+        session.user.roles = roles
+        session.user.permissions = permissions
+      }
       return session;
     },
   },

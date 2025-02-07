@@ -44,7 +44,10 @@ export const LoginForm = () => {
     try {
       
       const login = await authenticate(data);
-      if (!login?.ok) submitAlert(login?.message!, "error");
+      if (!login?.ok){
+        submitAlert(login?.message!, "error");
+        console.error(login?.error)
+      } 
       else router.push("/talent-funnel/motivation-text");
     } catch (error) {
       console.error(error)

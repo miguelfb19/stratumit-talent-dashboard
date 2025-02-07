@@ -1,30 +1,30 @@
-// Here i define the types to user Session acordding to data from DB
-
-import { DefaultSession } from "next-auth";
-
+import { DefaultSession, DefaultUser, DefaultJWT } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
-    user: {
+    user: User; // Re-usage the user interface
+  }
+
+  interface User extends DefaultUser {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    birthDate: Date;
+    country: string;
+    isVerified: boolean;
+    createdDate: Date;
+    roles: string[];
+    permissions: {
+      action: string;
+      subject: string;
+    }[];
+    profile: {
       id: string;
-      firstName: string;
-      lastName: string;
-      email: string;
-      birthDate: Date;
-      country: string;
-      isVerified: boolean;
-      imageUrl?: string;
-      createdDate: Date;
-      roles: string[]
-      profile: {
-        id: string;
-        phoneNumber: string | null;
-        timezone: string | null;
-        userId: string
-        imageUrl: string | null;
-        profileCompleted: boolean;
-      } | null
-    } & DefaultSession["user"];
+      phoneNumber: string | null;
+      timezone: string | null;
+      imageUrl: string | null;
+      profileCompleted: boolean;
+    } | null;
   }
 }
-
