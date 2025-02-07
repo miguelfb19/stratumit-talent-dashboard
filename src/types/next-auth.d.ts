@@ -1,4 +1,5 @@
-import { DefaultSession, DefaultUser, DefaultJWT } from "next-auth";
+import { DefaultSession, DefaultUser } from "next-auth";
+import { DefaultJWT } from "next-auth/jwt";
 
 declare module "next-auth" {
   interface Session {
@@ -27,4 +28,10 @@ declare module "next-auth" {
       profileCompleted: boolean;
     } | null;
   }
+
+  // declare module "next-auth/jwt" {
+  //   interface JWT extends DefaultJWT{
+  //     data: User;
+  //   }
+  // }
 }

@@ -6,29 +6,32 @@ import { AuthError } from "next-auth";
 
 export const authenticate = async (data: LoginFormInputs) => {
   try {
-
     // This extre step were 'cause signIn expect an object {email, password}
     const { email, password } = data;
-    await signIn("credentials", {
+    const login = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
 
-    return { status: 200, message: "Login success", ok: true}
+    return { status: 200, message: "Login success", ok: true };
   } catch (error) {
-    console.error(error);
     if (error instanceof AuthError) {
-      console.error("error de AuthError: ", error);
       switch (error.type) {
         case "CredentialsSignin":
           return {
             status: 401,
-            message: "Incorrect credentials",
+            message: "Invalid credentials",
             ok: false,
+            error,
           };
         default:
-          return { status: 500, message: "Something went wrong", ok: false, error };
+          return {
+            status: 500,
+            message: "Something went wrong, try again later.",
+            ok: false,
+            error,
+          };
       }
     }
   }

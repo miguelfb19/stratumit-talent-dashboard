@@ -1,4 +1,4 @@
-import NextAuth, { User, type NextAuthConfig } from "next-auth";
+import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import prisma from "./lib/prisma";
@@ -21,8 +21,7 @@ export const authConfig = {
           .safeParse(credentials);
 
         if (!parsedCredentials.success) {
-          console.error("Invalid credentials:", parsedCredentials.error);
-          return null;
+          return null
         }
 
         const { email, password } = parsedCredentials.data;
@@ -41,18 +40,18 @@ export const authConfig = {
               profile: true,
             },
           });
-          if (!user) return null;
+          if (!user) return null
 
           // Check if email is verified with verification token sended to email
-          if (user.isVerified === false) return null;
+          if (user.isVerified === false) return null
 
           // Compare passwords
           // If password is hashed (because comes from verification token), make the verification with equality operator
           if (isPasswordHashed(password)) {
-            if (password !== user.password) return null;
+            if (password !== user.password) return null
           } else {
             // If password isn't hashed ('cause comes from login form), make the comparison with bcryptjs
-            if (!bcryptjs.compareSync(password, user.password)) return null;
+            if (!bcryptjs.compareSync(password, user.password)) return null
           }
 
           // TRANSFORM AND GET ROLES AND PERMISSIONS
@@ -73,7 +72,6 @@ export const authConfig = {
               );
 
           // Create information complete to return
-          const { password: _, ...rest } = user;
           const userToReturn = {
             id: user.id,
             firstName: user.firstName,
@@ -97,8 +95,7 @@ export const authConfig = {
           };
           return userToReturn;
         } catch (error) {
-          console.error(error);
-          return null;
+          return null
         }
       },
     }),
