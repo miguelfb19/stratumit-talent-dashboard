@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
 
   // Define protected routes
   const protectedRoutes = [
-    { path: "/dashboard/admin", action: "view", subject: "adminPage" },
+    { path: "/admin", action: "view", subject: "adminPage" },
     { path: "/dashboard", action: "view", subject: "dashboard" },
   ];
 
@@ -33,5 +33,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/admin/:path*", "/dashboard/:path*"], // Protected routes
+  matcher: ["/admin/:path*", "/dashboard/:path*"], // Protected routes
 };

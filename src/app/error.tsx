@@ -6,10 +6,8 @@ import { useEffect } from "react";
 
 export default function Error({
   error,
-  reset,
 }: {
   error: Error;
-  reset: () => void;
 }) {
   const router = useRouter()
   useEffect(() => {
@@ -26,7 +24,7 @@ export default function Error({
           <Button
             as={Link}
             fullWidth
-            onPress={()=>reset()}
+            onPress={()=>router.refresh()}
           >
             Try again
           </Button>

@@ -1,6 +1,5 @@
 import { AbilityBuilder } from "@casl/ability";
 import { createPrismaAbility } from "@casl/prisma";
-import prisma from "./prisma";
 
 export async function defineAbilityFor(
   permissions: {

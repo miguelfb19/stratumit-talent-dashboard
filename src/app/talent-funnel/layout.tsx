@@ -17,7 +17,7 @@ export default async function FunnelLayout({
   if (!session) redirect("/auth/login");
 
   // Get personal data from DB
-  const personalData = await getPersonalData(session.user.id)
+  const personalData = await getPersonalData(session.user.id!)
   const {user} = personalData
 
   // If profile is complete. redirect to user dashboard
