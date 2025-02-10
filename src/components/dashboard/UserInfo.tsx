@@ -10,14 +10,14 @@ export const UserInfo = ({user, isAdmin = false}:Props) => {
   return (
     <div
       id="container"
-      className="grid grid-rows-[auto_1fr] items-start text-center w-full h-full rounded-xl p-10 ml-10 gap-14 mt-10"
+      className="grid grid-rows-[auto_1fr] items-start text-center w-10/12 h-4/6 rounded-xl p-10 gap-14 bg-white shadow-2xl shadow-black"
     >
       <h1 className={clsx("w-full text-4xl font-bold text-blue-700 text-center", {
         "text-blue-900": isAdmin
       })}>
         {isAdmin ? "Admin information" : "User information"}
       </h1>
-      <section id="principal-information" className="grid grid-cols-2 h-full">
+      <section id="principal-information" className="grid grid-cols-2 h-full justify-items-center">
         <div id="col-1" className="flex flex-col items-start gap-4">
           <span>
             <b>First Name: </b>

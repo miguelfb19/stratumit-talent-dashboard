@@ -22,8 +22,7 @@ export async function Sidebar({menuItems, bgVariant='bg-slate-600'}:Props) {
   return (
     <div
       id="sidebar"
-      style={{ width: "400px" }}
-      className={`grid grid-rows-[1fr_auto] ${bgVariant} z-10 text-slate-300 w-64 left-0 h-screen overflow-y-auto`}
+      className={`grid grid-rows-[1fr_auto] ${bgVariant} z-10 text-slate-300 min-w-72 left-0 h-screen overflow-y-auto`}
     >
       <div id="superior-section" className="mb-10">
         <div id="logo" className="my-4 px-6">

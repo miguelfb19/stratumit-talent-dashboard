@@ -8,5 +8,9 @@ export default async function AdminProfilePage() {
 
   const { user } = session;
 
-  return <UserInfo user={user} isAdmin/>;
+  return (
+    <div className="w-full h-screen flex items-center justify-center bg-slate-700">
+      <UserInfo user={user} isAdmin />
+    </div>
+  );
 }
