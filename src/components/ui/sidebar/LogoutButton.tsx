@@ -1,12 +1,12 @@
 "use client";
 
-import { signOut } from "@/auth.config";
+import { logout } from "@/actions/auth/logout";
 import React from "react";
 import { IoLogOut } from "react-icons/io5";
 
 export const LogoutButton = () => {
   const logoutSession = async () => {
-    await signOut({ redirectTo: "/auth/login" });
+    await logout()
   };
   return (
     <button

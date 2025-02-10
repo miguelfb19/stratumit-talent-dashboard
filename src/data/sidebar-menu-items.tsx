@@ -1,4 +1,4 @@
-import { IoAnalytics, IoBrowsersOutline, IoDesktop, IoPerson } from "react-icons/io5";
+import { IoAnalytics, IoBrowsersOutline, IoDesktop, IoPeople, IoPeopleCircle, IoPerson } from "react-icons/io5";
 import { BiSolidUserRectangle } from "react-icons/bi";
 
 
@@ -27,10 +27,16 @@ export const menuItemsAdmin = [
     subtitle: 'Admin information'
   },
   {
-    path: "/admin/users",
+    path: "/admin/manage-users",
     title: "Users",
-    icon: <IoPerson size={27}/>,
+    icon: <IoPeople size={27}/>,
     subtitle: 'View users'
+  },
+  {
+    path: "/admin/manage-roles",
+    title: "Roles",
+    icon: <IoPeopleCircle size={27}/>,
+    subtitle: 'Manage roles'
   },
   {
     path: "/admin/analitycs",
