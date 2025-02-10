@@ -31,6 +31,7 @@ export const SidebarMenuItem = ({ path, icon, title, subtitle }: Props) => {
   return (
     <>
       {path === "/admin" ? (
+        // Validate if user is admin, to show admin dashboard menu option or not
         <Can I="view" this="adminPage" ability={ability!}>
           <Link
             href={path}
