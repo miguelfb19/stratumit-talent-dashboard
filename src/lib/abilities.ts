@@ -1,5 +1,7 @@
-import { AbilityBuilder } from "@casl/ability";
-import { createPrismaAbility } from "@casl/prisma";
+import { AbilityBuilder, AbilityTuple, PureAbility } from "@casl/ability";
+import { createPrismaAbility, PrismaQuery } from "@casl/prisma";
+
+export type AbilityType = PureAbility<AbilityTuple ,PrismaQuery>
 
 export async function defineAbilityFor(
   permissions: {

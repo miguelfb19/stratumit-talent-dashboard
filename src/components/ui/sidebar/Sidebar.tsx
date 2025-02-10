@@ -2,23 +2,28 @@ import Image from "next/image";
 import { SidebarMenuItem } from "./SidebarMenuItem";
 import { auth } from "@/auth.config";
 import { redirect } from "next/navigation";
-import { LogoutButton } from './LogoutButton';
+import { LogoutButton } from "./LogoutButton";
 import { MenuItems } from "@/interfaces/menu-items";
+import { Can } from "@casl/react";
 
-type bgVariant = 'bg-slate-700' | 'bg-slate-500' | 'bg-slate-900' | 'bg-slate-600'
+type bgVariant =
+  | "bg-slate-700"
+  | "bg-slate-500"
+  | "bg-slate-900"
+  | "bg-slate-600";
 
 interface Props {
-  menuItems: MenuItems[]
-  bgVariant?: bgVariant
+  menuItems: MenuItems[];
+  bgVariant?: bgVariant;
 }
 
-export async function Sidebar({menuItems, bgVariant='bg-slate-600'}:Props) {
+export async function Sidebar({
+  menuItems,
+  bgVariant = "bg-slate-600",
+}: Props) {
   const session = await auth();
   if (!session) redirect("/auth/login");
   const { user } = session;
-
- 
-
   return (
     <div
       id="sidebar"
@@ -49,10 +54,10 @@ export async function Sidebar({menuItems, bgVariant='bg-slate-600'}:Props) {
               />
             </span>
             <div className="flex flex-col">
-                <p className="text-slate-400">Welcome back,</p>
-                <span className="text-sm md:text-base font-bold">
-                  {user.firstName}
-                </span>
+              <p className="text-slate-400">Welcome back,</p>
+              <span className="text-sm md:text-base font-bold">
+                {user.firstName}
+              </span>
             </div>
           </span>
         </div>

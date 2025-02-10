@@ -6,6 +6,7 @@ import { Providers } from "../providers/providers";
 import { SessionProvider } from "next-auth/react";
 
 import { fontSans } from "@/config/fonts";
+import { AbilityProvider } from "@/providers/AbilityProvider";
 
 export const metadata: Metadata = {
   title: "Bootcamp Stratum IT",
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 //   ],
 // };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -38,7 +39,9 @@ export default function RootLayout({
       >
         <Providers themeProps={{ defaultTheme: "light" }}>
           <main>
-            <SessionProvider>{children}</SessionProvider>
+            <SessionProvider>
+              <AbilityProvider>{children}</AbilityProvider>
+            </SessionProvider>
           </main>
         </Providers>
       </body>
