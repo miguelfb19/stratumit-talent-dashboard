@@ -21,7 +21,7 @@ export const LoginForm = () => {
     register,
     handleSubmit,
   } = useForm<LoginFormInputs>();
-  
+
   useEffect(() => {
     // If user recently verified his email, we'll show success verified message
     const loginError = params.get("loginerror");
@@ -32,7 +32,7 @@ export const LoginForm = () => {
     const verified = params.get("verified");
     if (verified) submitAlert("Email verified successly", "success");
   }, []);
-  
+
   // Password reveal button (Eye)
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [isVisible, setIsVisible] = useState(false);
@@ -40,19 +40,15 @@ export const LoginForm = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const onLogin = async (data: LoginFormInputs) => {
-
     try {
-      
       const login = await authenticate(data);
-      if (!login?.ok){
+      if (!login?.ok) {
         submitAlert(login?.message!, "error");
-        console.error(login?.error)
-      } 
-      else router.push("/talent-funnel/motivation-text");
+        console.error(login?.error);
+      } else router.push("/talent-funnel/motivation-text");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-
   };
 
   return (
@@ -145,6 +141,9 @@ export const LoginForm = () => {
           <Link href="/auth/register" size="sm">
             Register
           </Link>
+        </span>
+        <span className="w-full text-sm text-center">
+          Go back to <Link href="/" className="text-sm">home</Link>
         </span>
       </Form>
     </div>
