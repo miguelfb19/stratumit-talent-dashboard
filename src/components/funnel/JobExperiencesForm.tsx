@@ -102,7 +102,8 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
 
     if (!savedData.ok) submitAlert(savedData.message, "error");
 
-    router.push("/talent-funnel/educational-projects");
+    window.location.replace('/talent-funnel/educational-projects')
+
   };
 
   return (

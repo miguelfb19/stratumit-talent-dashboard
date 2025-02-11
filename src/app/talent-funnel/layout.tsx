@@ -1,6 +1,7 @@
 import { getPersonalData } from "@/actions/funnel/get-data-from-db/get-personal-data";
 import { auth } from "@/auth.config";
 import { redirect } from "next/navigation";
+import { GoToDashboardButton } from '../../components/funnel/GoToDashboard';
 
 export const metadata = {
   title: "Talent information",
@@ -21,7 +22,7 @@ export default async function FunnelLayout({
   const {user} = personalData
 
   // If profile is complete. redirect to user dashboard
-  if(user?.profile?.profileCompleted) redirect('/dashboard/profile?profileComplete=true')
+  if(user?.profile?.profileCompleted) redirect('/dashboard/profile')
 
   return (
     <div
@@ -32,6 +33,7 @@ export default async function FunnelLayout({
         id="container"
         className="fade-in flex flex-col items-start justify-center text-center w-2/3 h-2/3 bg-white rounded-xl p-10 gap-5 shadow-2xl shadow-black"
       >
+        <GoToDashboardButton/>
         {children}
       </div>
     </div>

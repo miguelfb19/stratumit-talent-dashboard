@@ -13,7 +13,7 @@ export default async function UploadProfileImageFunnelPage() {
     if (!session?.user.profile) return <NotProfileError />;
 
     // Get data from DB
-    const data = await getPersonalData(session.user.id)
+    const data = await getPersonalData(session.user.id!)
 
     const {user} = data
 
@@ -30,7 +30,7 @@ export default async function UploadProfileImageFunnelPage() {
   return (
     <div className="flex flex-col w-full h-full">
       <h1 className="text-3xl font-bold mb-5 w-full">Personal data</h1>
-      <PersonalDataForm userData={userData ? userData : null} userId={session.user.id}/>
+      <PersonalDataForm userData={userData ? userData : null} userId={session.user.id!}/>
     </div>
   );
 }

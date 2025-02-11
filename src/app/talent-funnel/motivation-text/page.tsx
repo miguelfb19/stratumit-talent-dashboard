@@ -5,7 +5,7 @@ import { getMotivationtext } from "@/actions/funnel/get-data-from-db/get-motivat
 import { NotUserError } from "@/components/funnel/error/NotUserError";
 import { NotProfileError } from "@/components/funnel/error/NotProfileError";
 
-export default async function NamePage() {
+export default async function MotivationTextPage() {
   const session = await auth();
 
   const profileDB = await createProfile(session?.user.id as string);

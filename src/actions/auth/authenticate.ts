@@ -8,7 +8,7 @@ export const authenticate = async (data: LoginFormInputs) => {
   try {
     // This extre step were 'cause signIn expect an object {email, password}
     const { email, password } = data;
-    const login = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
       redirect: false,

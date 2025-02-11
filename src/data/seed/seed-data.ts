@@ -190,29 +190,39 @@ export const rolePermissions = [
   },
   {
     role: "User",
-    permissions: ["view_dashboard"],
+    permissions: [],
   },
 ];
 
 export const users = [
   {
     firstName: "Miguel Angel",
-    lastName: "Fernandez",
-    email: "miguelangelfb19@utp.edu.co",
+    lastName: "Williams",
+    email: "admin@test.com",
     role: "Admin",
     birthDate: new Date("1995-01-19"),
-    password: bcryptjs.hashSync("miguel123"),
+    password: bcryptjs.hashSync("Miguel123*"),
     country: "Colombia",
     isVerified: true,
   },
   {
-    firstName: "Johan David",
-    lastName: "Bedoya",
-    email: "johan.bedoya12@gmail.com",
+    firstName: "Johan",
+    lastName: "Smith",
+    email: "talent@test.com",
     role: "Talent",
     birthDate: new Date("1998-02-11"),
-    password: bcryptjs.hashSync("johan123"),
-    country: "Colombia",
+    password: bcryptjs.hashSync("Johan123*"),
+    country: "Argentina",
+    isVerified: true,
+  },
+  {
+    firstName: "Carla",
+    lastName: "Johnson",
+    email: "usertest@test.com",
+    role: "User",
+    birthDate: new Date("1998-02-11"),
+    password: bcryptjs.hashSync("Carla123*"),
+    country: "Chile",
     isVerified: true,
   },
 ];

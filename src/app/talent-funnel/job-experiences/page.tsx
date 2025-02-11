@@ -1,4 +1,5 @@
 import { getJobExperiences } from "@/actions/funnel/get-data-from-db/get-job-experiences";
+import { addTalentRole } from "@/actions/funnel/save-data-to-db/add-talent-role";
 import { auth } from "@/auth.config";
 import { NotProfileError } from "@/components/funnel/error/NotProfileError";
 import { NotUserError } from "@/components/funnel/error/NotUserError";
@@ -13,6 +14,9 @@ export default async function JobExperiencesFunnelPage() {
   const { id: profileId } = session.user.profile;
 
   const resp = await getJobExperiences(profileId);
+
+  // In the second step of funnel, we will add the "Talent" role to user
+  await addTalentRole(session.user.id!);
 
   // transform data
 

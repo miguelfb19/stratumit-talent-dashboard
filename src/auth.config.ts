@@ -107,6 +107,57 @@ export const authConfig = {
       if (user) {
         token.data = user;
       }
+      if (!token.sub) {
+        console.error("⚠️ jwt: token.sub is undefined");
+        return token;
+      }
+
+      //Update the permissions when its necesary
+      const dbUser = await prisma.user.findUnique({
+        where: { id: token.sub },
+        include: {
+          roles: {
+            include: {
+              role: {
+                include: {
+                  permissions: {
+                    include: {
+                      permission: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!dbUser){
+        console.error('User not found')
+        return token
+      } 
+
+      // TRANSFORM AND GET ROLES AND PERMISSIONS
+      const roles = dbUser!.roles.map((userRole) => userRole.role.name);
+
+      const permissions = roles.includes("Admin")
+        ? dbUser!.roles
+            .find((role) => role.role.name === "Admin")!
+            .role.permissions.map((permission) => ({
+              action: permission.permission.name.split("_")[0],
+              subject: permission.permission.name.split("_")[1],
+            }))
+        : dbUser!.roles.flatMap((role) =>
+            role.role.permissions.map((permission) => ({
+              action: permission.permission.name.split("_")[0],
+              subject: permission.permission.name.split("_")[1],
+            }))
+          );
+
+          if (dbUser) {
+            (token.data as any).roles = roles;
+            (token.data as any).permissions = permissions;
+          }
 
       // Return token to session
       return token;
