@@ -10,7 +10,7 @@ declare module "next-auth" {
     firstName: string;
     lastName: string;
     email: string;
-    birthDate: Date;
+    birthDate: string;
     country: string;
     isVerified: boolean;
     createdDate: Date;

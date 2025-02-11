@@ -80,7 +80,7 @@ export const authConfig = {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            birthDate: user.birthDate,
+            birthDate: user.birthDate.toDateString(),
             country: user.country,
             isVerified: user.isVerified,
             createdDate: user.createdDate,
@@ -233,4 +233,4 @@ export const authConfig = {
   },
 } satisfies NextAuthConfig;
 
-export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);
+export const { signIn, signOut, auth, handlers } = NextAuth({...authConfig, trustHost: true});

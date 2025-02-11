@@ -40,7 +40,7 @@ export const UserInfo = ({ user, isAdmin = false }: Props) => {
           </span>
           <span>
             <b>Birth Date: </b>
-            {user.birthDate.toDateString().split("T")[0]}
+            {user.birthDate.split("T")[0]}
           </span>
         </div>
         <div className="flex flex-col items-start gap-4" id="col-2">
