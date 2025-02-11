@@ -1,10 +1,11 @@
 "use client";
 
-import { authenticate } from "@/actions/auth/authenticate";
-import { verifyRegisterToken } from "@/actions/auth/verify-register-token";
 import clsx from "clsx";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import { verifyRegisterToken } from "@/actions/auth/verify-register-token";
+import { authenticate } from "@/actions/auth/authenticate";
 
 export default function VerifyPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +28,6 @@ export default function VerifyPage() {
       router.push("/auth/login");
     } else {
       // If everything is ok, show success message, authenticate user and redirect to funnel
-      console.log(verification.user);
       setMessage("Email verified successfully, login...");
       await authenticate({
         email: verification.user!.email,

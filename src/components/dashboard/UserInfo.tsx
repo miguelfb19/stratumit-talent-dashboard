@@ -1,10 +1,7 @@
 "use client";
 
-import { AbilityContext } from "@/providers/AbilityProvider";
-import { Can } from "@casl/react";
 import clsx from "clsx";
 import { User } from "next-auth";
-import { useContext } from "react";
 
 interface Props {
   user: User;
@@ -12,12 +9,10 @@ interface Props {
 }
 
 export const UserInfo = ({ user, isAdmin = false }: Props) => {
-  const ability = useContext(AbilityContext);
-
   return (
     <div
-      id="container"
       className="grid grid-rows-[auto_1fr] items-start text-center w-10/12 h-4/6 rounded-xl p-10 gap-14 bg-white shadow-2xl shadow-black"
+      id="container"
     >
       <h1
         className={clsx("w-full text-4xl font-bold text-blue-700 text-center", {
@@ -27,10 +22,10 @@ export const UserInfo = ({ user, isAdmin = false }: Props) => {
         {isAdmin ? "Admin information" : "User information"}
       </h1>
       <section
-        id="principal-information"
         className="grid grid-cols-2 h-full justify-items-center"
+        id="principal-information"
       >
-        <div id="col-1" className="flex flex-col items-start gap-4">
+        <div className="flex flex-col items-start gap-4" id="col-1">
           <span>
             <b>First Name: </b>
             {user.firstName}
@@ -45,10 +40,10 @@ export const UserInfo = ({ user, isAdmin = false }: Props) => {
           </span>
           <span>
             <b>Birth Date: </b>
-            {user.birthDate.split("T")[0]}
+            {user.birthDate.toDateString().split("T")[0]}
           </span>
         </div>
-        <div id="col-2" className="flex flex-col items-start gap-4">
+        <div className="flex flex-col items-start gap-4" id="col-2">
           <span>
             <b>Last Name: </b>
             {user.lastName}

@@ -20,11 +20,11 @@ export default function ForbiddenPage() {
         </p>
         <Button
           as={Link}
+          className="mt-5"
+          color="primary"
           href={isNotTalent ? "talent-funnel/motivation-text" : "/dashboard"}
           radius="full"
           variant="flat"
-          color="primary"
-          className="mt-5"
         >
           {isNotTalent ? "Go to funnel" : "Ir al dashboard"}
         </Button>

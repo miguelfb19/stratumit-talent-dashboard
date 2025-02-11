@@ -1,10 +1,11 @@
 "use client";
 
-import { defineAbilityFor } from "@/lib/abilities";
 import { AbilityTuple, PureAbility } from "@casl/ability";
 import { PrismaQuery } from "@casl/prisma";
 import { useSession } from "next-auth/react";
 import { createContext, useEffect, useState } from "react";
+
+import { defineAbilityFor } from "@/lib/abilities";
 
 const defaultAbility = new PureAbility<AbilityTuple, PrismaQuery>();
 
@@ -23,6 +24,7 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
     // if (session?.user) update();
     defineAbilityFor(session?.user.permissions || []).then(setAbility);
   }, [session?.user.permissions]);
+
   return (
     <AbilityContext.Provider value={ability}>
       {children}

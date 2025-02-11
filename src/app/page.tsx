@@ -7,24 +7,24 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col justify-center items-center bg-slate-700">
       <div className="grid grid-cols-2 grid-rows-[auto_1fr] gap-10 h-full w-full">
-        <div id="logo" className="flex justify-start pl-20">
+        <div className="flex justify-start pl-20" id="logo">
           <Image src="/logo.png" width={100} />
         </div>
-        <div id="menu" className="flex justify-center items-center">
+        <div className="flex justify-center items-center" id="menu">
           <nav className="rounded-full px-32 py-4 bg-white/20 backdrop-blur-3xl shadow-2xl shadow-gray-50">
             <ul className="flex gap-10 font-bold">
               <li>
                 <Link
-                  href="/auth/register"
                   className="text-white hover:underline hover:text-blue-200 transition-all underline-offset-4"
+                  href="/auth/register"
                 >
                   Register
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/auth/login"
                   className="text-white hover:underline hover:text-blue-200 transition-all underline-offset-4"
+                  href="/auth/login"
                 >
                   Login
                 </Link>
@@ -40,10 +40,10 @@ export default function Home() {
           </p>
         </div>
         <div
-          id="buttons-container"
           className="flex justify-center items-center"
+          id="buttons-container"
         >
-          <Image src="talent_picture.png" width={400} radius="full"></Image>
+          <Image radius="full" src="talent_picture.png" width={400} />
         </div>
       </div>
     </div>

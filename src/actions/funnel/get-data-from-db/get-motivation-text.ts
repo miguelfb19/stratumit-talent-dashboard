@@ -1,7 +1,6 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { ok } from "assert";
 
 export const getMotivationtext = async (profileId: string) => {
   try {

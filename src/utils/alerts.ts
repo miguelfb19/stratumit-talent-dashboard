@@ -32,6 +32,7 @@ export const submitAlert = (
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
+
   Toast.fire({
     icon: icon,
     title: message,

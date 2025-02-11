@@ -1,7 +1,8 @@
 "use server";
 
-import transporter from "@/lib/nodemailer";
 import jwt from "jsonwebtoken";
+
+import transporter from "@/lib/nodemailer";
 
 export const sendVerificationMail = async (email: string) => {
   try {
@@ -34,10 +35,10 @@ export const sendVerificationMail = async (email: string) => {
       message: "Verification email sent successfully",
     };
   } catch (error) {
-    console.error(error);
     return {
       ok: false,
       message: "Error sending verification email",
+      error,
     };
   }
 };

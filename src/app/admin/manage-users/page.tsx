@@ -1,5 +1,6 @@
-import { getUsersFromDb } from "@/actions/admin/get-users";
 import { UsersTable } from "../../../components/admin/ui/UsersTable";
+
+import { getUsersFromDb } from "@/actions/admin/get-users";
 import { submitAlert } from "@/utils/alerts";
 
 const tableColumns = [
@@ -17,6 +18,7 @@ export default async function ManageUsersPage() {
 
   if (!res.ok || !res.users) {
     submitAlert(res.message, "error");
+
     return (
       <div className="text-red-600 text-2xl w-full text-center mt-10">
         {res.message}

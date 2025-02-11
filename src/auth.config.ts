@@ -1,8 +1,9 @@
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
-import prisma from "./lib/prisma";
 import bcryptjs from "bcryptjs";
+
+import prisma from "./lib/prisma";
 import { isPasswordHashed } from "./utils/isPasswordHashed";
 
 export const authConfig = {
@@ -25,6 +26,7 @@ export const authConfig = {
         }
 
         const { email, password } = parsedCredentials.data;
+
         try {
           // Search user in DB and get roles, permissions
           const user = await prisma.user.findFirst({
@@ -40,6 +42,7 @@ export const authConfig = {
               profile: true,
             },
           });
+
           if (!user) return null;
 
           // Check if email is verified with verification token sended to email
@@ -93,8 +96,9 @@ export const authConfig = {
                 }
               : null,
           };
+
           return userToReturn;
-        } catch (error) {
+        } catch {
           return null;
         }
       },
@@ -108,7 +112,6 @@ export const authConfig = {
         token.data = user;
       }
       if (!token.sub) {
-        console.error("⚠️ jwt: token.sub is undefined");
         return token;
       }
 
@@ -133,7 +136,6 @@ export const authConfig = {
       });
 
       if (!dbUser) {
-        console.error("User not found");
         return token;
       }
 
@@ -225,6 +227,7 @@ export const authConfig = {
         session.user.roles = roles;
         session.user.permissions = permissions;
       }
+
       return session;
     },
   },

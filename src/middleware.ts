@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+
 import { defineAbilityFor } from "@/lib/abilities";
 
 export async function middleware(req: NextRequest) {
@@ -25,10 +26,12 @@ export async function middleware(req: NextRequest) {
         if (route.path === "/dashboard") {
           return NextResponse.redirect(new URL("/403?talent=false", req.url));
         }
+
         return NextResponse.redirect(new URL("/403", req.url));
       }
     }
   }
+
   return NextResponse.next();
 }
 

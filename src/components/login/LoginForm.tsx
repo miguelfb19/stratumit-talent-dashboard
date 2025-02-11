@@ -1,8 +1,5 @@
 "use client";
 
-import { authenticate } from "@/actions/auth/authenticate";
-import { LoginFormInputs } from "@/interfaces/login-form-inputs";
-import { submitAlert } from "@/utils/alerts";
 import { Button, Form, Input, Link, CircularProgress } from "@heroui/react";
 import clsx from "clsx";
 import { useSearchParams } from "next/navigation";
@@ -10,6 +7,10 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+
+import { submitAlert } from "@/utils/alerts";
+import { LoginFormInputs } from "@/interfaces/login-form-inputs";
+import { authenticate } from "@/actions/auth/authenticate";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -25,11 +26,13 @@ export const LoginForm = () => {
   useEffect(() => {
     // If user recently verified his email, we'll show success verified message
     const loginError = params.get("loginerror");
+
     if (loginError) submitAlert("Has been an error login, try again", "error");
     router.replace("/auth/login");
 
     // If user recently verified his email, we'll show success verified message
     const verified = params.get("verified");
+
     if (verified) submitAlert("Email verified successly", "success");
   }, []);
 
@@ -42,47 +45,47 @@ export const LoginForm = () => {
   const onLogin = async (data: LoginFormInputs) => {
     try {
       const login = await authenticate(data);
+
       if (!login?.ok) {
         submitAlert(login?.message!, "error");
-        console.error(login?.error);
       } else router.push("/talent-funnel/motivation-text");
     } catch (error) {
-      console.error(error);
+      return { error, message: "Error on authenticate" };
     }
   };
 
   return (
     <div
-      id="form-container"
       className="flex h-screen w-screen justify-center items-center bg-slate-700 overflow-scroll"
+      id="form-container"
     >
       {isSubmitting && (
         <CircularProgress
-          size="lg"
           className="absolute top-1/2 right-1/2 translate-x-1/2"
+          size="lg"
         />
       )}
       <Form
-        onSubmit={handleSubmit(onLogin)}
         className={clsx("w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white", {
           "opacity-50 pointer-events-none": isSubmitting,
         })}
+        onSubmit={handleSubmit(onLogin)}
       >
         <h2 className="text-4xl w-full text-center font-bold">Welcome</h2>
         <p className="text-sm mb-6 w-full text-center text-slate-600">
           Enter your credentials to login
         </p>
-        <div id="formInuts" className="w-full flex flex-col gap-5">
+        <div className="w-full flex flex-col gap-5" id="formInuts">
           <Input
-            type="email"
             placeholder="Email"
             radius="full"
+            type="email"
             {...register("email", {
               required: "This field is required",
               pattern: { value: emailRegex, message: "Enter a correct email" },
             })}
-            isInvalid={!!errors.email}
             errorMessage={errors.email?.message}
+            isInvalid={!!errors.email}
           />
           <Input
             endContent={
@@ -100,43 +103,44 @@ export const LoginForm = () => {
                 )}
               </button>
             }
-            type={isVisible ? "text" : "password"}
             placeholder="Password"
             radius="full"
+            type={isVisible ? "text" : "password"}
             {...register("password", {
               required: "This field is required",
             })}
-            isInvalid={!!errors.password}
             errorMessage={errors.password?.message}
+            isInvalid={!!errors.password}
           />
         </div>
 
         <div
-          id="register-buttons"
           className="flex w-full gap-10 justify-center mt-7"
+          id="register-buttons"
         >
           <Button
-            type="submit"
-            color="primary"
             fullWidth
-            radius="full"
-            variant="flat"
+            color="primary"
             isDisabled={isSubmitting}
+            radius="full"
+            type="submit"
+            variant="flat"
           >
             Login
           </Button>
           <Button
-            type="reset"
-            color="primary"
             fullWidth
-            radius="full"
-            variant="flat"
+            color="primary"
             isDisabled={isSubmitting}
+            radius="full"
+            type="reset"
+            variant="flat"
           >
             Reset
           </Button>
         </div>
         <span className="w-full text-center mt-5 text-sm">
+          {/* eslint-disable */}
           ¿Don't have an account?{" "}
           <Link href="/auth/register" size="sm">
             Register
@@ -144,7 +148,7 @@ export const LoginForm = () => {
         </span>
         <span className="w-full text-sm text-center">
           Go back to{" "}
-          <Link href="/" className="text-sm">
+          <Link className="text-sm" href="/">
             home
           </Link>
         </span>

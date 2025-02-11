@@ -10,6 +10,7 @@ import {
   TableCell,
 } from "@heroui/react";
 import { Button } from "@heroui/react";
+
 import { ActionsButtons } from "./ActionsButtons";
 
 interface Props {
@@ -21,7 +22,7 @@ export const RolesTable = ({ roles, columns }: Props) => {
   return (
     <>
       <div className="mb-10">
-        <Button radius="full" color="primary" variant="flat">
+        <Button color="primary" radius="full" variant="flat">
           Add new role
         </Button>
       </div>

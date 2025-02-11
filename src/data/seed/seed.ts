@@ -1,5 +1,5 @@
-import { Role } from "@prisma/client";
 import prisma from "../../lib/prisma";
+
 import {
   languajes,
   permissions,
@@ -102,6 +102,7 @@ async function main() {
     }),
   );
 
+  //eslint-disable-next-line
   console.log("seed executed");
 }
 

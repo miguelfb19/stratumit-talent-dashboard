@@ -69,19 +69,19 @@ export const LineChartComponent = ({
   return (
     <div suppressHydrationWarning>
       <LineChart
-        width={width}
-        height={height}
-        data={data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         className={className}
+        data={data}
+        height={height}
+        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        width={width}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="pv" stroke="#0f172a" />
-        <Line type="monotone" dataKey="uv" stroke="#2563eb" />
+        <Line dataKey="pv" stroke="#0f172a" type="monotone" />
+        <Line dataKey="uv" stroke="#2563eb" type="monotone" />
       </LineChart>
     </div>
   );

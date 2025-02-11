@@ -1,6 +1,6 @@
 "use server";
 
-import { EducationalProject, JobExperiences } from "@/interfaces/funnel";
+import { EducationalProject } from "@/interfaces/funnel";
 import prisma from "@/lib/prisma";
 
 export const saveEducationalProjects = async (

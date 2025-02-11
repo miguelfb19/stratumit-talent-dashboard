@@ -8,9 +8,9 @@ export const GoToDashboardButton = () => {
       If you want:
       <Button
         as={Link}
+        color="success"
         href="/dashboard/profile"
         radius="full"
-        color="success"
         variant="shadow"
       >
         Go to dashboard

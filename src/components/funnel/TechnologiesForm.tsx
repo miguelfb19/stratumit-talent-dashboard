@@ -1,21 +1,21 @@
 "use client";
 
 import { Checkbox, CheckboxGroup, Form, Chip } from "@heroui/react";
-import { technologies, techCategories } from "@/data/seed/seed-data";
-
-import { NavigateButtons } from "./NavigateButtons";
 import { useController, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { submitAlert } from "@/utils/alerts";
-import { saveTechnologies } from "@/actions/funnel/save-data-to-db/save-technologies";
-import { AddOtherTechnologyForm } from "./AddOtherTechnologyForm";
-import { useState } from "react";
-import { TechCategory } from "../../data/seed/seed-data";
 
-type TechnologiesData = {
-  name: string;
-  category: TechCategory;
-};
+// import { TechCategory } from "../../data/seed/seed-data";
+
+import { NavigateButtons } from "./NavigateButtons";
+
+import { saveTechnologies } from "@/actions/funnel/save-data-to-db/save-technologies";
+import { submitAlert } from "@/utils/alerts";
+import { technologies, techCategories } from "@/data/seed/seed-data";
+
+// type TechnologiesData = {
+//   name: string;
+//   category: TechCategory;
+// };
 
 interface ChipboxValues {
   technologies: string[];
@@ -28,8 +28,6 @@ interface Props {
 }
 
 export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
-  const [addedTechs, setAddedTechs] = useState<TechnologiesData[]>();
-
   const router = useRouter();
 
   const { handleSubmit, control } = useForm<ChipboxValues>({
@@ -77,6 +75,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
     const dataWithAddedCategory = data.technologies.map(
       (technology: string) => {
         const foundTech = technologies.find((tech) => tech.name === technology);
+
         return {
           name: technology,
           category: foundTech ? foundTech.category : "Others",
@@ -90,6 +89,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
 
     if (!savedTechnologies.ok) {
       submitAlert(savedTechnologies.message, "error");
+
       return;
     }
 
@@ -108,12 +108,13 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
             const filteredTechs = technologies.filter(
               (tech) => tech.category === category,
             );
+
             return (
               <CheckboxGroup
-                label={category}
+                key={category}
                 className="gap-5"
                 color="primary"
-                key={category}
+                label={category}
                 orientation="horizontal"
                 value={field.value}
                 onValueChange={field.onChange}
@@ -125,10 +126,10 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
                       className={`relative px-2 ${field.value.includes(tech.name) ? "bg-[#0B6FEE] pl-6" : ""} transition-all`}
                     >
                       <Checkbox
-                        value={tech.name}
                         className={`absolute min-w-[80%] z-50 ${field.value.includes(tech.name) ? "left-2 top-1 opacity-100" : "opacity-0 pl-0 gap-0"}`}
                         radius="none"
-                      ></Checkbox>
+                        value={tech.name}
+                      />
                       <span
                         className={`text-base ${field.value.includes(tech.name) ? "text-white" : ""}`}
                       >

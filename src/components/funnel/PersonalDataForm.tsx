@@ -1,15 +1,17 @@
 "use client";
 
-import { NavigateButtons } from "./NavigateButtons";
 import { useForm } from "react-hook-form";
 import { Input, Form, Select, SelectItem, Button } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import { NavigateButtons } from "./NavigateButtons";
+
 import { countries } from "@/data/countries";
 import { timezones } from "@/data/timezones";
-import { useRouter } from "next/navigation";
 import { PersonalData } from "@/interfaces/funnel";
 import { savePersonalData } from "@/actions/funnel/save-data-to-db/save-personal-data";
 import { submitAlert } from "@/utils/alerts";
-import { useEffect, useState } from "react";
 
 interface Props {
   userData: PersonalData | null;
@@ -63,6 +65,7 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
         type: "manual",
         message: "This field is required",
       });
+
       return;
     }
 
@@ -75,7 +78,6 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
     // In case of errors
     if (!savedData.ok) {
       submitAlert(savedData.message, "error");
-      console.error(savedData.error);
     }
 
     // Redirect to user dashboard
@@ -90,30 +92,30 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
       <div className="flex flex-col w-full gap-3">
         <span className="flex gap-5">
           <Input
+            placeholder="First Name"
             radius="full"
             type="text"
-            placeholder="First Name"
             {...register("firstName", { required: "This field is required" })}
-            isInvalid={!!errors.firstName}
             errorMessage={errors.firstName?.message}
+            isInvalid={!!errors.firstName}
           />
           <Input
+            placeholder="Last Name"
             radius="full"
             type="text"
-            placeholder="Last Name"
             {...register("lastName", { required: "This field is required" })}
-            isInvalid={!!errors.lastName}
             errorMessage={errors.lastName?.message}
+            isInvalid={!!errors.lastName}
           />
         </span>
         <span className="flex w-full gap-3">
           <Select
-            radius="full"
             aria-label="Select a country"
             placeholder="Select a country"
+            radius="full"
             {...register("country", { required: "This field es required" })}
-            isInvalid={!!errors.country}
             errorMessage={errors.country?.message}
+            isInvalid={!!errors.country}
           >
             {countries.map((country) => (
               <SelectItem key={country.name} className="border-none">
@@ -122,44 +124,45 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
             ))}
           </Select>
           <Input
-            radius="full"
-            type="text"
             placeholder="Phone number"
+            radius="full"
             startContent={
               <span className="text-gray-500 text-sm">{indicative}</span>
             }
+            type="text"
             {...register("phoneNumber", { required: "This field is required" })}
-            isInvalid={!!errors.phoneNumber}
             errorMessage={errors.phoneNumber?.message}
+            isInvalid={!!errors.phoneNumber}
           />
         </span>
         <Input
+          label="Birth date"
           radius="full"
           type="date"
-          label="Birth date"
           {...register("birthDate", { required: "This field is required" })}
-          isInvalid={!!errors.birthDate}
           errorMessage={errors.birthDate?.message}
+          isInvalid={!!errors.birthDate}
         />
         <Select
-          radius="full"
           aria-label="Select a timezone"
+          errorMessage={errors.timezone?.message}
+          isInvalid={!!errors.timezone}
           placeholder="Select timezone"
-          // This step is strangely necessary here, because for some reason this field is not being read by the "register"
+          radius="full"
           selectedKeys={new Set([watch("timezone")])}
           onSelectionChange={(selected) => {
             const timezoneValue = Array.from(selected)[0] as string;
+
             setValue("timezone", timezoneValue);
             clearErrors("timezone");
           }}
-          isInvalid={!!errors.timezone}
-          errorMessage={errors.timezone?.message}
+          // This step is strangely necessary here, because for some reason this field is not being read by the "register"
         >
           {timezones.map((timezone) => (
             <SelectItem
               key={timezone.zone}
-              value={timezone.zone}
               className="border-none"
+              value={timezone.zone}
             >
               {`${timezone.country} ${timezone.zone} ${timezone.utc}`}
             </SelectItem>
@@ -169,10 +172,10 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
 
       <span className="flex w-full items-end">
         <NavigateButtons
-          prevLink="/talent-funnel/upload-profile-image"
           nextButton={false}
+          prevLink="/talent-funnel/upload-profile-image"
         />
-        <Button color="success" variant="flat" type="submit" radius="full">
+        <Button color="success" radius="full" type="submit" variant="flat">
           Save
         </Button>
       </span>

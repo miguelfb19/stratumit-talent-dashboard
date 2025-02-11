@@ -4,7 +4,6 @@ import {
   IoDesktop,
   IoPeople,
   IoPeopleCircle,
-  IoPerson,
 } from "react-icons/io5";
 import { BiSolidUserRectangle } from "react-icons/bi";
 

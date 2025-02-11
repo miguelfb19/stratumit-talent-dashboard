@@ -1,10 +1,11 @@
 import Image from "next/image";
-import { SidebarMenuItem } from "./SidebarMenuItem";
-import { auth } from "@/auth.config";
 import { redirect } from "next/navigation";
+
+import { SidebarMenuItem } from "./SidebarMenuItem";
 import { LogoutButton } from "./LogoutButton";
+
+import { auth } from "@/auth.config";
 import { MenuItems } from "@/interfaces/menu-items";
-import { Can } from "@casl/react";
 
 type bgVariant =
   | "bg-slate-700"
@@ -22,15 +23,17 @@ export async function Sidebar({
   bgVariant = "bg-slate-600",
 }: Props) {
   const session = await auth();
+
   if (!session) redirect("/auth/login");
   const { user } = session;
+
   return (
     <div
-      id="sidebar"
       className={`grid grid-rows-[1fr_auto] ${bgVariant} z-10 text-slate-300 min-w-72 left-0 h-screen overflow-y-auto`}
+      id="sidebar"
     >
-      <div id="superior-section" className="mb-10">
-        <div id="logo" className="my-4 px-6">
+      <div className="mb-10" id="superior-section">
+        <div className="my-4 px-6" id="logo">
           <h1 className="text-lg md:text-2xl font-bold text-white flex items-center">
             Dashboard
           </h1>
@@ -38,19 +41,19 @@ export async function Sidebar({
             Manage your actions and activities
           </p>
         </div>
-        <div id="profile" className="px-6 py-10">
+        <div className="px-6 py-10" id="profile">
           <span className="inline-flex space-x-2 items-center">
             <span>
               <Image
+                alt="profile"
                 className="rounded-full w-12 h-12"
+                height={40}
                 src={
                   user.profile?.imageUrl
                     ? user.profile.imageUrl
                     : "/not-profile-image.png"
                 }
-                alt="profile"
                 width={40}
-                height={40}
               />
             </span>
             <div className="flex flex-col">
@@ -61,14 +64,14 @@ export async function Sidebar({
             </div>
           </span>
         </div>
-        <nav id="nav" className="w-full px-6 flex flex-col gap-2">
+        <nav className="w-full px-6 flex flex-col gap-2" id="nav">
           {menuItems.map((item) => (
             <SidebarMenuItem
               key={item.path}
-              path={item.path}
-              title={item.title}
               icon={item.icon}
+              path={item.path}
               subtitle={item.subtitle}
+              title={item.title}
             />
           ))}
         </nav>

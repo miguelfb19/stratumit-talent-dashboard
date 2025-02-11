@@ -1,11 +1,13 @@
 "use client";
 
-import { languajesData, languajesLevels } from "@/data/funnel-data";
 import { Button, Form, Select, SelectItem } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoAdd, IoTrash } from "react-icons/io5";
+
 import { NavigateButtons } from "./NavigateButtons";
+
+import { languajesData, languajesLevels } from "@/data/funnel-data";
 import { saveLanguajes } from "@/actions/funnel/save-data-to-db/save-languajes";
 import { submitAlert } from "@/utils/alerts";
 
@@ -37,6 +39,7 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
   const getDisabledLanguages = () => {
     // Get all current languages selected
     const languajes = getValues("languajes");
+
     // Filter selected languages
     return languajes.map((item) => item.name).filter((lang) => lang);
   };
@@ -54,6 +57,7 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
 
     if (!savedLanguajes?.ok) {
       submitAlert(savedLanguajes?.message!, "error");
+
       return;
     }
     router.push("/talent-funnel/technologies");
@@ -66,25 +70,25 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
         onSubmit={handleSubmit(onPressNext)}
       >
         <div
-          id="fields-button"
           className="flex w-full flex-col gap-5  max-h-72 overflow-hidden"
+          id="fields-button"
         >
           {/* Use the fields property of useFieldArray to create fields dinamicly */}
           {fields.map((field, index) => (
-            <div id="fields" className="flex w-full gap-5" key={field.id}>
+            <div key={field.id} className="flex w-full gap-5" id="fields">
               <Select
-                radius="full"
-                placeholder="Select languaje"
                 aria-label="Select languaje"
+                disabledKeys={getDisabledLanguages()}
+                errorMessage={errors.languajes?.[index]?.name?.message}
+                isInvalid={!!errors.languajes?.[index]?.name}
+                placeholder="Select languaje"
+                radius="full"
                 // Here i register the field to save information
                 {...register(`languajes.${index}.name`, {
                   required: "This field is required",
                 })}
                 // show error when
-                isInvalid={!!errors.languajes?.[index]?.name}
-                errorMessage={errors.languajes?.[index]?.name?.message}
                 // Disable previous selected languajes
-                disabledKeys={getDisabledLanguages()}
               >
                 {languajesData.map((languaje) => (
                   <SelectItem key={languaje} value={languaje}>
@@ -93,14 +97,14 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
                 ))}
               </Select>
               <Select
-                radius="full"
-                placeholder="Select Level"
                 aria-label="Select Level"
+                placeholder="Select Level"
+                radius="full"
                 {...register(`languajes.${index}.level`, {
                   required: "This field is required",
                 })}
-                isInvalid={!!errors.languajes?.[index]?.level}
                 errorMessage={errors.languajes?.[index]?.level?.message}
+                isInvalid={!!errors.languajes?.[index]?.level}
               >
                 {languajesLevels.map((level) => (
                   <SelectItem key={level} value={level}>
@@ -111,27 +115,27 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
 
               {/* This button remove the respective field */}
               <Button
-                radius="full"
                 isIconOnly
                 aria-label="remove"
+                className="hover:bg-red-100 transition-all"
+                radius="full"
                 variant="flat"
                 onPress={() => remove(index)}
-                className="hover:bg-red-100 transition-all"
               >
-                <IoTrash size={15} color="gray" />
+                <IoTrash color="gray" size={15} />
               </Button>
             </div>
           ))}
           {/* This button add new fields */}
           <Button
-            radius="full"
             isIconOnly
             aria-label="add"
-            variant="flat"
             className="hover:bg-blue-200 transition-all"
+            radius="full"
+            variant="flat"
             onPress={() => append({ name: "", level: "" })}
           >
-            <IoAdd size={20} color="gray" />
+            <IoAdd color="gray" size={20} />
           </Button>
         </div>
 

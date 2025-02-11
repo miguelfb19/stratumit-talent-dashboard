@@ -1,4 +1,3 @@
-import { Role } from "@prisma/client";
 import bcryptjs from "bcryptjs";
 
 export type TechCategory =

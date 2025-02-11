@@ -1,9 +1,9 @@
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import clsx from "clsx";
+import { SessionProvider } from "next-auth/react";
 
 import { Providers } from "../providers/providers";
-import { SessionProvider } from "next-auth/react";
 
 import { fontSans } from "@/config/fonts";
 import { AbilityProvider } from "@/providers/AbilityProvider";

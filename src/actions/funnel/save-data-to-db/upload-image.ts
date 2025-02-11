@@ -2,7 +2,9 @@
 
 import { unlink, writeFile } from "fs/promises";
 import path from "path";
+
 import { revalidatePath } from "next/cache";
+
 import prisma from "@/lib/prisma";
 
 export const uploadImage = async (
@@ -31,9 +33,8 @@ export const uploadImage = async (
 
       try {
         await unlink(existingImagePath); // Remove the old image
-        console.log(`Old image removed: ${existingImagePath}`);
       } catch (error) {
-        console.error("Error deleting old image:", error);
+        return { error, message: "Error to delete old image" };
       }
     }
 
@@ -42,6 +43,7 @@ export const uploadImage = async (
 
     // Validate image format
     const validFormats = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+
     if (!validFormats.includes(file.type))
       return {
         ok: false,
@@ -64,7 +66,6 @@ export const uploadImage = async (
 
     // save file locally
     await writeFile(filePath, new Uint8Array(buffer));
-    console.log(`File saved: ${filePath}`);
 
     // Create file URL
     const fileUrl = `/profile-imgs-upload/${fileName}`;

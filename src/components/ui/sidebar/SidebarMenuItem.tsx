@@ -1,11 +1,12 @@
 "use client";
 
-import { AbilityContext } from "@/providers/AbilityProvider";
 import { Can } from "@casl/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect } from "react";
+
+import { AbilityContext } from "@/providers/AbilityProvider";
 
 interface Props {
   path: string;
@@ -32,11 +33,11 @@ export const SidebarMenuItem = ({ path, icon, title, subtitle }: Props) => {
     <>
       {path === "/admin" ? (
         // Validate if user is admin, to show admin dashboard menu option or not
-        <Can I="view" this="adminPage" ability={ability!}>
+        <Can I="view" ability={ability!} this="adminPage">
           <Link
-            href={path}
             className={`w-full px-4 rounded-full inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150
           ${currentPath === path ? "bg-blue-600" : ""}`}
+            href={path}
           >
             <div className="flex items-start">{icon}</div>
             <span className="flex flex-col">
@@ -51,9 +52,9 @@ export const SidebarMenuItem = ({ path, icon, title, subtitle }: Props) => {
         </Can>
       ) : (
         <Link
-          href={path}
           className={`w-full px-4 rounded-full inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150
           ${currentPath === path ? "bg-blue-600" : ""}`}
+          href={path}
         >
           <div className="flex items-start">{icon}</div>
           <span className="flex flex-col">

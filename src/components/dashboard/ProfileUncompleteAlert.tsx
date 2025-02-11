@@ -8,9 +8,9 @@ export const ProfileUncompleteAlert = () => {
       Profile incomplete
       <Button
         as={Link}
+        color="success"
         href="/talent-funnel/motivation-text"
         radius="full"
-        color="success"
         variant="shadow"
       >
         Complete profile

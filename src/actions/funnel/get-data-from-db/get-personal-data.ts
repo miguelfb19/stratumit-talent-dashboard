@@ -48,6 +48,7 @@ export const getPersonalData = async (userId: string) => {
         id,
         profileCompleted,
       } = profile;
+
       // return user with profile
       return {
         ok: true,

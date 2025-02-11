@@ -1,6 +1,7 @@
 "use server";
 
 import jwt from "jsonwebtoken";
+
 import prisma from "@/lib/prisma";
 
 export const verifyRegisterToken = async (token: string) => {
@@ -17,6 +18,7 @@ export const verifyRegisterToken = async (token: string) => {
           email: decoded.email,
         },
       });
+
       // Verify user exist
       if (!user) throw new Error("User not found");
 
@@ -33,10 +35,10 @@ export const verifyRegisterToken = async (token: string) => {
       return { ok: true, message: "User verified", user: user };
     }
   } catch (error) {
-    console.error(error);
     return {
       ok: false,
       message: "Someting went wrong with the verification",
+      error,
       user: null,
     };
   }

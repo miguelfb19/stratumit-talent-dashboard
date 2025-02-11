@@ -1,5 +1,6 @@
-import { auth } from "@/auth.config";
 import { MotivationTextForm } from "../../../components/funnel/MotivationTextForm";
+
+import { auth } from "@/auth.config";
 import { createProfile } from "@/actions/funnel/save-data-to-db/create-profile";
 import { getMotivationtext } from "@/actions/funnel/get-data-from-db/get-motivation-text";
 import { NotUserError } from "@/components/funnel/error/NotUserError";
@@ -10,11 +11,10 @@ export default async function MotivationTextPage() {
 
   const profileDB = await createProfile(session?.user.id as string);
 
-  const { profile, ok, errorDetail } = profileDB;
+  const { profile, ok } = profileDB;
 
   if (!session) return <NotUserError />;
   if (!ok || !profile) {
-    console.error(errorDetail);
     return <NotProfileError redirectUrl="/auth/login" />;
   }
   const resp = await getMotivationtext(profile.id);

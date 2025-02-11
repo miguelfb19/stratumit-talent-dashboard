@@ -35,8 +35,8 @@ export default async function JobExperiencesFunnelPage() {
       <h1 className="text-3xl font-bold mb-5 w-full">Job Experiences</h1>
 
       <JobExperiencesForm
-        profileId={profileId}
         jobExpFromDb={jobExperiencestoForm ? jobExperiencestoForm : null}
+        profileId={profileId}
       />
     </div>
   );

@@ -68,18 +68,18 @@ export const AreaChartComponent = ({
   return (
     <div suppressHydrationWarning>
       <AreaChart
-        width={width}
-        height={height}
-        data={data}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         className={className}
+        data={data}
+        height={height}
+        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+        width={width}
       >
         <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="colorUv" x1="0" x2="0" y1="0" y2="1">
             <stop offset="5%" stopColor="#2563eb" stopOpacity={0.8} />
             <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
           </linearGradient>
-          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="colorPv" x1="0" x2="0" y1="0" y2="1">
             <stop offset="5%" stopColor="#0f172a" stopOpacity={0.8} />
             <stop offset="95%" stopColor="#0f172a" stopOpacity={0} />
           </linearGradient>
@@ -89,18 +89,18 @@ export const AreaChartComponent = ({
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
         <Area
-          type="monotone"
           dataKey="uv"
-          stroke="#2563eb"
-          fillOpacity={1}
           fill="url(#colorUv)"
+          fillOpacity={1}
+          stroke="#2563eb"
+          type="monotone"
         />
         <Area
-          type="monotone"
           dataKey="pv"
-          stroke="#0f172a"
-          fillOpacity={1}
           fill="url(#colorPv)"
+          fillOpacity={1}
+          stroke="#0f172a"
+          type="monotone"
         />
       </AreaChart>
     </div>

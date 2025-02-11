@@ -1,7 +1,9 @@
+import { redirect } from "next/navigation";
+
+import { GoToDashboardButton } from "../../components/funnel/GoToDashboard";
+
 import { getPersonalData } from "@/actions/funnel/get-data-from-db/get-personal-data";
 import { auth } from "@/auth.config";
-import { redirect } from "next/navigation";
-import { GoToDashboardButton } from "../../components/funnel/GoToDashboard";
 
 export const metadata = {
   title: "Talent information",
@@ -14,6 +16,7 @@ export default async function FunnelLayout({
 }) {
   // get session
   const session = await auth();
+
   if (!session) redirect("/auth/login");
 
   // Get personal data from DB
@@ -25,12 +28,12 @@ export default async function FunnelLayout({
 
   return (
     <div
-      id="main"
       className="flex h-screen w-screen justify-center items-center bg-slate-500"
+      id="main"
     >
       <div
-        id="container"
         className="fade-in flex flex-col items-start justify-center text-center w-2/3 h-2/3 bg-white rounded-xl p-10 gap-5 shadow-2xl shadow-black"
+        id="container"
       >
         <GoToDashboardButton />
         {children}

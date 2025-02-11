@@ -1,7 +1,8 @@
 "use server";
 
-import prisma from "@/lib/prisma";
 import { LanguajeLevel } from "@prisma/client";
+
+import prisma from "@/lib/prisma";
 
 export const saveLanguajes = async (
   profileId: string,

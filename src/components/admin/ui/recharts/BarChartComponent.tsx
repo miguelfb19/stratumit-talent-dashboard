@@ -60,7 +60,7 @@ export const BarChartComponent = ({
   height = 250,
 }: Props) => {
   return (
-    <BarChart width={width} height={height} data={data} className={className}>
+    <BarChart className={className} data={data} height={height} width={width}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
       <YAxis />

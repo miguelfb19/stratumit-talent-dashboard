@@ -68,26 +68,26 @@ export const PieChartComponent = ({
 }: Props) => {
   return (
     <div suppressHydrationWarning>
-      <PieChart width={width} height={height} className={className}>
+      <PieChart className={className} height={height} width={width}>
         <Pie
+          cx="50%"
+          cy="50%"
           data={data01}
           dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={50}
           fill="#2563eb"
+          nameKey="name"
+          outerRadius={50}
         />
         <Pie
-          data={data02}
-          dataKey="value"
-          nameKey="name"
+          label
           cx="50%"
           cy="50%"
-          innerRadius={60}
-          outerRadius={80}
+          data={data02}
+          dataKey="value"
           fill="#0f172a"
-          label
+          innerRadius={60}
+          nameKey="name"
+          outerRadius={80}
         />
       </PieChart>
     </div>

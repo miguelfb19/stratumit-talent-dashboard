@@ -19,8 +19,8 @@ export default async function UploadProfileImageFunnelPage() {
     <div className="flex flex-col w-full h-full">
       <h1 className="text-3xl font-bold w-full">Upload profile image</h1>
       <UploadImageForm
-        profileId={session.user.profile.id}
         imageUrl={imageUrl ? imageUrl : null}
+        profileId={session.user.profile.id}
       />
     </div>
   );

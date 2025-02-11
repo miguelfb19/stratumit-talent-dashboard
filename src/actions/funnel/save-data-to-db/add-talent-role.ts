@@ -1,7 +1,8 @@
 "use server";
 
+import { getSession } from "next-auth/react";
+
 import prisma from "@/lib/prisma";
-import { getSession, signIn } from "next-auth/react";
 
 export const addTalentRole = async (userId: string) => {
   try {
@@ -21,6 +22,7 @@ export const addTalentRole = async (userId: string) => {
         name: "Talent",
       },
     });
+
     if (!talentRole) throw new Error("Talent role not found");
 
     // Get user roles

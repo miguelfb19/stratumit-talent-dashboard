@@ -2,7 +2,6 @@
 
 // React
 import { useState } from "react";
-
 // Libraries
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import {
@@ -14,15 +13,15 @@ import {
   Link,
   CircularProgress,
 } from "@heroui/react";
-
 // Components and other files
-import { countries } from "@/data/countries";
 import { useForm } from "react-hook-form";
+import clsx from "clsx";
+import { useRouter } from "next/navigation";
+
+import { countries } from "@/data/countries";
 import { RegisterFormInputs } from "@/interfaces/register-form-inputs";
 import { registerNewUser } from "@/actions/auth/register-new-user";
 import { submitAlert } from "@/utils/alerts";
-import clsx from "clsx";
-import { useRouter } from "next/navigation";
 
 export const RegisterForm = () => {
   const router = useRouter();
@@ -46,7 +45,7 @@ export const RegisterForm = () => {
 
   const OnSubmitForm = async (data: RegisterFormInputs) => {
     // Transform de date for DB format
-    const { birthDate, confirmPassword, ...rest } = data;
+    const { birthDate, ...rest } = data;
     const dataToSave = {
       ...rest,
       birthDate: `${birthDate}T00:00:00Z`,
@@ -58,6 +57,7 @@ export const RegisterForm = () => {
     // Handle some error
     if (!newUser?.ok) {
       submitAlert(newUser.message, "error");
+
       return;
     }
     // Redirect to Login
@@ -66,53 +66,53 @@ export const RegisterForm = () => {
 
   return (
     <div
-      id="form-container"
       className="flex h-screen w-screen justify-center items-center bg-slate-700 overflow-scroll"
+      id="form-container"
     >
       {isSubmitting && (
         <CircularProgress
-          size="lg"
           className="absolute top-1/2 right-1/2 translate-x-1/2"
+          size="lg"
         />
       )}
       <Form
-        onSubmit={handleSubmit(OnSubmitForm)}
         className={clsx("w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white", {
           "opacity-50 pointer-events-none": isSubmitting,
         })}
+        onSubmit={handleSubmit(OnSubmitForm)}
       >
         <h2 className="text-4xl w-full text-center font-bold">Register</h2>
         <p className="text-sm mb-6 w-full text-center text-slate-600">
           All fields in this form are required
         </p>
-        <div id="formInuts" className="w-full flex flex-col gap-5">
+        <div className="w-full flex flex-col gap-5" id="formInuts">
           <Input
-            type="text"
             placeholder="First Name"
             radius="full"
+            type="text"
             {...register("firstName", { required: "This field is required" })}
             // Validate if fisrtName errors exist
-            isInvalid={!!errors.firstName}
             errorMessage={errors.firstName?.message}
+            isInvalid={!!errors.firstName}
           />
           <Input
-            type="text"
             placeholder="Last Name"
             radius="full"
+            type="text"
             {...register("lastName", { required: "This field is required" })}
-            isInvalid={!!errors.lastName}
             errorMessage={errors.lastName?.message}
+            isInvalid={!!errors.lastName}
           />
           <Input
-            type="email"
             placeholder="Email"
             radius="full"
+            type="email"
             {...register("email", {
               required: "This field is required",
               pattern: { value: emailRegex, message: "Enter a correct email" },
             })}
-            isInvalid={!!errors.email}
             errorMessage={errors.email?.message}
+            isInvalid={!!errors.email}
           />
           <span className="flex gap-3">
             <Input
@@ -131,9 +131,9 @@ export const RegisterForm = () => {
                   )}
                 </button>
               }
-              type={isVisible ? "text" : "password"}
               placeholder="Password"
               radius="full"
+              type={isVisible ? "text" : "password"}
               {...register("password", {
                 required: "This field is required",
                 pattern: {
@@ -142,13 +142,13 @@ export const RegisterForm = () => {
                     "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character",
                 },
               })}
-              isInvalid={!!errors.password}
               errorMessage={errors.password?.message}
+              isInvalid={!!errors.password}
             />
             <Input
-              type="password"
               placeholder="Confirm Password"
               radius="full"
+              type="password"
               {...register("confirmPassword", {
                 required: "This field is required",
 
@@ -157,28 +157,29 @@ export const RegisterForm = () => {
                   if (value !== getValues().password) {
                     return "Passwords do not match";
                   }
+
                   return true;
                 },
               })}
-              isInvalid={!!errors.confirmPassword}
               errorMessage={errors.confirmPassword?.message}
+              isInvalid={!!errors.confirmPassword}
             />
           </span>
           <Input
-            type="date"
             placeholder="Birth Date"
             radius="full"
+            type="date"
             {...register("birthDate", { required: "This field is required" })}
-            isInvalid={!!errors.birthDate}
             errorMessage={errors.birthDate?.message}
+            isInvalid={!!errors.birthDate}
           />
           <Select
             aria-label="Select a country"
             placeholder="Select a country"
             radius="full"
             {...register("country", { required: "This field es required" })}
-            isInvalid={!!errors.country}
             errorMessage={errors.country?.message}
+            isInvalid={!!errors.country}
           >
             {countries.map((country) => (
               <SelectItem key={country.name} className="border-none">
@@ -189,26 +190,26 @@ export const RegisterForm = () => {
         </div>
 
         <div
-          id="register-buttons"
           className="flex w-full gap-10 justify-center mt-7"
+          id="register-buttons"
         >
           <Button
-            type="submit"
-            color="primary"
             fullWidth
-            radius="full"
-            variant="flat"
+            color="primary"
             isDisabled={isSubmitting}
+            radius="full"
+            type="submit"
+            variant="flat"
           >
             Register
           </Button>
           <Button
-            type="reset"
-            color="primary"
             fullWidth
-            radius="full"
-            variant="flat"
+            color="primary"
             isDisabled={isSubmitting}
+            radius="full"
+            type="reset"
+            variant="flat"
           >
             Reset
           </Button>

@@ -1,5 +1,6 @@
-import { auth } from "@/auth.config";
 import { TechnologiesForm } from "../../../components/funnel/TechnologiesForm";
+
+import { auth } from "@/auth.config";
 import { getTechnologiesFromDb } from "@/actions/funnel/get-data-from-db/get-technologies";
 import { NotUserError } from "@/components/funnel/error/NotUserError";
 import { NotProfileError } from "@/components/funnel/error/NotProfileError";

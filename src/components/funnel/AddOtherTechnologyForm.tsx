@@ -11,6 +11,7 @@ import {
 } from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { SelectItem } from "@heroui/react";
+
 import {
   techCategories,
   TechCategory,
@@ -44,8 +45,10 @@ export const AddOtherTechnologyForm = ({ addNewTechnologies }: Props) => {
     const technologiesArray = technologies.map((tech) =>
       tech.name.toLocaleLowerCase(),
     );
+
     if (technologiesArray.includes(watch("name").toLocaleLowerCase())) {
       submitAlert("This technology already exist", "error");
+
       return;
     }
 
@@ -54,6 +57,7 @@ export const AddOtherTechnologyForm = ({ addNewTechnologies }: Props) => {
 
     if (!name) {
       setError("name", { type: "manual", message: "This field is required" });
+
       return;
     }
 
@@ -62,6 +66,7 @@ export const AddOtherTechnologyForm = ({ addNewTechnologies }: Props) => {
         type: "manual",
         message: "This field is required",
       });
+
       return;
     }
 
@@ -86,24 +91,24 @@ export const AddOtherTechnologyForm = ({ addNewTechnologies }: Props) => {
                 <ModalBody>
                   <Form className="flex w-full h-full justify-between">
                     <div
-                      id="fields-container"
                       className="flex flex-col gap-5 w-full mt-5"
+                      id="fields-container"
                     >
                       <Input
+                        placeholder="Name"
                         radius="full"
                         type="text"
-                        placeholder="Name"
                         {...register("name")}
-                        isInvalid={!!errors.name}
                         errorMessage={errors.name?.message}
+                        isInvalid={!!errors.name}
                       />
                       <Select
-                        radius="full"
                         aria-label="category"
                         placeholder="Category"
+                        radius="full"
                         {...register("category")}
-                        isInvalid={!!errors.category}
                         errorMessage={errors.category?.message}
+                        isInvalid={!!errors.category}
                       >
                         {techCategories.map((category) => (
                           <SelectItem key={category}>{category}</SelectItem>
@@ -113,17 +118,17 @@ export const AddOtherTechnologyForm = ({ addNewTechnologies }: Props) => {
                     <div className="flex w-full gap-2 justify-end my-3">
                       <Button
                         color="primary"
+                        radius="full"
                         variant="flat"
                         // type="submit"
                         onPress={addTechnology}
-                        radius="full"
                       >
                         Save
                       </Button>
                       <Button
                         color="danger"
-                        variant="flat"
                         radius="full"
+                        variant="flat"
                         onPress={onClose}
                       >
                         Cancel
@@ -137,10 +142,10 @@ export const AddOtherTechnologyForm = ({ addNewTechnologies }: Props) => {
         </Modal>
       </div>
       <Button
-        radius="full"
-        color="primary"
-        variant="flat"
         className="absolute bottom-0 right-1/2 translate-x-1/2"
+        color="primary"
+        radius="full"
+        variant="flat"
         onPress={onOpen}
       >
         Add other technology

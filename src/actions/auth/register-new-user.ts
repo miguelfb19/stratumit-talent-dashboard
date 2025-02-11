@@ -1,9 +1,11 @@
 "use server";
 
-import prisma from "@/lib/prisma";
 import { hashSync } from "bcryptjs";
-import { User } from "@/interfaces/user";
+
 import { sendVerificationMail } from "./send-verification-mail";
+
+import prisma from "@/lib/prisma";
+import { User } from "@/interfaces/user";
 
 export const registerNewUser = async (data: User) => {
   try {
@@ -33,17 +35,18 @@ export const registerNewUser = async (data: User) => {
     });
 
     // Return success create
-    const { email, firstName, lastName, id, ...otherData } = newUser;
+    const { email, firstName, lastName, id } = newUser;
+
     return {
       ok: true,
       message: "Register success!",
       newUser: { id, firstName, lastName, email },
     };
   } catch (error) {
-    console.log(error);
     return {
       ok: false,
       message: "Register failed!",
+      error,
     };
   }
 };

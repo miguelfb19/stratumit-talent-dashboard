@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 export default function Error({ error }: { error: Error }) {
   const router = useRouter();
+
   useEffect(() => {
     // Log the error to an error reporting service
     /* eslint-disable no-console */
@@ -19,11 +20,11 @@ export default function Error({ error }: { error: Error }) {
           Something went wrong!
         </h2>
         <span className="flex flex-col gap-2 items-center justify-center w-1/2">
-          <Button as={Link} fullWidth onPress={() => router.refresh()}>
+          <Button fullWidth as={Link} onPress={() => router.refresh()}>
             Try again
           </Button>
           or
-          <Button as={Link} href="/" fullWidth>
+          <Button fullWidth as={Link} href="/">
             Go home
           </Button>
         </span>

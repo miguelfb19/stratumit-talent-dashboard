@@ -9,8 +9,10 @@ import {
   TableCell,
 } from "@heroui/react";
 import { Button } from "@heroui/react";
-import { UsersAndRoles } from "@/interfaces/user-roles";
+
 import { ActionsButtons } from "./ActionsButtons";
+
+import { UsersAndRoles } from "@/interfaces/user-roles";
 
 interface Props {
   users: UsersAndRoles;
@@ -21,7 +23,7 @@ export const UsersTable = ({ users, columns }: Props) => {
   return (
     <>
       <div className="mb-10">
-        <Button radius="full" color="primary" variant="flat">
+        <Button color="primary" radius="full" variant="flat">
           Add new user
         </Button>
       </div>

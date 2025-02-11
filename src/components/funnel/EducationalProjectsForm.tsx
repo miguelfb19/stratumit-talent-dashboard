@@ -18,12 +18,14 @@ import {
   Textarea,
   useDisclosure,
 } from "@heroui/react";
-import { NavigateButtons } from "./NavigateButtons";
 import { IoAdd, IoTrash } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { columnsEducationalProjectsFunnel } from "@/data/funnel-data";
 import { useRouter } from "next/navigation";
+
+import { NavigateButtons } from "./NavigateButtons";
+
+import { columnsEducationalProjectsFunnel } from "@/data/funnel-data";
 import { submitAlert } from "@/utils/alerts";
 import { EducationalProject } from "@/interfaces/funnel";
 import { saveEducationalProjects } from "@/actions/funnel/save-data-to-db/save-educational-project";
@@ -56,6 +58,7 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
       setError("finishDate", {
         message: "Finish date must be greater than start date",
       });
+
       return;
     }
 
@@ -80,6 +83,7 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
           savedJob.projectName !== project.projectName ||
           savedJob.startDate !== project.startDate,
       );
+
       return newJobs;
     });
   };
@@ -103,7 +107,7 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
   return (
     <>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
-        <div id="table-button-container" className="flex flex-col gap-5 p-3">
+        <div className="flex flex-col gap-5 p-3" id="table-button-container">
           {savedProjects && savedProjects.length !== 0 && (
             <Table aria-label="Example table with dynamic content">
               <TableHeader columns={columnsEducationalProjectsFunnel}>
@@ -121,8 +125,8 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
                         {columnKey === "delete" ? (
                           <button onClick={() => deleteJob(job)}>
                             <IoTrash
-                              size={15}
                               className="cursor-pointer fill-red-500"
+                              size={15}
                             />
                           </button>
                         ) : (
@@ -136,10 +140,10 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
             </Table>
           )}
           <Button
-            radius="full"
-            onPress={onOpen}
-            startContent={<IoAdd size={15} />}
             className="self-center text-gray-700"
+            radius="full"
+            startContent={<IoAdd size={15} />}
+            onPress={onOpen}
           >
             Add project
           </Button>
@@ -155,33 +159,33 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
                     onSubmit={handleSubmit(onSaveProject)}
                   >
                     <div
-                      id="fields-container"
                       className="flex flex-col gap-5 w-full mt-5"
+                      id="fields-container"
                     >
                       <Input
+                        placeholder="Project name"
                         radius="full"
                         type="text"
-                        placeholder="Project name"
                         {...register("projectName", {
                           required: "This field is required",
                         })}
-                        isInvalid={!!errors.projectName}
                         errorMessage={errors.projectName?.message}
+                        isInvalid={!!errors.projectName}
                       />
                       <Input
+                        placeholder="Link (optional)"
                         radius="full"
                         type="text"
-                        placeholder="Link (optional)"
                         {...register("link")}
-                        isInvalid={!!errors.link}
                         errorMessage={errors.link?.message}
+                        isInvalid={!!errors.link}
                       />
                       <Textarea
+                        maxLength={301}
+                        minRows={6}
+                        placeholder="Description"
                         radius="full"
                         type="text"
-                        minRows={6}
-                        maxLength={301}
-                        placeholder="Description"
                         {...register("description", {
                           required: "This field is required",
                           maxLength: {
@@ -190,46 +194,46 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
                               "Description must be less than 300 characters",
                           },
                         })}
-                        isInvalid={!!errors.description}
                         errorMessage={errors.description?.message}
+                        isInvalid={!!errors.description}
                       />
                       <span className="flex gap-5">
                         <Input
-                          radius="full"
                           label="Start Date"
+                          radius="full"
                           type="date"
                           {...register("startDate", {
                             required: "This field is required",
                           })}
-                          isInvalid={!!errors.startDate}
                           errorMessage={errors.startDate?.message}
+                          isInvalid={!!errors.startDate}
                         />
                         <Input
-                          radius="full"
                           label="Finish Date"
+                          radius="full"
                           type="date"
                           {...register("finishDate", {
                             required: "This field is required",
                           })}
-                          isInvalid={!!errors.finishDate}
                           errorMessage={errors.finishDate?.message}
+                          isInvalid={!!errors.finishDate}
                         />
                       </span>
                     </div>
                     <div className="flex w-full gap-2 justify-end my-3">
                       <Button
                         color="primary"
-                        variant="flat"
-                        type="submit"
                         radius="full"
+                        type="submit"
+                        variant="flat"
                       >
                         Save
                       </Button>
                       <Button
                         color="danger"
+                        radius="full"
                         variant="flat"
                         onPress={onClose}
-                        radius="full"
                       >
                         Cancel
                       </Button>
