@@ -5,26 +5,28 @@ import path from "path";
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 
-export const uploadImage = async (formData: FormData, previousImgUrl: string | null) => {
+export const uploadImage = async (
+  formData: FormData,
+  previousImgUrl: string | null,
+) => {
   try {
-
     // Get from DB existing previuos profile imageUrl
     const existingImg = await prisma.profile.findFirst({
       where: {
-        imageUrl: previousImgUrl
+        imageUrl: previousImgUrl,
       },
       select: {
-        imageUrl: true
-      }
-    })
+        imageUrl: true,
+      },
+    });
 
     // Delete old image before save new image
-    if(existingImg?.imageUrl) {
+    if (existingImg?.imageUrl) {
       // Return absolute path of previous image
       const existingImagePath = path.join(
         process.cwd(),
         "public",
-        existingImg.imageUrl
+        existingImg.imageUrl,
       );
 
       try {
@@ -57,7 +59,7 @@ export const uploadImage = async (formData: FormData, previousImgUrl: string | n
     const filePath = path.join(
       process.cwd(),
       "public/profile-imgs-upload",
-      fileName
+      fileName,
     );
 
     // save file locally

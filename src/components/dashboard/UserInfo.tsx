@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { AbilityContext } from "@/providers/AbilityProvider";
 import { Can } from "@casl/react";
@@ -12,9 +12,7 @@ interface Props {
 }
 
 export const UserInfo = ({ user, isAdmin = false }: Props) => {
-
-  const ability = useContext(AbilityContext)
-
+  const ability = useContext(AbilityContext);
 
   return (
     <div

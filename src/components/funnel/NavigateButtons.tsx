@@ -7,14 +7,14 @@ interface Props {
   nextButton?: boolean;
   prevButon?: boolean;
   prevLink: string;
-  sendFormData?: ()=>void
+  sendFormData?: () => void;
 }
 
 export const NavigateButtons = ({
   nextButton = true,
   prevButon = true,
   prevLink,
-  sendFormData
+  sendFormData,
 }: Props) => {
   return (
     <div className="grid grid-cols-2 justify-items-center mt-5 w-full">
@@ -24,8 +24,8 @@ export const NavigateButtons = ({
         href={prevLink}
         color="primary"
         variant="flat"
-        className={clsx("justify-self-start",{
-            "invisible": !prevButon
+        className={clsx("justify-self-start", {
+          invisible: !prevButon,
         })}
       >
         Prev
@@ -37,9 +37,9 @@ export const NavigateButtons = ({
         color="primary"
         variant="flat"
         className={clsx("justify-self-end", {
-            "invisible": !nextButton
+          invisible: !nextButton,
         })}
-        onPress={sendFormData ? sendFormData : ()=>{}}
+        onPress={sendFormData ? sendFormData : () => {}}
       >
         Next
       </Button>

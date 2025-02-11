@@ -8,12 +8,12 @@ export default async function TechnologiesFunnelPage() {
   const session = await auth();
 
   // Return error page is session dont exist
-  if(!session) return <NotUserError/>
-  if (!session?.user.profile) return <NotProfileError/>
+  if (!session) return <NotUserError />;
+  if (!session?.user.profile) return <NotProfileError />;
 
-    // Get profile Technologies
+  // Get profile Technologies
   const profileTechnologies = await getTechnologiesFromDb(
-    session.user.profile.id
+    session.user.profile.id,
   );
   // Obtain data
   const { data } = profileTechnologies;

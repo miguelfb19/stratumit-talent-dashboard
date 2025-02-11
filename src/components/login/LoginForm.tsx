@@ -143,7 +143,10 @@ export const LoginForm = () => {
           </Link>
         </span>
         <span className="w-full text-sm text-center">
-          Go back to <Link href="/" className="text-sm">home</Link>
+          Go back to{" "}
+          <Link href="/" className="text-sm">
+            home
+          </Link>
         </span>
       </Form>
     </div>

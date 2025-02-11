@@ -15,10 +15,10 @@ type LanguajeFormValues = {
 
 interface Props {
   languajesFromDb: { name: string; level: string }[] | null;
-  profileId: string
+  profileId: string;
 }
 
-export const LanguajeForm = ({languajesFromDb, profileId}:Props) => {
+export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
   // we use control to handle pair of values languaje-level
   const {
     control,
@@ -48,14 +48,13 @@ export const LanguajeForm = ({languajesFromDb, profileId}:Props) => {
   });
 
   const onPressNext = async (data: LanguajeFormValues) => {
+    const { languajes } = data;
 
-    const {languajes} = data
+    const savedLanguajes = await saveLanguajes(profileId, languajes);
 
-    const savedLanguajes = await saveLanguajes(profileId, languajes)
-
-    if(!savedLanguajes?.ok) {
-      submitAlert(savedLanguajes?.message!, 'error')
-      return
+    if (!savedLanguajes?.ok) {
+      submitAlert(savedLanguajes?.message!, "error");
+      return;
     }
     router.push("/talent-funnel/technologies");
   };

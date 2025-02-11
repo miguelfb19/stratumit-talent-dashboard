@@ -1,12 +1,36 @@
-'use client'
+"use client";
 
-import dynamic from 'next/dynamic'
- 
+import dynamic from "next/dynamic";
+
 // import component without SSR 'cause react-rechart-js uses functions incompatible with it
-const NoSSRAreaChart = dynamic(() => import('@/components/admin/ui/recharts/AreaChartComponent').then(mod => mod.AreaChartComponent), { ssr: false })
-const NoSSRBarChart = dynamic(() => import('@/components/admin/ui/recharts/BarChartComponent').then(mod => mod.BarChartComponent), { ssr: false })
-const NoSSRLineChart = dynamic(() => import('@/components/admin/ui/recharts/LineChartComponent').then(mod => mod.LineChartComponent), { ssr: false })
-const NoSSRPieChart = dynamic(() => import('@/components/admin/ui/recharts/PieChartComponent').then(mod => mod.PieChartComponent), { ssr: false })
+const NoSSRAreaChart = dynamic(
+  () =>
+    import("@/components/admin/ui/recharts/AreaChartComponent").then(
+      (mod) => mod.AreaChartComponent,
+    ),
+  { ssr: false },
+);
+const NoSSRBarChart = dynamic(
+  () =>
+    import("@/components/admin/ui/recharts/BarChartComponent").then(
+      (mod) => mod.BarChartComponent,
+    ),
+  { ssr: false },
+);
+const NoSSRLineChart = dynamic(
+  () =>
+    import("@/components/admin/ui/recharts/LineChartComponent").then(
+      (mod) => mod.LineChartComponent,
+    ),
+  { ssr: false },
+);
+const NoSSRPieChart = dynamic(
+  () =>
+    import("@/components/admin/ui/recharts/PieChartComponent").then(
+      (mod) => mod.PieChartComponent,
+    ),
+  { ssr: false },
+);
 
 export default function AnalitycsPage() {
   return (

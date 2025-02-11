@@ -21,7 +21,7 @@ export const authConfig = {
           .safeParse(credentials);
 
         if (!parsedCredentials.success) {
-          return null
+          return null;
         }
 
         const { email, password } = parsedCredentials.data;
@@ -40,18 +40,18 @@ export const authConfig = {
               profile: true,
             },
           });
-          if (!user) return null
+          if (!user) return null;
 
           // Check if email is verified with verification token sended to email
-          if (user.isVerified === false) return null
+          if (user.isVerified === false) return null;
 
           // Compare passwords
           // If password is hashed (because comes from verification token), make the verification with equality operator
           if (isPasswordHashed(password)) {
-            if (password !== user.password) return null
+            if (password !== user.password) return null;
           } else {
             // If password isn't hashed ('cause comes from login form), make the comparison with bcryptjs
-            if (!bcryptjs.compareSync(password, user.password)) return null
+            if (!bcryptjs.compareSync(password, user.password)) return null;
           }
 
           // TRANSFORM AND GET ROLES AND PERMISSIONS
@@ -68,7 +68,7 @@ export const authConfig = {
                 role.role.permissions.map((permission) => ({
                   action: permission.permission.name.split("_")[0],
                   subject: permission.permission.name.split("_")[1],
-                }))
+                })),
               );
 
           // Create information complete to return
@@ -95,7 +95,7 @@ export const authConfig = {
           };
           return userToReturn;
         } catch (error) {
-          return null
+          return null;
         }
       },
     }),
@@ -132,10 +132,10 @@ export const authConfig = {
         },
       });
 
-      if (!dbUser){
-        console.error('User not found')
-        return token
-      } 
+      if (!dbUser) {
+        console.error("User not found");
+        return token;
+      }
 
       // TRANSFORM AND GET ROLES AND PERMISSIONS
       const roles = dbUser!.roles.map((userRole) => userRole.role.name);
@@ -151,13 +151,13 @@ export const authConfig = {
             role.role.permissions.map((permission) => ({
               action: permission.permission.name.split("_")[0],
               subject: permission.permission.name.split("_")[1],
-            }))
+            })),
           );
 
-          if (dbUser) {
-            (token.data as any).roles = roles;
-            (token.data as any).permissions = permissions;
-          }
+      if (dbUser) {
+        (token.data as any).roles = roles;
+        (token.data as any).permissions = permissions;
+      }
 
       // Return token to session
       return token;
@@ -218,12 +218,12 @@ export const authConfig = {
             role.role.permissions.map((permission) => ({
               action: permission.permission.name.split("_")[0],
               subject: permission.permission.name.split("_")[1],
-            }))
+            })),
           );
 
       if (user) {
-        session.user.roles = roles
-        session.user.permissions = permissions
+        session.user.roles = roles;
+        session.user.permissions = permissions;
       }
       return session;
     },

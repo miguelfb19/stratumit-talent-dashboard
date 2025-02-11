@@ -6,10 +6,12 @@ export default function SendMailScreen() {
           Verification Email Sended
         </h1>
         <p className="w-full text-center text-sm">
-          We're send you a verification mail to your email direction. Please check
-          it to continue
+          We're send you a verification mail to your email direction. Please
+          check it to continue
         </p>
-        <a href="/" className="text-sm text-blue-500 w-full text-center">Return to home</a>
+        <a href="/" className="text-sm text-blue-500 w-full text-center">
+          Return to home
+        </a>
       </div>
     </div>
   );

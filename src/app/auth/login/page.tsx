@@ -3,10 +3,9 @@ import { LoginForm } from "@/components/login/LoginForm";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
+  const session = await auth();
 
-  const session = await auth()
-
-  if(session?.user) redirect('/dashboard/profile')
+  if (session?.user) redirect("/dashboard/profile");
 
   return (
     <>

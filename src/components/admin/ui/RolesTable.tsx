@@ -32,15 +32,15 @@ export const RolesTable = ({ roles, columns }: Props) => {
           ))}
         </TableHeader>
         <TableBody>
-            {roles.map(rol => (
-                <TableRow key={rol.id}>
-                    <TableCell>{rol.id}</TableCell>
-                    <TableCell>{rol.name}</TableCell>
-                    <TableCell className="flex gap-2">
-                    <ActionsButtons/>
-                    </TableCell>
-                </TableRow>
-            ))}
+          {roles.map((rol) => (
+            <TableRow key={rol.id}>
+              <TableCell>{rol.id}</TableCell>
+              <TableCell>{rol.name}</TableCell>
+              <TableCell className="flex gap-2">
+                <ActionsButtons />
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </>

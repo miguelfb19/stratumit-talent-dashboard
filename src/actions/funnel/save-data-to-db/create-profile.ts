@@ -14,8 +14,6 @@ export const createProfile = async (userId: string) => {
 
     if (!user) throw new Error("User not found");
 
-    
-
     if (user?.profile) {
       return {
         ok: true,

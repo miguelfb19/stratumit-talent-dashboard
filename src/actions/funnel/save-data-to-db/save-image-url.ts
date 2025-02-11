@@ -4,16 +4,15 @@ import prisma from "@/lib/prisma";
 
 export const saveImageUrl = async (imageUrl: string, profileId: string) => {
   try {
-
     const savedData = await prisma.profile.update({
       where: {
         id: profileId,
       },
       //   Save or update image
       data: {
-        imageUrl
+        imageUrl,
       },
-    //   Return only necesary information
+      //   Return only necesary information
       select: {
         imageUrl: true,
       },

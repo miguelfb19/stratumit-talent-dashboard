@@ -13,19 +13,22 @@ const tableColumns = [
 ];
 
 export default async function ManageUsersPage() {
+  const res = await getUsersFromDb();
 
-  const res = await getUsersFromDb()
-
-  if(!res.ok || !res.users){
-    submitAlert(res.message, 'error')
-    return <div className="text-red-600 text-2xl w-full text-center mt-10">{res.message}</div>
+  if (!res.ok || !res.users) {
+    submitAlert(res.message, "error");
+    return (
+      <div className="text-red-600 text-2xl w-full text-center mt-10">
+        {res.message}
+      </div>
+    );
   }
 
-  const {users} = res
+  const { users } = res;
 
   return (
     <div className="flex flex-col w-full mt-10 px-5 overflow-scroll">
-      <UsersTable columns={tableColumns} users={users}/>
+      <UsersTable columns={tableColumns} users={users} />
     </div>
   );
 }

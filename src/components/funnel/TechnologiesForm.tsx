@@ -81,11 +81,11 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
           name: technology,
           category: foundTech ? foundTech.category : "Others",
         };
-      }
+      },
     );
     const savedTechnologies = await saveTechnologies(
       profileId,
-      dataWithAddedCategory
+      dataWithAddedCategory,
     );
 
     if (!savedTechnologies.ok) {
@@ -106,7 +106,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
         <div className="flex flex-col h-72 w-full overflow-scroll gap-5">
           {techCategories.map((category) => {
             const filteredTechs = technologies.filter(
-              (tech) => tech.category === category
+              (tech) => tech.category === category,
             );
             return (
               <CheckboxGroup

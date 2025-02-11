@@ -5,10 +5,9 @@ import prisma from "@/lib/prisma";
 
 export const saveJobExperiences = async (
   profileId: string,
-  data: JobExperiences[]
+  data: JobExperiences[],
 ) => {
   try {
-
     const savedData = await prisma.profile.update({
       // Save in corresponding profile
       where: {

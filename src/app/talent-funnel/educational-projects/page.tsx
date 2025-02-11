@@ -20,8 +20,8 @@ export default async function EducationalProjectsFunnelPage() {
     return {
       projectName: item.projectName,
       description: item.description,
-      startDate: item.startDate.toISOString().split('T')[0],
-      finishDate: item.finishDate!.toISOString().split('T')[0],
+      startDate: item.startDate.toISOString().split("T")[0],
+      finishDate: item.finishDate!.toISOString().split("T")[0],
       link: item.link,
     };
   });
@@ -30,7 +30,10 @@ export default async function EducationalProjectsFunnelPage() {
     <div className="flex flex-col w-full h-full">
       <h1 className="text-3xl font-bold mb-5 w-full">Educational Projects</h1>
 
-      <EducationalProjectsForm profileId={profileId} projects={projectsToForm ? projectsToForm : null}/>
+      <EducationalProjectsForm
+        profileId={profileId}
+        projects={projectsToForm ? projectsToForm : null}
+      />
     </div>
   );
 }

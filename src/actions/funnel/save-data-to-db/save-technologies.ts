@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 
 export const saveTechnologies = async (
   profileId: string,
-  data: { name: string; category: TechCategory }[]
+  data: { name: string; category: TechCategory }[],
 ) => {
   try {
     const savedData = await prisma.profile.update({
@@ -49,7 +49,6 @@ export const saveTechnologies = async (
       message: "Languajes saved",
       languajes: savedData.technologies,
     };
-
   } catch (error) {
     return {
       ok: false,

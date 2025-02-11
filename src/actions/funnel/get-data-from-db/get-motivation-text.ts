@@ -22,10 +22,10 @@ export const getMotivationtext = async (profileId: string) => {
     }
 
     return {
-        ok: true, 
-        message: "Motivation text retrieved",
-        data: data.motivationText
-    }
+      ok: true,
+      message: "Motivation text retrieved",
+      data: data.motivationText,
+    };
   } catch (error) {
     return {
       ok: false,

@@ -78,7 +78,7 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
       const newJobs = actualState.filter(
         (savedJob) =>
           savedJob.projectName !== project.projectName ||
-          savedJob.startDate !== project.startDate
+          savedJob.startDate !== project.startDate,
       );
       return newJobs;
     });
@@ -186,7 +186,8 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
                           required: "This field is required",
                           maxLength: {
                             value: 300,
-                            message: "Description must be less than 300 characters",
+                            message:
+                              "Description must be less than 300 characters",
                           },
                         })}
                         isInvalid={!!errors.description}

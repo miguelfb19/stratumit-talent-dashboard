@@ -16,7 +16,7 @@ export const getLanguajesFromDb = async (profileId: string) => {
           },
         },
       },
-    })
+    });
 
     if (!languajesData?.languajes || languajesData.languajes.length === 0) {
       return {

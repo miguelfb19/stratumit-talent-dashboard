@@ -4,7 +4,6 @@ import prisma from "@/lib/prisma";
 
 export const saveMotivationText = async (data: string, profileId: string) => {
   try {
-
     const updatedProfile = await prisma.profile.update({
       where: {
         id: profileId,

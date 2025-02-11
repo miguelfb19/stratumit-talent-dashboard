@@ -87,7 +87,7 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
       const newJobs = actualState!.filter(
         (savedJob) =>
           savedJob.company !== job.company ||
-          savedJob.startDate !== job.startDate
+          savedJob.startDate !== job.startDate,
       );
       return newJobs;
     });
@@ -102,8 +102,7 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
 
     if (!savedData.ok) submitAlert(savedData.message, "error");
 
-    window.location.replace('/talent-funnel/educational-projects')
-
+    window.location.replace("/talent-funnel/educational-projects");
   };
 
   return (
@@ -192,7 +191,8 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
                           required: "This field is required",
                           maxLength: {
                             value: 300,
-                            message: "Description must be less than 300 characters",
+                            message:
+                              "Description must be less than 300 characters",
                           },
                         })}
                         isInvalid={!!errors.description}

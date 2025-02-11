@@ -47,7 +47,6 @@ export const addTalentRole = async (userId: string) => {
     }
 
     await getSession();
-    
   } catch (error) {
     return {
       ok: false,

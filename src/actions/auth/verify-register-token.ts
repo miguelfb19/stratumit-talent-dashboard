@@ -30,10 +30,14 @@ export const verifyRegisterToken = async (token: string) => {
         },
       });
 
-      return { ok: true, message: "User verified", user: user}
+      return { ok: true, message: "User verified", user: user };
     }
   } catch (error) {
     console.error(error);
-    return { ok: false, message: "Someting went wrong with the verification", user: null }
+    return {
+      ok: false,
+      message: "Someting went wrong with the verification",
+      user: null,
+    };
   }
 };

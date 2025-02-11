@@ -25,14 +25,14 @@ export const sendVerificationMail = async (email: string) => {
               <p>This link expires at 1 hour</p>
             `,
     };
- 
+
     //   send mail
     await transporter.sendMail(mailOptions);
 
     return {
-        ok: true,
-        message: "Verification email sent successfully",
-    }
+      ok: true,
+      message: "Verification email sent successfully",
+    };
   } catch (error) {
     console.error(error);
     return {

@@ -58,11 +58,11 @@ async function main() {
           return {
             roleId: rolesdDB.find((role) => role.name === rolPerm.role)!.id,
             permissionId: permissionsDB.find(
-              (permission) => permission.name === perm
+              (permission) => permission.name === perm,
             )!.id,
           };
         });
-      }
+      },
 
       // roleId: rolesdDB.find((role) => role.name === rolPerm.role)!.id,
       // permissionId:
@@ -99,7 +99,7 @@ async function main() {
           },
         },
       });
-    })
+    }),
   );
 
   console.log("seed executed");

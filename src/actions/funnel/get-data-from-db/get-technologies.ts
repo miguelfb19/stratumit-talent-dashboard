@@ -20,7 +20,7 @@ export const getTechnologiesFromDb = async (profileId: string) => {
           },
         },
       },
-    })
+    });
 
     if (
       !technologiesData?.technologies ||

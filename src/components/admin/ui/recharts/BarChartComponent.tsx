@@ -59,17 +59,15 @@ export const BarChartComponent = ({
   width = 400,
   height = 250,
 }: Props) => {
-
-  
   return (
-      <BarChart width={width} height={height} data={data} className={className}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="pv" fill="#0f172a" />
-        <Bar dataKey="uv" fill="#2563eb" />
-      </BarChart>
+    <BarChart width={width} height={height} data={data} className={className}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="pv" fill="#0f172a" />
+      <Bar dataKey="uv" fill="#2563eb" />
+    </BarChart>
   );
 };

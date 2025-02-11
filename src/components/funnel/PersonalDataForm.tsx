@@ -48,14 +48,13 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
   const handleIndicative = (country: string) => {
     const selectedCountry = countries.find((item) => item.name === country);
 
-    return selectedCountry ? selectedCountry.indicative : "+1"
+    return selectedCountry ? selectedCountry.indicative : "+1";
   };
 
   // To set indicative in the phoneNumber input
   useEffect(() => {
-    setIndicative(handleIndicative(watch('country')))
-  }, [watch('country')])
-  
+    setIndicative(handleIndicative(watch("country")));
+  }, [watch("country")]);
 
   const onPressNext = async (data: PersonalData) => {
     // manual validation should have been done here, I still don't know why.
@@ -68,7 +67,7 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
     }
 
     // Add indicative to number
-    data.phoneNumber = indicative+data.phoneNumber
+    data.phoneNumber = indicative + data.phoneNumber;
 
     // Save in DB
     const savedData = await savePersonalData(userId, data);

@@ -67,9 +67,6 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
 
   // Validate file and set preview
   useEffect(() => {
-
-
-
     // set preview
     if (!image?.[0]) return setFilePreview("");
     const reader = new FileReader();

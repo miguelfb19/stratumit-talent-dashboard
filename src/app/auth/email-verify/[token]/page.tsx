@@ -12,7 +12,6 @@ export default function VerifyPage() {
   const router = useRouter();
   const { token } = useParams() as { token: string };
 
-
   const handleVerification = async () => {
     // Loading the verification
     setIsLoading(true);
@@ -23,7 +22,7 @@ export default function VerifyPage() {
     // if something is wrong, show failed message and redirect to login
     if (!verification?.ok) {
       setMessage(
-        verification?.message || "Something went wrong with the verification"
+        verification?.message || "Something went wrong with the verification",
       );
       router.push("/auth/login");
     } else {
@@ -46,10 +45,12 @@ export default function VerifyPage() {
   return (
     <div className="flex h-screen w-screen justify-center items-center bg-slate-500">
       <div className="flex flex-col items-start justify-center text-center w-1/2 h-1/2 bg-slate-50 rounded-xl p-20 gap-5">
-        <h1 className={clsx("w-full text-3xl text-center", {
-          "text-green-500": message?.includes('successfully'),
-          "text-red-600": message?.includes('wrong'),
-        })}>
+        <h1
+          className={clsx("w-full text-3xl text-center", {
+            "text-green-500": message?.includes("successfully"),
+            "text-red-600": message?.includes("wrong"),
+          })}
+        >
           {isLoading ? "Wait" : message}
         </h1>
         <p className="w-full text-center text-sm">

@@ -42,7 +42,7 @@ export const AddOtherTechnologyForm = ({ addNewTechnologies }: Props) => {
   const addTechnology = () => {
     // Avoid repeat technologies
     const technologiesArray = technologies.map((tech) =>
-      tech.name.toLocaleLowerCase()
+      tech.name.toLocaleLowerCase(),
     );
     if (technologiesArray.includes(watch("name").toLocaleLowerCase())) {
       submitAlert("This technology already exist", "error");

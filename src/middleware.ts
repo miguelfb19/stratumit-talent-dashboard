@@ -6,7 +6,6 @@ export async function middleware(req: NextRequest) {
   // Get token
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
-
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
@@ -36,4 +35,3 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: ["/admin/:path*", "/dashboard/:path*"], // Protected routes
 };
-

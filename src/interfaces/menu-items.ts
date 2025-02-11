@@ -3,4 +3,5 @@ export interface MenuItems {
   title: string;
   icon: JSX.Element;
   subtitle: string;
-}[];
+}
+[];

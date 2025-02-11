@@ -29,28 +29,28 @@ export const columnsToJobsInformationOnFunnel = [
 ];
 
 export const columnsEducationalProjectsFunnel = [
-    {
-      key: "projectName",
-      label: "Project Name",
-    },
-    {
-      key: "link",
-      label: "Link",
-    },
-    {
-      key: "description",
-      label: "Description",
-    },
-    {
-      key: "startDate",
-      label: "Start Date",
-    },
-    {
-      key: "finishDate",
-      label: "Finish Date",
-    },
-    {
-      key: "delete",
-      label: "",
-    },
-]
+  {
+    key: "projectName",
+    label: "Project Name",
+  },
+  {
+    key: "link",
+    label: "Link",
+  },
+  {
+    key: "description",
+    label: "Description",
+  },
+  {
+    key: "startDate",
+    label: "Start Date",
+  },
+  {
+    key: "finishDate",
+    label: "Finish Date",
+  },
+  {
+    key: "delete",
+    label: "",
+  },
+];

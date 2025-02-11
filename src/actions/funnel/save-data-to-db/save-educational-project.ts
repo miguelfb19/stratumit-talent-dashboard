@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 
 export const saveEducationalProjects = async (
   profileId: string,
-  data: EducationalProject[]
+  data: EducationalProject[],
 ) => {
   try {
     const savedData = await prisma.profile.update({

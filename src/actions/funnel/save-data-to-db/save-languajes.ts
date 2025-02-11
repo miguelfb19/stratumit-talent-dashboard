@@ -5,7 +5,7 @@ import { LanguajeLevel } from "@prisma/client";
 
 export const saveLanguajes = async (
   profileId: string,
-  data: { name: string; level: string }[]
+  data: { name: string; level: string }[],
 ) => {
   try {
     const savedData = await prisma.profile.update({
@@ -43,9 +43,7 @@ export const saveLanguajes = async (
       ok: true,
       message: "Languajes saved",
       languajes: savedData.languajes,
-    
-    }
-
+    };
   } catch (error) {
     return {
       ok: false,

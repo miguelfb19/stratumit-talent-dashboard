@@ -13,10 +13,10 @@ export default async function MotivationTextPage() {
   const { profile, ok, errorDetail } = profileDB;
 
   if (!session) return <NotUserError />;
-  if (!ok || !profile){
+  if (!ok || !profile) {
     console.error(errorDetail);
-    return <NotProfileError redirectUrl="/auth/login"/>;
-  } 
+    return <NotProfileError redirectUrl="/auth/login" />;
+  }
   const resp = await getMotivationtext(profile.id);
   const { data } = resp;
 

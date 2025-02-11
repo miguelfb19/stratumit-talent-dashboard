@@ -23,21 +23,21 @@ export const registerNewUser = async (data: User) => {
       ...rest,
       password: hashSync(password),
     };
-    
+
     //Send verification email token
-    await sendVerificationMail(data.email)
-    
+    await sendVerificationMail(data.email);
+
     // Save user in DB
     const newUser = await prisma.user.create({
       data: dataWithHashPassword,
     });
 
     // Return success create
-    const {email, firstName, lastName, id, ...otherData} = newUser
+    const { email, firstName, lastName, id, ...otherData } = newUser;
     return {
       ok: true,
       message: "Register success!",
-      newUser: {id, firstName, lastName, email},
+      newUser: { id, firstName, lastName, email },
     };
   } catch (error) {
     console.log(error);
