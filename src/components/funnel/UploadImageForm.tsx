@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Input, Form, Image } from "@heroui/react";
 import { IoImageOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-
-import { NavigateButtons } from "./NavigateButtons";
 
 import { uploadImage } from "@/actions/funnel/save-data-to-db/upload-image";
 import { saveImageUrl } from "@/actions/funnel/save-data-to-db/save-image-url";
 import { submitAlert } from "@/utils/alerts";
+
 import { Loading } from "../ui/Loading";
+import { NavigateButtons } from "./NavigateButtons";
 
 interface ImageForm {
   image: FileList;
@@ -56,6 +56,7 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
 
     if (!fileUrl) {
       submitAlert(message, "error");
+
       return;
     }
 
@@ -63,6 +64,7 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
 
     if (!savedUrlImage.ok) {
       submitAlert(savedUrlImage.message, "error");
+
       return;
     }
 

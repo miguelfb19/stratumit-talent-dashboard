@@ -1,7 +1,6 @@
 "use client";
 
-// Components
-
+import { useState } from "react";
 import {
   Button,
   Form,
@@ -21,18 +20,15 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { IoAdd, IoTrash } from "react-icons/io5";
-// Hooks
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 
-import { NavigateButtons } from "./NavigateButtons";
-
-// Data and utils
 import { columnsToJobsInformationOnFunnel } from "@/data/funnel-data";
 import { JobExperiences } from "@/interfaces/funnel";
 import { submitAlert } from "@/utils/alerts";
 import { saveJobExperiences } from "@/actions/funnel/save-data-to-db/save-job-experiences";
+
 import { Loading } from "../ui/Loading";
+import { NavigateButtons } from "./NavigateButtons";
 
 interface Props {
   profileId: string;
@@ -85,7 +81,7 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
       const newJobs = actualState!.filter(
         (savedJob) =>
           savedJob.company !== job.company ||
-          savedJob.startDate !== job.startDate
+          savedJob.startDate !== job.startDate,
       );
 
       return newJobs;

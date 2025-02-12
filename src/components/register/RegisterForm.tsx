@@ -1,26 +1,17 @@
 "use client";
 
-// React
 import { useState } from "react";
-// Libraries
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import {
-  Input,
-  Button,
-  Form,
-  Select,
-  SelectItem,
-  Link,
-} from "@heroui/react";
-// Components and other files
-import { useForm } from "react-hook-form";
-import clsx from "clsx";
 import { useRouter } from "next/navigation";
+import clsx from "clsx";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { Input, Button, Form, Select, SelectItem, Link } from "@heroui/react";
+import { useForm } from "react-hook-form";
 
 import { countries } from "@/data/countries";
 import { RegisterFormInputs } from "@/interfaces/register-form-inputs";
 import { registerNewUser } from "@/actions/auth/register-new-user";
 import { submitAlert } from "@/utils/alerts";
+
 import { Loading } from "../ui/Loading";
 
 export const RegisterForm = () => {
@@ -45,6 +36,7 @@ export const RegisterForm = () => {
 
   const OnSubmitForm = async (data: RegisterFormInputs) => {
     // Transform de date for DB format
+    // eslint-disable
     const { birthDate, confirmPassword, ...rest } = data;
     const dataToSave = {
       ...rest,
@@ -56,7 +48,6 @@ export const RegisterForm = () => {
 
     // Handle some error
     if (!newUser?.ok) {
-      console.error(newUser.error)
       submitAlert(newUser.message, "error");
 
       return;

@@ -3,15 +3,12 @@
 import { Checkbox, CheckboxGroup, Form, Chip } from "@heroui/react";
 import { useController, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-
+import { useState } from "react";
 // import { TechCategory } from "../../data/seed/seed-data";
-
 import { NavigateButtons } from "./NavigateButtons";
-
 import { saveTechnologies } from "@/actions/funnel/save-data-to-db/save-technologies";
 import { submitAlert } from "@/utils/alerts";
 import { technologies, techCategories } from "@/data/seed/seed-data";
-import { useState } from "react";
 import { Loading } from "../ui/Loading";
 
 // type TechnologiesData = {
@@ -84,11 +81,11 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
           name: technology,
           category: foundTech ? foundTech.category : "Others",
         };
-      }
+      },
     );
     const savedTechnologies = await saveTechnologies(
       profileId,
-      dataWithAddedCategory
+      dataWithAddedCategory,
     );
 
     if (!savedTechnologies.ok) {
@@ -113,7 +110,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
         <div className="flex flex-col h-72 w-full overflow-scroll gap-5">
           {techCategories.map((category) => {
             const filteredTechs = technologies.filter(
-              (tech) => tech.category === category
+              (tech) => tech.category === category,
             );
 
             return (

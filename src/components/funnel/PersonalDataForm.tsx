@@ -1,12 +1,10 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { Input, Form, Select, SelectItem, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import { Input, Form, Select, SelectItem, Button } from "@heroui/react";
 import { NavigateButtons } from "./NavigateButtons";
-
 import { countries } from "@/data/countries";
 import { timezones } from "@/data/timezones";
 import { PersonalData } from "@/interfaces/funnel";

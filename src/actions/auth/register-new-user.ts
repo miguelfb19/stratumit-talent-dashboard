@@ -16,8 +16,7 @@ export const registerNewUser = async (data: NewUser) => {
       },
     });
 
-    if (emailExist)
-      return { ok: false, message: "Email already exists" };
+    if (emailExist) return { ok: false, message: "Email already exists" };
 
     // encrypt password
     const { password, ...rest } = data;
@@ -26,15 +25,14 @@ export const registerNewUser = async (data: NewUser) => {
       password: hashSync(password),
     };
 
-    console.log('Before send email')
     //Send verification email token
     await sendVerificationMail(data.email);
-    console.log('after send email')
+
     // Save user in DB
     const newUser = await prisma.user.create({
       data: dataWithHashPassword,
     });
-    console.log('Already create new user')
+
     // Return success create
     const { email, firstName, lastName, id } = newUser;
 

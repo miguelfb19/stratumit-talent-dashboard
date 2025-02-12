@@ -1,17 +1,17 @@
 "use client";
 
-import { Button, Form, Select, SelectItem } from "@heroui/react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Button, Form, Select, SelectItem } from "@heroui/react";
 import { IoAdd, IoTrash } from "react-icons/io5";
-
-import { NavigateButtons } from "./NavigateButtons";
+import { useFieldArray, useForm } from "react-hook-form";
 
 import { languajesData, languajesLevels } from "@/data/funnel-data";
 import { saveLanguajes } from "@/actions/funnel/save-data-to-db/save-languajes";
 import { submitAlert } from "@/utils/alerts";
-import { useState } from "react";
+
 import { Loading } from "../ui/Loading";
+import { NavigateButtons } from "./NavigateButtons";
 
 type LanguajeFormValues = {
   languajes: { name: string; level: string }[];
@@ -65,7 +65,7 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
       return;
     }
     router.push("/talent-funnel/technologies");
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   return (
@@ -74,7 +74,7 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
         className="flex w-full h-full mt-5 justify-between"
         onSubmit={handleSubmit(onPressNext)}
       >
-        {isLoading && <Loading/>}
+        {isLoading && <Loading />}
         <div
           className="flex w-full flex-col gap-5  max-h-72 overflow-hidden"
           id="fields-button"

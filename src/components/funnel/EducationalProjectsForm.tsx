@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Button,
   Form,
@@ -20,16 +22,14 @@ import {
 } from "@heroui/react";
 import { IoAdd, IoTrash } from "react-icons/io5";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 
+import { Loading } from "../ui/Loading";
 import { NavigateButtons } from "./NavigateButtons";
 
-import { columnsEducationalProjectsFunnel } from "@/data/funnel-data";
 import { submitAlert } from "@/utils/alerts";
 import { EducationalProject } from "@/interfaces/funnel";
+import { columnsEducationalProjectsFunnel } from "@/data/funnel-data";
 import { saveEducationalProjects } from "@/actions/funnel/save-data-to-db/save-educational-project";
-import { Loading } from "../ui/Loading";
 
 interface Props {
   profileId: string;
@@ -83,7 +83,7 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
       const newJobs = actualState.filter(
         (savedJob) =>
           savedJob.projectName !== project.projectName ||
-          savedJob.startDate !== project.startDate
+          savedJob.startDate !== project.startDate,
       );
 
       return newJobs;

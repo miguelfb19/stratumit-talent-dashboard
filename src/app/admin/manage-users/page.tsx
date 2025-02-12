@@ -14,8 +14,9 @@ const tableColumns = [
 ];
 
 export default async function ManageUsersPage() {
-  const res = await getUsersFromDb();
 
+  const res = await getUsersFromDb()
+  
   if (!res.ok || !res.users) {
     submitAlert(res.message, "error");
 

@@ -1,16 +1,16 @@
 "use client";
 
-import { Button, Form, Input, Link } from "@heroui/react";
-import clsx from "clsx";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { Button, Form, Input, Link } from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 import { submitAlert } from "@/utils/alerts";
 import { LoginFormInputs } from "@/interfaces/login-form-inputs";
 import { authenticate } from "@/actions/auth/authenticate";
+
 import { Loading } from "../ui/Loading";
 
 export const LoginForm = () => {
@@ -66,7 +66,7 @@ export const LoginForm = () => {
       <Form
         className="relative w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white"
         onSubmit={handleSubmit(onLogin)}
-        >
+      >
         {isLoading && <Loading />}
         <h2 className="text-4xl w-full text-center font-bold">Welcome</h2>
         <p className="text-sm mb-6 w-full text-center text-slate-600">

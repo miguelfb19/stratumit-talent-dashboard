@@ -1,4 +1,4 @@
-import { MotivationTextForm } from "../../../components/funnel/MotivationTextForm";
+import { MotivationTextForm } from "@/components/funnel/MotivationTextForm";
 import { auth } from "@/auth.config";
 import { createProfile } from "@/actions/funnel/save-data-to-db/create-profile";
 import { getMotivationtext } from "@/actions/funnel/get-data-from-db/get-motivation-text";
