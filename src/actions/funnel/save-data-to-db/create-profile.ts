@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 export const createProfile = async (userId: string) => {
   try {
     // Get user and profile if exist
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
         id: userId,
       },

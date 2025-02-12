@@ -11,6 +11,7 @@ import { NavigateButtons } from "./NavigateButtons";
 import { uploadImage } from "@/actions/funnel/save-data-to-db/upload-image";
 import { saveImageUrl } from "@/actions/funnel/save-data-to-db/save-image-url";
 import { submitAlert } from "@/utils/alerts";
+import { Loading } from "../ui/Loading";
 
 interface ImageForm {
   image: FileList;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const {
     handleSubmit,
@@ -33,6 +35,7 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
   const [filePreview, setFilePreview] = useState("");
 
   const onPressNext = async (data: ImageForm) => {
+    setIsLoading(true);
     // If previous image exist on db and user don't want to save any other image, continue to next step
     if (imageUrl) {
       if (!filePreview || filePreview === "") {
@@ -53,7 +56,6 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
 
     if (!fileUrl) {
       submitAlert(message, "error");
-
       return;
     }
 
@@ -61,11 +63,11 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
 
     if (!savedUrlImage.ok) {
       submitAlert(savedUrlImage.message, "error");
-
       return;
     }
 
     router.push("/talent-funnel/personal-data");
+    setIsLoading(false);
   };
 
   // Watch actual file input state
@@ -87,6 +89,7 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
         className="flex w-full h-full mt-5 justify-between"
         onSubmit={handleSubmit(onPressNext)}
       >
+        {isLoading && <Loading />}
         <Input
           accept="image/*"
           endContent={<IoImageOutline size={20} />}

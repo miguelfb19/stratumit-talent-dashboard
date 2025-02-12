@@ -12,6 +12,7 @@ import { timezones } from "@/data/timezones";
 import { PersonalData } from "@/interfaces/funnel";
 import { savePersonalData } from "@/actions/funnel/save-data-to-db/save-personal-data";
 import { submitAlert } from "@/utils/alerts";
+import { Loading } from "../ui/Loading";
 
 interface Props {
   userData: PersonalData | null;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export const PersonalDataForm = ({ userData, userId }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   // Handle indicative changes
   const [indicative, setIndicative] = useState("+1");
 
@@ -59,6 +61,7 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
   }, [watch("country")]);
 
   const onPressNext = async (data: PersonalData) => {
+    setIsLoading(true);
     // manual validation should have been done here, I still don't know why.
     if (data.timezone === "") {
       setError("timezone", {
@@ -82,6 +85,7 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
 
     // Redirect to user dashboard
     router.push("/dashboard/profile");
+    setIsLoading(false);
   };
 
   return (
@@ -89,6 +93,7 @@ export const PersonalDataForm = ({ userData, userId }: Props) => {
       className="flex w-full h-full mt-5 justify-between"
       onSubmit={handleSubmit(onPressNext)}
     >
+      {isLoading && <Loading />}
       <div className="flex flex-col w-full gap-3">
         <span className="flex gap-5">
           <Input

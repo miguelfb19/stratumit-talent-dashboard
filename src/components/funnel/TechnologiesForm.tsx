@@ -11,6 +11,8 @@ import { NavigateButtons } from "./NavigateButtons";
 import { saveTechnologies } from "@/actions/funnel/save-data-to-db/save-technologies";
 import { submitAlert } from "@/utils/alerts";
 import { technologies, techCategories } from "@/data/seed/seed-data";
+import { useState } from "react";
+import { Loading } from "../ui/Loading";
 
 // type TechnologiesData = {
 //   name: string;
@@ -28,6 +30,7 @@ interface Props {
 }
 
 export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const { handleSubmit, control } = useForm<ChipboxValues>({
@@ -67,6 +70,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
 
   // Function to submit form and add data to DB
   const onPressNext = async (data: ChipboxValues) => {
+    setIsLoading(true);
     if (data.technologies.length === 0)
       return submitAlert("You must fill in at least one field", "error");
 
@@ -80,11 +84,11 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
           name: technology,
           category: foundTech ? foundTech.category : "Others",
         };
-      },
+      }
     );
     const savedTechnologies = await saveTechnologies(
       profileId,
-      dataWithAddedCategory,
+      dataWithAddedCategory
     );
 
     if (!savedTechnologies.ok) {
@@ -94,19 +98,22 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
     }
 
     router.push("/talent-funnel/job-experiences");
+    setIsLoading(false);
   };
 
   return (
     <>
+      {isLoading && <Loading />}
       <Form
         className="relative flex w-full h-full"
         onSubmit={handleSubmit(onPressNext)}
       >
+        <h1 className="text-3xl font-bold mb-5 w-full">Technologies</h1>
         {/* <AddOtherTechnologyForm addNewTechnologies={getDataFromModal} /> */}
         <div className="flex flex-col h-72 w-full overflow-scroll gap-5">
           {techCategories.map((category) => {
             const filteredTechs = technologies.filter(
-              (tech) => tech.category === category,
+              (tech) => tech.category === category
             );
 
             return (

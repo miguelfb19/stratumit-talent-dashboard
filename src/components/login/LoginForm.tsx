@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Form, Input, Link, CircularProgress } from "@heroui/react";
+import { Button, Form, Input, Link } from "@heroui/react";
 import clsx from "clsx";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -11,10 +11,12 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { submitAlert } from "@/utils/alerts";
 import { LoginFormInputs } from "@/interfaces/login-form-inputs";
 import { authenticate } from "@/actions/auth/authenticate";
+import { Loading } from "../ui/Loading";
 
 export const LoginForm = () => {
   const router = useRouter();
   const params = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fields verification
   const {
@@ -43,6 +45,7 @@ export const LoginForm = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const onLogin = async (data: LoginFormInputs) => {
+    setIsLoading(true);
     try {
       const login = await authenticate(data);
 
@@ -52,6 +55,7 @@ export const LoginForm = () => {
     } catch (error) {
       return { error, message: "Error on authenticate" };
     }
+    setIsLoading(false);
   };
 
   return (
@@ -59,18 +63,11 @@ export const LoginForm = () => {
       className="flex h-screen w-screen justify-center items-center bg-slate-700 overflow-scroll"
       id="form-container"
     >
-      {isSubmitting && (
-        <CircularProgress
-          className="absolute top-1/2 right-1/2 translate-x-1/2"
-          size="lg"
-        />
-      )}
       <Form
-        className={clsx("w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white", {
-          "opacity-50 pointer-events-none": isSubmitting,
-        })}
+        className="relative w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white"
         onSubmit={handleSubmit(onLogin)}
-      >
+        >
+        {isLoading && <Loading />}
         <h2 className="text-4xl w-full text-center font-bold">Welcome</h2>
         <p className="text-sm mb-6 w-full text-center text-slate-600">
           Enter your credentials to login

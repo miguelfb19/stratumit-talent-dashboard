@@ -1,10 +1,9 @@
 import { MotivationTextForm } from "../../../components/funnel/MotivationTextForm";
-
 import { auth } from "@/auth.config";
 import { createProfile } from "@/actions/funnel/save-data-to-db/create-profile";
 import { getMotivationtext } from "@/actions/funnel/get-data-from-db/get-motivation-text";
 import { NotUserError } from "@/components/funnel/error/NotUserError";
-import { NotProfileError } from "@/components/funnel/error/NotProfileError";
+import { Loading } from "@/components/ui/Loading";
 
 export default async function MotivationTextPage() {
   const session = await auth();
@@ -15,20 +14,13 @@ export default async function MotivationTextPage() {
 
   if (!session) return <NotUserError />;
   if (!profile || !ok) {
-    return <NotProfileError redirectUrl="/auth/login" />;
+    return <Loading reload />;
   }
   const resp = await getMotivationtext(profile.id);
   const { data } = resp;
 
   return (
     <>
-      <h1 className="w-full text-5xl text-blue-600 text-center font-bold">
-        Talents
-      </h1>
-      <p className="w-full text-center text-sm">
-        To complete your registration as a talent, please complete next
-        information:
-      </p>
       <MotivationTextForm
         motivationTextFromDb={data ? data : ""}
         profileId={profile.id}

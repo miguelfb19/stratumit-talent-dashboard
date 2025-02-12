@@ -10,6 +10,8 @@ import { NavigateButtons } from "./NavigateButtons";
 import { languajesData, languajesLevels } from "@/data/funnel-data";
 import { saveLanguajes } from "@/actions/funnel/save-data-to-db/save-languajes";
 import { submitAlert } from "@/utils/alerts";
+import { useState } from "react";
+import { Loading } from "../ui/Loading";
 
 type LanguajeFormValues = {
   languajes: { name: string; level: string }[];
@@ -21,6 +23,7 @@ interface Props {
 }
 
 export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   // we use control to handle pair of values languaje-level
   const {
     control,
@@ -51,6 +54,7 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
   });
 
   const onPressNext = async (data: LanguajeFormValues) => {
+    setIsLoading(true);
     const { languajes } = data;
 
     const savedLanguajes = await saveLanguajes(profileId, languajes);
@@ -61,6 +65,7 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
       return;
     }
     router.push("/talent-funnel/technologies");
+    setIsLoading(false)
   };
 
   return (
@@ -69,6 +74,7 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
         className="flex w-full h-full mt-5 justify-between"
         onSubmit={handleSubmit(onPressNext)}
       >
+        {isLoading && <Loading/>}
         <div
           className="flex w-full flex-col gap-5  max-h-72 overflow-hidden"
           id="fields-button"

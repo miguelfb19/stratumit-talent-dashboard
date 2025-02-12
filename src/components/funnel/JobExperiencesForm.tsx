@@ -32,6 +32,7 @@ import { columnsToJobsInformationOnFunnel } from "@/data/funnel-data";
 import { JobExperiences } from "@/interfaces/funnel";
 import { submitAlert } from "@/utils/alerts";
 import { saveJobExperiences } from "@/actions/funnel/save-data-to-db/save-job-experiences";
+import { Loading } from "../ui/Loading";
 
 interface Props {
   profileId: string;
@@ -39,6 +40,7 @@ interface Props {
 }
 
 export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   // Handle Modal
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -83,7 +85,7 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
       const newJobs = actualState!.filter(
         (savedJob) =>
           savedJob.company !== job.company ||
-          savedJob.startDate !== job.startDate,
+          savedJob.startDate !== job.startDate
       );
 
       return newJobs;
@@ -92,6 +94,7 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
 
   // This function ends all proccess, sendding the information where i a tell it
   const onPressNext = async () => {
+    setIsLoading(true);
     if (!savedJobs)
       return submitAlert("You must fill in at least one field", "error");
 
@@ -100,10 +103,13 @@ export const JobExperiencesForm = ({ profileId, jobExpFromDb }: Props) => {
     if (!savedData.ok) submitAlert(savedData.message, "error");
 
     window.location.replace("/talent-funnel/educational-projects");
+    setIsLoading(false);
   };
 
   return (
     <>
+      {isLoading && <Loading />}
+      <h1 className="text-3xl font-bold mb-5 w-full">Job Experiences</h1>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
         <div className="flex flex-col gap-5 p-3" id="table-button-container">
           {savedJobs && savedJobs[0]?.company && (

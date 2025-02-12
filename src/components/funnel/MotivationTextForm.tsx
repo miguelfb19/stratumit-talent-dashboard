@@ -8,6 +8,8 @@ import { NavigateButtons } from "./NavigateButtons";
 
 import { saveMotivationText } from "@/actions/funnel/save-data-to-db/save-motivation-text";
 import { submitAlert } from "@/utils/alerts";
+import { useState } from "react";
+import { Loading } from "../ui/Loading";
 
 interface MotivationTextInput {
   text: string;
@@ -21,6 +23,7 @@ export const MotivationTextForm = ({
   motivationTextFromDb = "",
   profileId,
 }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -33,6 +36,7 @@ export const MotivationTextForm = ({
   });
 
   const onPressNext = async (data: MotivationTextInput) => {
+    setIsLoading(true);
     // Save motivation text in DB
     const updatedProfile = await saveMotivationText(data.text, profileId);
 
@@ -40,25 +44,36 @@ export const MotivationTextForm = ({
     if (!updatedProfile.ok) submitAlert(updatedProfile.message, "error");
     // Continue to next step
     router.push("/talent-funnel/languajes");
+    setIsLoading(false);
   };
 
   return (
-    <Form className="w-full mt-5" onSubmit={handleSubmit(onPressNext)}>
-      <h1 className="text-3xl font-bold mb-5">Motivation Text</h1>
-      <Textarea
-        className="w-full max-h-44"
-        color="primary"
-        minRows={10}
-        placeholder="Enter a motivation text"
-        type="text"
-        variant="faded"
-        {...register("text", {
-          required: "Please, write a motivation text to continue",
-        })}
-        errorMessage={errors.text?.message}
-        isInvalid={!!errors.text}
-      />
-      <NavigateButtons prevButon={false} prevLink="" />
-    </Form>
+    <>
+      <Form className="w-full" onSubmit={handleSubmit(onPressNext)}>
+        {isLoading && <Loading />}
+        <h1 className="w-full text-5xl text-blue-600 text-center font-bold">
+          Talents
+        </h1>
+        <p className="w-full text-center text-sm mt-5">
+          To complete your registration as a talent, please complete next
+          information:
+        </p>
+        <h2 className="text-3xl font-bold my-5">Motivation Text</h2>
+        <Textarea
+          className="w-full max-h-44"
+          color="primary"
+          minRows={10}
+          placeholder="Enter a motivation text"
+          type="text"
+          variant="faded"
+          {...register("text", {
+            required: "Please, write a motivation text to continue",
+          })}
+          errorMessage={errors.text?.message}
+          isInvalid={!!errors.text}
+        />
+        <NavigateButtons prevButon={false} prevLink="" />
+      </Form>
+    </>
   );
 };

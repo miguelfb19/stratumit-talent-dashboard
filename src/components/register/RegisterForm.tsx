@@ -11,7 +11,6 @@ import {
   Select,
   SelectItem,
   Link,
-  CircularProgress,
 } from "@heroui/react";
 // Components and other files
 import { useForm } from "react-hook-form";
@@ -22,6 +21,7 @@ import { countries } from "@/data/countries";
 import { RegisterFormInputs } from "@/interfaces/register-form-inputs";
 import { registerNewUser } from "@/actions/auth/register-new-user";
 import { submitAlert } from "@/utils/alerts";
+import { Loading } from "../ui/Loading";
 
 export const RegisterForm = () => {
   const router = useRouter();
@@ -45,10 +45,10 @@ export const RegisterForm = () => {
 
   const OnSubmitForm = async (data: RegisterFormInputs) => {
     // Transform de date for DB format
-    const { birthDate, ...rest } = data;
+    const { birthDate, confirmPassword, ...rest } = data;
     const dataToSave = {
       ...rest,
-      birthDate: `${birthDate}T00:00:00Z`,
+      birthDate: new Date(birthDate),
     };
 
     // Call the server action
@@ -56,6 +56,7 @@ export const RegisterForm = () => {
 
     // Handle some error
     if (!newUser?.ok) {
+      console.error(newUser.error)
       submitAlert(newUser.message, "error");
 
       return;
@@ -69,12 +70,7 @@ export const RegisterForm = () => {
       className="flex h-screen w-screen justify-center items-center bg-slate-700 overflow-scroll"
       id="form-container"
     >
-      {isSubmitting && (
-        <CircularProgress
-          className="absolute top-1/2 right-1/2 translate-x-1/2"
-          size="lg"
-        />
-      )}
+      {isSubmitting && <Loading />}
       <Form
         className={clsx("w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white", {
           "opacity-50 pointer-events-none": isSubmitting,
