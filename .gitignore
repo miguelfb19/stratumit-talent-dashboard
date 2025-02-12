@@ -39,3 +39,7 @@ next-env.d.ts
 /talents-postgres-data
 
 TO-DO.md
+
+# seed
+
+/src/data/seed
