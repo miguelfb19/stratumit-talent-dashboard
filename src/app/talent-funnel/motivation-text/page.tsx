@@ -14,7 +14,7 @@ export default async function MotivationTextPage() {
   const { profile, ok } = profileDB;
 
   if (!session) return <NotUserError />;
-  if (!ok || !profile) {
+  if (!profile || !ok) {
     return <NotProfileError redirectUrl="/auth/login" />;
   }
   const resp = await getMotivationtext(profile.id);

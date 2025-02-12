@@ -32,7 +32,7 @@ export default function Home() {
             </ul>
           </nav>
         </div>
-        <div className="flex items-center justify-center flex-col text-center gap-5 text-white">
+        <div className="flex items-center justify-center flex-col text-center gap-5 text-white pl-20">
           <h1 className="text-7xl mb-10 font-semibold">Talent dashboard</h1>
           <p>
             This is a dashboard to craete and manage talents information in the

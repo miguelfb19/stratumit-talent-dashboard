@@ -14,6 +14,7 @@ export const createProfile = async (userId: string) => {
 
     if (!user) throw new Error("User not found");
 
+    // If profile exist, return it
     if (user?.profile) {
       return {
         ok: true,
@@ -25,8 +26,6 @@ export const createProfile = async (userId: string) => {
     const newProfile = await prisma.profile.create({
       data: {
         userId: userId,
-        motivationText: null,
-        timezone: null,
       },
     });
 

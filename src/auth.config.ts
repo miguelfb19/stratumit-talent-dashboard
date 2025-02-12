@@ -233,4 +233,7 @@ export const authConfig = {
   },
 } satisfies NextAuthConfig;
 
-export const { signIn, signOut, auth, handlers } = NextAuth({...authConfig, trustHost: true});
+export const { signIn, signOut, auth, handlers } = NextAuth({
+  ...authConfig,
+  trustHost: true,
+});
