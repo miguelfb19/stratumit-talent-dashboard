@@ -1,21 +1,20 @@
 "use server";
 
-import { unlink, writeFile } from "fs/promises";
-import path from "path";
-
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/lib/prisma";
+import { s3 } from "@/lib/aws-s3";
+import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 
 export const uploadImage = async (
   formData: FormData,
-  previousImgUrl: string | null,
+  profileId: string,
 ) => {
   try {
     // Get from DB existing previuos profile imageUrl
     const existingImg = await prisma.profile.findFirst({
       where: {
-        imageUrl: previousImgUrl,
+        id: profileId,
       },
       select: {
         imageUrl: true,
@@ -24,22 +23,28 @@ export const uploadImage = async (
 
     // Delete old image before save new image
     if (existingImg?.imageUrl) {
-      // Return absolute path of previous image
-      const existingImagePath = path.join(
-        process.cwd(),
-        "public",
-        existingImg.imageUrl,
-      );
+      // Return key path of previous image
+      const previousKey = existingImg.imageUrl.split("/").pop()?.trim();
 
+      console.log('imagen previa: ',previousKey)
       try {
-        await unlink(existingImagePath); // Remove the old image
+        await s3.send(
+          new DeleteObjectCommand({ // Remove the old image
+            Bucket: process.env.AWS_S3_BUCKET_NAME!,
+            Key: previousKey!,
+          })
+        );
+
+        console.log('delete successful')
       } catch (error) {
+        console.log(error);
         return { error, message: "Error to delete old image" };
       }
     }
 
     // Get file from form and throw an error as the case may be
     const file = formData.get("image") as File;
+    if (!file) throw new Error("No file uploaded");
 
     // Validate image format
     const validFormats = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
@@ -50,25 +55,26 @@ export const uploadImage = async (
         message: "Invalid format, must be: png, jpg, jpeg, gif",
       };
 
-    if (!file) throw new Error("No file uploaded");
 
     // Convert file to binary buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // define path to save file
+    // define file name to save
     const fileName = `${Date.now()}-name${file.name}`;
-    const filePath = path.join(
-      process.cwd(),
-      "public/profile-imgs-upload",
-      fileName,
-    );
 
-    // save file locally
-    await writeFile(filePath, new Uint8Array(buffer));
+    // Save image in AWS S3
+    await s3.send(
+      new PutObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET_NAME!,
+        Key: `profile-imgs/${fileName}`,
+        Body: buffer,
+        ContentType: file.type,
+      }),
+    )
 
     // Create file URL
-    const fileUrl = `/profile-imgs-upload/${fileName}`;
+    const fileUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/profile-imgs/${fileName}`;
 
     // Revalidate path to show data in UI
     revalidatePath("/talent-funnel");
@@ -76,6 +82,7 @@ export const uploadImage = async (
     // Return file URL
     return { ok: true, message: "Image saved successfully", fileUrl };
   } catch (error) {
+    console.log(error)
     return { ok: false, message: "File upload failed", error };
   }
 };

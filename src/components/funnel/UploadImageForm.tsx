@@ -51,7 +51,7 @@ export const UploadImageForm = ({ profileId, imageUrl }: Props) => {
     formData.append("image", data.image[0]);
 
     // save image on server
-    const savedImage = await uploadImage(formData, imageUrl);
+    const savedImage = await uploadImage(formData, profileId);
     const { fileUrl, message } = savedImage;
 
     if (!fileUrl) {
