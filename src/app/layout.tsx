@@ -9,7 +9,7 @@ import { fontSans } from "@/config/fonts";
 import { AbilityProvider } from "@/providers/AbilityProvider";
 
 export const metadata: Metadata = {
-  title: "Bootcamp Stratum IT",
+  title: "Talent Funnel",
   description: "Database for Talents (Job Candidates)",
   icons: {
     icon: "/favicon.ico",
