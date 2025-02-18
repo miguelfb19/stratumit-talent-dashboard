@@ -42,4 +42,5 @@ TO-DO.md
 
 # seed
 
-src/data/seed/
+src/data/seed/seed.ts
+src/data/seed/tsconfig.json
