@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 import { auth } from "@/auth.config";
 import { ProfileUncompleteAlert } from "@/components/dashboard/ProfileUncompleteAlert";
@@ -12,7 +12,7 @@ export default async function DashboardLayout({
 }) {
   const session = await auth();
 
-  if (!session) redirect("/auth/login");
+  // if (!session) redirect("/auth/login");
 
   return (
     <>
@@ -20,7 +20,7 @@ export default async function DashboardLayout({
         <div className="flex">
           <Sidebar menuItems={menuItemsDashboard} />
           <div className="w-full flex justify-center text-slate-900">
-            {!session.user.profile?.profileCompleted && (
+            {!session?.user.profile?.profileCompleted && (
               <ProfileUncompleteAlert />
             )}
             {children}
