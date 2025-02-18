@@ -25,6 +25,7 @@
     "@react-aria/visually-hidden": "3.8.18",
     "bcryptjs": "^2.4.3",
     "clsx": "2.1.1",
+    "dotenv": "^16.4.7",
     "framer-motion": "11.13.1",
     "intl-messageformat": "^10.5.0",
     "jsonwebtoken": "^9.0.2",

@@ -16,19 +16,40 @@ export const sendVerificationMail = async (email: string) => {
 
     // Define the mail options to send
     const mailOptions = {
-      from: "no-reply@verification.com",
+      from: process.env.GMAIL_ADDRESS,
       to: email,
-      subject: "Verification Account Email",
+      subject: "Verify your email address",
       html: `
-              <h1>Welcome!</h1>
-              <p>To verify your account, you must have click in next link:</p>
-              <a href="${verificationUrl}" style="color:blue;text-decoration:underline;">Verify my account</a>
-              <p>This link expires at 1 hour</p>
+              <head>
+                <style>
+                  body {
+                    font-family: sans-serif;
+                  }
+                  h1 {
+                    color: #2563eb;
+                  }
+                </style>
+              </head>
+              <body>
+                <h1>Welcome!</h1>
+                <p>
+                  Thanks for signing up on Talent Funnel! Please verify your email address by
+                  clicking the link below:
+                </p>
+                <br />
+                <p>To verify your account, you must have click in next link:</p>
+                <a href="${verificationUrl}" style="color: blue; text-decoration: underline"
+                  >Verify my account</a
+                >
+                <p>This link expires at 1 hour</p>
+              </body>
+
             `,
     };
 
     //   send mail
-    await transporter.sendMail(mailOptions);
+    const sended = await transporter.sendMail(mailOptions);
+    console.log('sended: ', sended);
 
     return {
       ok: true,
