@@ -8,6 +8,7 @@ import { isPasswordHashed } from "./utils/isPasswordHashed";
 
 export const authConfig = {
   secret: process.env.AUTH_SECRET,
+  useSecureCookies: process.env.NODE_ENV === "production",
   pages: {
     signIn: "/auth/login",
     newUser: "/auth/register",
@@ -237,4 +238,16 @@ export const authConfig = {
 export const { signIn, signOut, auth, handlers } = NextAuth({
   ...authConfig,
   trustHost: true,
+  secret: process.env.AUTH_SECRET,
+  cookies: {
+    sessionToken: {
+      name: "authjs.session-token",
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      },
+    },
+  },
 });
