@@ -11,8 +11,8 @@ export const sendVerificationMail = async (email: string) => {
       expiresIn: "1h",
     });
 
-    const baseUrl = process.env.NEXT_PUBLIC_URL;
     // Create verification URL
+    const baseUrl = process.env.NEXT_PUBLIC_URL;
     const verificationUrl = `${baseUrl}/auth/email-verify/${token}`;
 
     // Define the mail options to send
