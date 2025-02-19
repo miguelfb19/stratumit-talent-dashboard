@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   stratum-db:
@@ -6,7 +6,7 @@ services:
     container_name: talents-db
     restart: always
     ports:
-      - 5434:5432  # I used the port 5434 beceause i'm using 5432 :)
+      - 5434:5432 # I used the port 5434 beceause i'm using 5432 :)
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}

@@ -6,10 +6,7 @@ import prisma from "@/lib/prisma";
 import { s3 } from "@/lib/aws-s3";
 import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 
-export const uploadImage = async (
-  formData: FormData,
-  profileId: string,
-) => {
+export const uploadImage = async (formData: FormData, profileId: string) => {
   try {
     // Get from DB existing previuos profile imageUrl
     const existingImg = await prisma.profile.findFirst({
@@ -26,16 +23,17 @@ export const uploadImage = async (
       // Return key path of previous image
       const previousKey = existingImg.imageUrl.split("/").pop()?.trim();
 
-      console.log('imagen previa: ',previousKey)
+      console.log("imagen previa: ", previousKey);
       try {
         await s3.send(
-          new DeleteObjectCommand({ // Remove the old image
+          new DeleteObjectCommand({
+            // Remove the old image
             Bucket: process.env.AWS_S3_BUCKET_NAME!,
             Key: previousKey!,
-          })
+          }),
         );
 
-        console.log('delete successful')
+        console.log("delete successful");
       } catch (error) {
         console.log(error);
         return { error, message: "Error to delete old image" };
@@ -55,7 +53,6 @@ export const uploadImage = async (
         message: "Invalid format, must be: png, jpg, jpeg, gif",
       };
 
-
     // Convert file to binary buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -71,7 +68,7 @@ export const uploadImage = async (
         Body: buffer,
         ContentType: file.type,
       }),
-    )
+    );
 
     // Create file URL
     const fileUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/profile-imgs/${fileName}`;
@@ -82,7 +79,7 @@ export const uploadImage = async (
     // Return file URL
     return { ok: true, message: "Image saved successfully", fileUrl };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return { ok: false, message: "File upload failed", error };
   }
 };
