@@ -7,7 +7,7 @@ export async function middleware(req: NextRequest) {
   // Get token
   const token = await getToken({
     req,
-    secret: "2gwCrOMF2B7yjOT1j/ctnc/4xGoLG9B9RJNqQ8suptE=",
+    secret: process.env.AUTH_SECRET,
   });
   
   console.log('Token en middlewre: ', token)
