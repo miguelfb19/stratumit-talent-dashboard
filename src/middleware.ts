@@ -9,9 +9,10 @@ export async function middleware(req: NextRequest) {
     req,
     secret: process.env.AUTH_SECRET,
   });
+
+  console.log('auth secret: ',process.env.AUTH_SECRET)
   
   console.log('Token en middlewre: ', token)
-  console.log("Cookies en producción:", req.cookies);
 
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
