@@ -6,6 +6,7 @@ import { defineAbilityFor } from "@/lib/abilities";
 export async function middleware(req: NextRequest) {
   // Get token
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  console.log("Token: ", token);
 
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
