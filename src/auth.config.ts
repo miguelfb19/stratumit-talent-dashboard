@@ -7,6 +7,7 @@ import prisma from "./lib/prisma";
 import { isPasswordHashed } from "./utils/isPasswordHashed";
 
 export const authConfig = {
+  secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/auth/login",
     newUser: "/auth/register",
