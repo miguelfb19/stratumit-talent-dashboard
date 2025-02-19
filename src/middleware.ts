@@ -9,6 +9,9 @@ export async function middleware(req: NextRequest) {
     req,
     secret: "2gwCrOMF2B7yjOT1j/ctnc/4xGoLG9B9RJNqQ8suptE=",
   });
+  
+  console.log('Token en middlewre: ', token)
+  console.log("Cookies en producción:", req.cookies);
 
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
