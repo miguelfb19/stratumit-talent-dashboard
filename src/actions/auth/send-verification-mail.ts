@@ -12,9 +12,8 @@ export const sendVerificationMail = async (email: string) => {
     });
 
     // Create verification URL
-    // const baseUrl = process.env.NEXT_PUBLIC_URL;
-    const verificationUrl = `https://talent-funnel.vercel.app/auth/email-verify/${token}`;
-    console.log('Verification url: ',verificationUrl);
+    const baseUrl = process.env.NEXT_PUBLIC_URL;
+    const verificationUrl = `${baseUrl}/auth/email-verify/${token}`;
 
     // Define the mail options to send
     const mailOptions = {
