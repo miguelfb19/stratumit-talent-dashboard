@@ -14,6 +14,9 @@ export async function middleware(req: NextRequest) {
   
   console.log('Token en middlewre: ', token)
 
+  console.log('Cookies en la request:', req.cookies.getAll());
+
+
   if (!token) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
