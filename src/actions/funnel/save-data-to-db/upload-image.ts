@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 
 import prisma from "@/lib/prisma";
 import { s3 } from "@/lib/aws-s3";
-import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 
 export const uploadImage = async (formData: FormData, profileId: string) => {
   try {
@@ -23,7 +23,6 @@ export const uploadImage = async (formData: FormData, profileId: string) => {
       // Return key path of previous image
       const previousKey = existingImg.imageUrl.split("/").pop()?.trim();
 
-      console.log("imagen previa: ", previousKey);
       try {
         await s3.send(
           new DeleteObjectCommand({
@@ -32,16 +31,14 @@ export const uploadImage = async (formData: FormData, profileId: string) => {
             Key: previousKey!,
           }),
         );
-
-        console.log("delete successful");
       } catch (error) {
-        console.log(error);
         return { error, message: "Error to delete old image" };
       }
     }
 
     // Get file from form and throw an error as the case may be
     const file = formData.get("image") as File;
+
     if (!file) throw new Error("No file uploaded");
 
     // Validate image format
@@ -79,7 +76,6 @@ export const uploadImage = async (formData: FormData, profileId: string) => {
     // Return file URL
     return { ok: true, message: "Image saved successfully", fileUrl };
   } catch (error) {
-    console.log(error);
     return { ok: false, message: "File upload failed", error };
   }
 };

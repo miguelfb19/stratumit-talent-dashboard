@@ -7,12 +7,12 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { Input, Button, Form, Select, SelectItem, Link } from "@heroui/react";
 import { useForm } from "react-hook-form";
 
+import { Loading } from "../ui/Loading";
+
 import { countries } from "@/data/countries";
 import { RegisterFormInputs } from "@/interfaces/register-form-inputs";
 import { registerNewUser } from "@/actions/auth/register-new-user";
 import { submitAlert } from "@/utils/alerts";
-
-import { Loading } from "../ui/Loading";
 
 export const RegisterForm = () => {
   const router = useRouter();

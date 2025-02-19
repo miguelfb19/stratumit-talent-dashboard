@@ -7,11 +7,11 @@ import { Button, Form, Input, Link } from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
+import { Loading } from "../ui/Loading";
+
 import { submitAlert } from "@/utils/alerts";
 import { LoginFormInputs } from "@/interfaces/login-form-inputs";
 import { authenticate } from "@/actions/auth/authenticate";
-
-import { Loading } from "../ui/Loading";
 
 export const LoginForm = () => {
   const router = useRouter();

@@ -6,12 +6,13 @@ import { Input, Form, Image } from "@heroui/react";
 import { IoImageOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 
+import { Loading } from "../ui/Loading";
+
+import { NavigateButtons } from "./NavigateButtons";
+
 import { uploadImage } from "@/actions/funnel/save-data-to-db/upload-image";
 import { saveImageUrl } from "@/actions/funnel/save-data-to-db/save-image-url";
 import { submitAlert } from "@/utils/alerts";
-
-import { Loading } from "../ui/Loading";
-import { NavigateButtons } from "./NavigateButtons";
 
 interface ImageForm {
   image: FileList;

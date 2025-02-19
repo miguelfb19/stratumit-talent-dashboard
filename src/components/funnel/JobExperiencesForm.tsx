@@ -22,13 +22,14 @@ import {
 import { IoAdd, IoTrash } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 
+import { Loading } from "../ui/Loading";
+
+import { NavigateButtons } from "./NavigateButtons";
+
 import { columnsToJobsInformationOnFunnel } from "@/data/funnel-data";
 import { JobExperiences } from "@/interfaces/funnel";
 import { submitAlert } from "@/utils/alerts";
 import { saveJobExperiences } from "@/actions/funnel/save-data-to-db/save-job-experiences";
-
-import { Loading } from "../ui/Loading";
-import { NavigateButtons } from "./NavigateButtons";
 
 interface Props {
   profileId: string;

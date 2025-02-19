@@ -6,12 +6,13 @@ import { Button, Form, Select, SelectItem } from "@heroui/react";
 import { IoAdd, IoTrash } from "react-icons/io5";
 import { useFieldArray, useForm } from "react-hook-form";
 
+import { Loading } from "../ui/Loading";
+
+import { NavigateButtons } from "./NavigateButtons";
+
 import { languajesData, languajesLevels } from "@/data/funnel-data";
 import { saveLanguajes } from "@/actions/funnel/save-data-to-db/save-languajes";
 import { submitAlert } from "@/utils/alerts";
-
-import { Loading } from "../ui/Loading";
-import { NavigateButtons } from "./NavigateButtons";
 
 type LanguajeFormValues = {
   languajes: { name: string; level: string }[];

@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { Form, Textarea } from "@heroui/react";
 import { useForm } from "react-hook-form";
 
+import { Loading } from "../ui/Loading";
+
+import { NavigateButtons } from "./NavigateButtons";
+
 import { saveMotivationText } from "@/actions/funnel/save-data-to-db/save-motivation-text";
 import { submitAlert } from "@/utils/alerts";
-
-import { Loading } from "../ui/Loading";
-import { NavigateButtons } from "./NavigateButtons";
 
 interface MotivationTextInput {
   text: string;

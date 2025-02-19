@@ -4,13 +4,16 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Input, Form, Select, SelectItem, Button } from "@heroui/react";
+
+import { Loading } from "../ui/Loading";
+
 import { NavigateButtons } from "./NavigateButtons";
+
 import { countries } from "@/data/countries";
 import { timezones } from "@/data/timezones";
 import { PersonalData } from "@/interfaces/funnel";
 import { savePersonalData } from "@/actions/funnel/save-data-to-db/save-personal-data";
 import { submitAlert } from "@/utils/alerts";
-import { Loading } from "../ui/Loading";
 
 interface Props {
   userData: PersonalData | null;

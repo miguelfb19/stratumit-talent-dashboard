@@ -4,12 +4,15 @@ import { Checkbox, CheckboxGroup, Form, Chip } from "@heroui/react";
 import { useController, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 // import { TechCategory } from "../../data/seed/seed-data";
+import { Loading } from "../ui/Loading";
+
 import { NavigateButtons } from "./NavigateButtons";
+
 import { saveTechnologies } from "@/actions/funnel/save-data-to-db/save-technologies";
 import { submitAlert } from "@/utils/alerts";
 import { technologies, techCategories } from "@/data/seed/seed-data";
-import { Loading } from "../ui/Loading";
 
 // type TechnologiesData = {
 //   name: string;
