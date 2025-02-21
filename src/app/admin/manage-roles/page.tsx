@@ -20,7 +20,7 @@ export default async function ManageRolesPage() {
   const { roles } = res;
 
   return (
-    <div className="flex flex-col w-full mt-10 px-5">
+    <div className="flex flex-col w-full mt-16 px-5">
       <RolesTable columns={tableColumns} roles={roles} />
     </div>
   );

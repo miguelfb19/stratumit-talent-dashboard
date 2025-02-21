@@ -64,7 +64,7 @@ export const LoginForm = () => {
       id="form-container"
     >
       <Form
-        className="relative w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white"
+        className="relative w-11/12 md:w-1/2 border-2 p-5 md:p-10 rounded-lg shadow-2xl bg-white"
         onSubmit={handleSubmit(onLogin)}
       >
         {isLoading && <Loading />}

@@ -29,7 +29,7 @@ export default async function ManageUsersPage() {
   const { users } = res;
 
   return (
-    <div className="flex flex-col w-full mt-10 px-5 overflow-scroll">
+    <div className="flex flex-col w-full mt-16 px-5 overflow-scroll">
       <UsersTable columns={tableColumns} users={users} />
     </div>
   );

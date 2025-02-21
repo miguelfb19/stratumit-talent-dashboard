@@ -63,7 +63,7 @@ export const RegisterForm = () => {
     >
       {isSubmitting && <Loading />}
       <Form
-        className={clsx("w-1/2 border-2 p-10 rounded-lg shadow-2xl bg-white", {
+        className={clsx("max-md:mx-5 md:w-1/2 border-2 p-5 md:p-10 rounded-lg shadow-2xl bg-white", {
           "opacity-50 pointer-events-none": isSubmitting,
         })}
         onSubmit={handleSubmit(OnSubmitForm)}

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useContext, useEffect } from "react";
 
 import { AbilityContext } from "@/providers/AbilityProvider";
+import { useMenuStore } from "@/store/use-menu-store";
 
 interface Props {
   path: string;
@@ -18,6 +19,7 @@ interface Props {
 export const SidebarMenuItem = ({ path, icon, title, subtitle }: Props) => {
   const currentPath = usePathname();
   const ability = useContext(AbilityContext);
+  const {closeMenu} = useMenuStore()
 
   // Get session status and method to update
   const { status, update } = useSession();
@@ -38,6 +40,7 @@ export const SidebarMenuItem = ({ path, icon, title, subtitle }: Props) => {
             className={`w-full px-4 rounded-full inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150
           ${currentPath === path ? "bg-blue-600" : ""}`}
             href={path}
+            onClick={closeMenu}
           >
             <div className="flex items-start">{icon}</div>
             <span className="flex flex-col">
@@ -55,6 +58,7 @@ export const SidebarMenuItem = ({ path, icon, title, subtitle }: Props) => {
           className={`w-full px-4 rounded-full inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150
           ${currentPath === path ? "bg-blue-600" : ""}`}
           href={path}
+          onClick={closeMenu}
         >
           <div className="flex items-start">{icon}</div>
           <span className="flex flex-col">

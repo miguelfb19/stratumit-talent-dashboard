@@ -105,7 +105,7 @@ export const TechnologiesForm = ({ profileId, technologiesFromDb }: Props) => {
     <>
       {isLoading && <Loading />}
       <Form
-        className="relative flex w-full h-full"
+        className="relative flex w-full h-full justify-between"
         onSubmit={handleSubmit(onPressNext)}
       >
         <h1 className="text-3xl font-bold mb-5 w-full">Technologies</h1>

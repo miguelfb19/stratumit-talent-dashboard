@@ -112,7 +112,7 @@ export const EducationalProjectsForm = ({ profileId, projects }: Props) => {
   return (
     <>
       {isLoading && <Loading />}
-      <h1 className="text-3xl font-bold mb-5 w-full">Job Experiences</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5 w-full">Educational projects</h1>
       <div className="flex flex-col justify-between h-full mt-5 overflow-scroll">
         <div className="flex flex-col gap-5 p-3" id="table-button-container">
           {savedProjects && savedProjects.length !== 0 && (

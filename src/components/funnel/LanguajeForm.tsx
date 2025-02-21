@@ -77,12 +77,12 @@ export const LanguajeForm = ({ languajesFromDb, profileId }: Props) => {
       >
         {isLoading && <Loading />}
         <div
-          className="flex w-full flex-col gap-5  max-h-72 overflow-hidden"
+          className="flex w-full flex-col gap-5 md:max-h-72 max-md:overflow-scroll"
           id="fields-button"
         >
           {/* Use the fields property of useFieldArray to create fields dinamicly */}
           {fields.map((field, index) => (
-            <div key={field.id} className="flex w-full gap-5" id="fields">
+            <div key={field.id} className="flex max-md:flex-col w-full gap-2 md:gap-5" id="fields">
               <Select
                 aria-label="Select languaje"
                 disabledKeys={getDisabledLanguages()}

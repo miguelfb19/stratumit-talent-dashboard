@@ -34,7 +34,7 @@ const NoSSRPieChart = dynamic(
 
 export default function AnalitycsPage() {
   return (
-    <div className="grid grid-cols-2 grid-rows-2 p-5 gap-5 justify-items-center items-center">
+    <div className="flex flex-col overflow-scroll max-md:py-10 md:grid md:grid-cols-2 md:grid-rows-2 p-5 gap-5 md:justify-items-center items-center max-md:mt-16">
       <NoSSRAreaChart width={350} />
       <NoSSRBarChart width={350} />
       <NoSSRLineChart width={350} />

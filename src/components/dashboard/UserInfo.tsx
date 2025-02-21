@@ -11,7 +11,7 @@ interface Props {
 export const UserInfo = ({ user, isAdmin = false }: Props) => {
   return (
     <div
-      className="grid grid-rows-[auto_1fr] items-start text-center w-10/12 h-4/6 rounded-xl p-10 gap-14 bg-white shadow-2xl shadow-black"
+      className="grid grid-rows-[auto_1fr] items-start w-10/12 h-4/6 rounded-xl p-10 gap-14 bg-white shadow-2xl shadow-black"
       id="container"
     >
       <h1
@@ -22,7 +22,7 @@ export const UserInfo = ({ user, isAdmin = false }: Props) => {
         {isAdmin ? "Admin information" : "User information"}
       </h1>
       <section
-        className="grid grid-cols-2 h-full justify-items-center"
+        className="flex flex-col md:grid md:grid-cols-2 h-full md:justify-items-center max-md:gap-4"
         id="principal-information"
       >
         <div className="flex flex-col items-start gap-4" id="col-1">
@@ -40,7 +40,7 @@ export const UserInfo = ({ user, isAdmin = false }: Props) => {
           </span>
           <span>
             <b>Birth Date: </b>
-            {user.birthDate.split("T")[0]}
+            {user.birthDate}
           </span>
         </div>
         <div className="flex flex-col items-start gap-4" id="col-2">

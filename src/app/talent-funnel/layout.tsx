@@ -32,7 +32,7 @@ export default async function FunnelLayout({
       id="main"
     >
       <div
-        className="fade-in flex flex-col items-start justify-center text-center w-2/3 h-2/3 bg-white rounded-xl p-10 gap-5 shadow-2xl shadow-black"
+        className="fade-in flex flex-col items-start justify-center text-center max-md:mx-3 w-11/12 md:w-2/3 h-2/3 bg-white rounded-xl p-10 gap-5 shadow-2xl shadow-black"
         id="container"
       >
         <GoToDashboardButton />

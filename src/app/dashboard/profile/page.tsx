@@ -1,5 +1,3 @@
-// import { redirect } from "next/navigation";
-
 import { auth } from "@/auth.config";
 import { UserInfo } from "@/components/dashboard/UserInfo";
 
