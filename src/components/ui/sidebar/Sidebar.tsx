@@ -24,9 +24,11 @@ export function Sidebar({ menuItems, bgVariant = "bg-slate-600" }: Props) {
   const { isOpen, closeMenu } = useMenuStore();
   const { data: session } = useSession();
 
+  console.log("store", isOpen);
+
   return (
     <div
-      className={`fixed md:relative grid grid-rows-[1fr_auto] ${bgVariant} z-10 text-slate-300 w-full md:w-auto md:min-w-72 left-0 h-screen overflow-y-auto max-md:${isOpen ? "" : "translate-x-[-100%]"} transition-transform duration-300`}
+      className={`fixed md:relative grid grid-rows-[1fr_auto] ${bgVariant} z-10 text-slate-300 w-full md:w-auto md:min-w-72 left-0 h-screen overflow-y-auto md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300`}
       id="sidebar"
     >
       <button className="absolute top-4 right-4 md:hidden" onClick={closeMenu}>
