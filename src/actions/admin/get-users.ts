@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export const getUsersFromDb = async () => {
   try {
@@ -23,6 +24,8 @@ export const getUsersFromDb = async () => {
         ok: false,
         message: "No users found",
       };
+
+    revalidatePath('/admin/manage-users')
 
     return {
       ok: true,
