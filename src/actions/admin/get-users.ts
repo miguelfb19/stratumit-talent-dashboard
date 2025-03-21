@@ -18,7 +18,6 @@ export const getUsersFromDb = async () => {
         },
       },
     });
-    console.log(users)
 
     if (!users)
       return {
@@ -26,15 +25,12 @@ export const getUsersFromDb = async () => {
         message: "No users found",
       };
 
-    revalidatePath('/admin/manage-users')
-
     return {
       ok: true,
       message: "Users found",
       users: users,
     };
   } catch (error) {
-    console.error(error)
     return {
       ok: false,
       message: "500 Error getting users from db",
