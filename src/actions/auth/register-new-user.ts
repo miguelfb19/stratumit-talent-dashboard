@@ -6,6 +6,7 @@ import { sendVerificationMail } from "./send-verification-mail";
 
 import prisma from "@/lib/prisma";
 import { NewUser } from "@/interfaces/new-user";
+import { revalidatePath } from "next/cache";
 
 export const registerNewUser = async (data: NewUser) => {
   try {
@@ -32,6 +33,9 @@ export const registerNewUser = async (data: NewUser) => {
     const newUser = await prisma.user.create({
       data: dataWithHashPassword,
     });
+
+    // revalidate users in dashboard
+    revalidatePath("/admin/manage-users");
 
     // Return success create
     const { email, firstName, lastName, id } = newUser;
